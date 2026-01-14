@@ -1,0 +1,56 @@
+ /* Target only the specific login form card */
+.card-body.auth-card, .login-box .card {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent black */
+    border-radius: 10px !important;
+    color: #ffffff !important; /* White text */
+    padding: 0px !important;
+}
+
+/* Media query for mobile view */
+@media (max-width: 768px) {
+    /* Target the login card only */
+    .card-body.auth-card, .login-box .card {
+        max-width: 75% !important; /* Narrower card */
+        margin: 0 auto !important; /* Center the card */
+        padding: 0px !important; /* Smaller padding */
+        border-radius: 8px !important;
+    }
+
+    /* Smaller input fields */
+    .card-body.auth-card input.form-control, .login-box .card input {
+        font-size: 14px !important;
+        padding: 8px !important;
+    }
+
+    /* Smaller buttons */
+    .card-body.auth-card button, .login-box .card button {
+        font-size: 14px !important;
+        padding: 8px !important;
+    }
+}
+
+
+
+/* Add the video as a full-screen background */
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#background-video source {
+    display: block;
+}
+
+
+
+
+img {
+
+    border-radius: 50%; /* Ensure the image is circular */
+
+}

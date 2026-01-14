@@ -1,0 +1,29 @@
+{
+  "name": "emilia_report",
+  "version": "1.0.0",
+  "description": "Tailwind CSS setup for Emilia High School Report System",
+  "scripts": {
+  "dev": "tailwindcss -i ./static/css/src/tailwind.css -o ./static/dist/css/styles.css --watch",
+  "build": "tailwindcss -i ./static/css/src/tailwind.css -o ./static/dist/css/styles.css",
+  "build:prod": "tailwindcss -i ./static/css/src/tailwind.css -o ./static/dist/css/styles.css --minify",
+  "start": "npm run dev"
+},
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.1.11"
+  },
+  "keywords": [
+    "django",
+    "tailwindcss",
+    "school-report"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "> 0.2%"
+  ]
+}

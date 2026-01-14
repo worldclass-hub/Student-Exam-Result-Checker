@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emilia Foremost School - Academy Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#0f172a',
+                        accent: '#3b82f6',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .calendar-day:hover {
+            transform: scale(1.05);
+            transition: all 0.2s ease;
+        }
+        .calendar-event {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af, #0f172a);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .active::after {
+            width: 100%;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .academic-event {
+            position: relative;
+        }
+        .academic-event::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 2px;
+        }
+        .midterm-event::before {
+            background-color: #ef4444;
+        }
+        .exam-event::before {
+            background-color: #f59e0b;
+        }
+        .resumption-event::before {
+            background-color: #10b981;
+        }
+        .nav-button {
+            transition: all 0.2s ease;
+        }
+        .nav-button:active {
+            transform: scale(0.95);
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+        .calendar-container {
+            min-height: 500px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter smooth-scroll">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-graduation-cap text-primary text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-secondary">Emilia Foremost School</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+<a href="{% url 'general_exam_page' %}" class="nav-link text-gray-700 hover:text-primary active">Home</a>
+<a href="{% url 'general_exam_page' %}" class="nav-link text-gray-700 hover:text-primary">Result</a>
+<a href="{% url 'staff_broadsheet' %}" class="nav-link text-gray-700 hover:text-primary">Broadsheet</a>
+                </div>
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="general_page" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-100 active">Home</a>
+                <a href="general_exam_page" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-100">Result</a>
+                <a href="staff_broadsheet" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-100">Broadsheet</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Academic Calendar & Results Portal</h1>
+                <p class="text-xl max-w-3xl mx-auto mb-8">Stay updated with the latest academic schedules, examination dates, and student performance metrics.</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="view-calendar-btn" class="bg-white text-primary font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 transform hover:-translate-y-1">
+                        <i class="fas fa-calendar-alt mr-2"></i>View Full Calendar
+                    </button>
+                    <a href="{% url 'general_exam_page' %}" class="bg-accent text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:-translate-y-1 inline-block">
+                        <i class="fas fa-file-alt mr-2"></i>Make Result
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Calendar Section -->
+        <section id="calendar-section" class="mb-16 fade-in">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-secondary" id="calendar-month-year">Academic Calendar</h2>
+                <div class="flex space-x-4">
+                    <button id="prev-month" class="nav-button bg-white border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition active:bg-gray-200">
+                        <i class="fas fa-chevron-left text-gray-700"></i>
+                    </button>
+                    <button id="next-month" class="nav-button bg-white border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition active:bg-gray-200">
+                        <i class="fas fa-chevron-right text-gray-700"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden calendar-container">
+                <!-- Calendar Header -->
+                <div class="grid grid-cols-7 bg-primary text-white font-semibold">
+                    <div class="p-4 text-center">Sun</div>
+                    <div class="p-4 text-center">Mon</div>
+                    <div class="p-4 text-center">Tue</div>
+                    <div class="p-4 text-center">Wed</div>
+                    <div class="p-4 text-center">Thu</div>
+                    <div class="p-4 text-center">Fri</div>
+                    <div class="p-4 text-center">Sat</div>
+                </div>
+                
+                <!-- Calendar Body -->
+                <div id="calendar-body" class="grid grid-cols-7 gap-2 p-4">
+                    <!-- Calendar days will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events Section -->
+        <section class="mb-16 fade-in">
+            <h2 class="text-3xl font-bold text-secondary mb-8">Upcoming Events</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="upcoming-events">
+                <!-- Events will be dynamically generated -->
+            </div>
+        </section>
+
+        <!-- Quick Stats Section -->
+        <section class="mb-16 fade-in">
+            <h2 class="text-3xl font-bold text-secondary mb-8">Academic Overview</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stat 1 -->
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center transform hover:-translate-y-1 transition duration-300">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-graduate text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-secondary mb-2">1,247</h3>
+                    <p class="text-gray-600">Total Students</p>
+                </div>
+                
+                <!-- Stat 2 -->
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center transform hover:-translate-y-1 transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chalkboard-teacher text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-secondary mb-2">84</h3>
+                    <p class="text-gray-600">Teaching Staff</p>
+                </div>
+                
+                <!-- Stat 3 -->
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center transform hover:-translate-y-1 transition duration-300">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-book text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-secondary mb-2">32</h3>
+                    <p class="text-gray-600">Subjects Offered</p>
+                </div>
+                
+                <!-- Stat 4 -->
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center transform hover:-translate-y-1 transition duration-300">
+                    <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-trophy text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-secondary mb-2">96%</h3>
+                    <p class="text-gray-600">Pass Rate</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-bold">Emilia Foremost School</h2>
+            <p class="mt-2 text-gray-300">Excellence in Education Since 2007</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Scroll to calendar functionality
+        document.getElementById('view-calendar-btn').addEventListener('click', function() {
+            document.getElementById('calendar-section').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+
+        // Calendar functionality
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // Academic events data - updated for 2025-2026 with third term
+        const academicEvents = {
+            // September 2025 - 1st Term
+            8: { // September is month 8 (0-indexed)
+                15: { type: 'resumption', title: '1st Term Resumption', description: 'First term begins', year: 2025 }
+            },
+            // October 2025 - 1st Term Mid-Term
+            9: { // October is month 9
+                20: { type: 'midterm', title: '1st Term Mid-Term', description: 'Mid-term examinations begin', year: 2025 },
+                21: { type: 'midterm', title: '1st Term Mid-Term', description: 'Mid-term examinations continue', year: 2025 },
+                22: { type: 'midterm', title: '1st Term Mid-Term', description: 'Mid-term examinations continue', year: 2025 },
+                23: { type: 'midterm', title: '1st Term Mid-Term', description: 'Mid-term examinations continue', year: 2025 },
+                24: { type: 'midterm', title: '1st Term Mid-Term', description: 'Mid-term examinations continue', year: 2025 },
+                25: { type: 'midterm', title: '1st Term Mid-Term', description: 'Mid-term examinations continue', year: 2025 },
+                26: { type: 'midterm', title: '1st Term Mid-Term', description: 'Mid-term examinations end', year: 2025 },
+                27: { type: 'resumption', title: 'Week 8 Resumption', description: 'Classes resume after mid-term', year: 2025 }
+            },
+            // November 2025 - 1st Term Exams
+            10: { // November is month 10
+                10: { type: 'exam', title: '1st Term Exams', description: 'End of term examinations begin', year: 2025 },
+                11: { type: 'exam', title: '1st Term Exams', description: 'Examinations continue', year: 2025 },
+                12: { type: 'exam', title: '1st Term Exams', description: 'Examinations continue', year: 2025 },
+                13: { type: 'exam', title: '1st Term Exams', description: 'Examinations continue', year: 2025 },
+                14: { type: 'exam', title: '1st Term Exams', description: 'Examinations continue', year: 2025 },
+                15: { type: 'exam', title: '1st Term Exams', description: 'Examinations continue', year: 2025 },
+                16: { type: 'exam', title: '1st Term Exams', description: 'Examinations end', year: 2025 },
+                5: { type: 'other', title: 'Parent-Teacher Conference', description: 'Meeting to discuss student progress', year: 2025 }
+            },
+            // January 2026 - 2nd Term Resumption
+            0: { // January is month 0 (0-indexed)
+                12: { type: 'resumption', title: '2nd Term Resumption', description: 'Second term begins', year: 2026 }
+            },
+            // March 2026 - 2nd Term Mid-Term
+            2: { // March is month 2
+                9: { type: 'midterm', title: '2nd Term Mid-Term', description: 'Mid-term examinations begin', year: 2026 },
+                10: { type: 'midterm', title: '2nd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                11: { type: 'midterm', title: '2nd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                12: { type: 'midterm', title: '2nd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                13: { type: 'midterm', title: '2nd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                14: { type: 'midterm', title: '2nd Term Mid-Term', description: 'Mid-term examinations end', year: 2026 }
+            },
+            // May 2026 - 2nd Term Exams
+            4: { // May is month 4
+                18: { type: 'exam', title: '2nd Term Exams', description: 'End of term examinations begin', year: 2026 },
+                19: { type: 'exam', title: '2nd Term Exams', description: 'Examinations continue', year: 2026 },
+                20: { type: 'exam', title: '2nd Term Exams', description: 'Examinations continue', year: 2026 },
+                21: { type: 'exam', title: '2nd Term Exams', description: 'Examinations continue', year: 2026 },
+                22: { type: 'exam', title: '2nd Term Exams', description: 'Examinations continue', year: 2026 },
+                23: { type: 'exam', title: '2nd Term Exams', description: 'Examinations end', year: 2026 }
+            },
+            // June 2026 - 3rd Term Resumption
+            5: { // June is month 5
+                1: { type: 'resumption', title: '3rd Term Resumption', description: 'Third term begins', year: 2026 }
+            },
+            // July 2026 - 3rd Term Mid-Term
+            6: { // July is month 6
+                13: { type: 'midterm', title: '3rd Term Mid-Term', description: 'Mid-term examinations begin', year: 2026 },
+                14: { type: 'midterm', title: '3rd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                15: { type: 'midterm', title: '3rd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                16: { type: 'midterm', title: '3rd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                17: { type: 'midterm', title: '3rd Term Mid-Term', description: 'Mid-term examinations continue', year: 2026 },
+                18: { type: 'midterm', title: '3rd Term Mid-Term', description: 'Mid-term examinations end', year: 2026 }
+            },
+            // August 2026 - 3rd Term Exams
+            7: { // August is month 7
+                24: { type: 'exam', title: '3rd Term Exams', description: 'End of term examinations begin', year: 2026 },
+                25: { type: 'exam', title: '3rd Term Exams', description: 'Examinations continue', year: 2026 },
+                26: { type: 'exam', title: '3rd Term Exams', description: 'Examinations continue', year: 2026 },
+                27: { type: 'exam', title: '3rd Term Exams', description: 'Examinations continue', year: 2026 },
+                28: { type: 'exam', title: '3rd Term Exams', description: 'Examinations continue', year: 2026 },
+                29: { type: 'exam', title: '3rd Term Exams', description: 'Examinations end', year: 2026 }
+            }
+        };
+
+        // Function to calculate academic weeks
+        function calculateAcademicWeeks(year, month, term) {
+            const weeks = {};
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Determine resumption date based on term and year
+            let resumptionDate;
+            if (term === 1) {
+                // First term starts September 15 of the current year
+                resumptionDate = new Date(year, 8, 15); // September 15
+            } else if (term === 2) {
+                // Second term starts January 12 of the current year
+                resumptionDate = new Date(year, 0, 12); // January 12
+            } else {
+                // Third term starts June 1 of the current year
+                resumptionDate = new Date(year, 5, 1); // June 1
+            }
+            
+            let currentMonday = new Date(resumptionDate);
+            
+            // Adjust to the previous Monday
+            while (currentMonday.getDay() !== 1) {
+                currentMonday.setDate(currentMonday.getDate() - 1);
+            }
+            
+            // Calculate all weeks from resumption
+            let weekNumber = 1;
+            while (currentMonday.getMonth() <= month || (currentMonday.getMonth() === month && currentMonday.getDate() <= daysInMonth)) {
+                const weekEnd = new Date(currentMonday);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+                
+                // Check if this week falls in the current month
+                if ((currentMonday.getMonth() === month && currentMonday.getDate() <= daysInMonth) || 
+                    (weekEnd.getMonth() === month && weekEnd.getDate() >= 1)) {
+                    
+                    // Store week info for each day in the week
+                    for (let i = 0; i < 7; i++) {
+                        const day = new Date(currentMonday);
+                        day.setDate(day.getDate() + i);
+                        
+                        if (day.getMonth() === month && day.getFullYear() === year) {
+                            weeks[day.getDate()] = weekNumber;
+                        }
+                    }
+                }
+                
+                // Move to next week
+                currentMonday.setDate(currentMonday.getDate() + 7);
+                weekNumber++;
+            }
+            
+            return weeks;
+        }
+
+        function renderCalendar(month, year) {
+            const calendarBody = document.getElementById('calendar-body');
+            calendarBody.innerHTML = '';
+
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Determine which term we're in
+            let term = 1; // Default to first term
+            if (month >= 0 && month <= 4) {
+                term = 2; // Second term (January to May)
+            } else if (month >= 5 && month <= 7) {
+                term = 3; // Third term (June to August)
+            } else if (month >= 8) {
+                term = 1; // First term (September to December)
+            }
+
+            // Calculate academic weeks
+            const academicWeeks = calculateAcademicWeeks(year, month, term);
+
+            // Previous month's days
+            const prevMonthLastDay = new Date(year, month, 0).getDate();
+            for (let i = 0; i < firstDay; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'p-3 text-center text-gray-400';
+                dayElement.textContent = prevMonthLastDay - firstDay + i + 1;
+                calendarBody.appendChild(dayElement);
+            }
+
+            // Current month's days
+            const today = new Date();
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'p-3 text-center calendar-day bg-white border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50';
+                
+                // Highlight today
+                if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    dayElement.classList.add('bg-primary', 'text-white', 'font-bold');
+                }
+                
+                // Check for academic events
+                let eventHtml = `<span class="font-bold">${i}</span>`;
+                let hasEvent = false;
+                
+                // Add academic week info
+                if (academicWeeks[i]) {
+                    eventHtml += `<div class="text-xs mt-1 text-gray-600">Week ${academicWeeks[i]}</div>`;
+                }
+                
+                // Add academic events
+                const eventYear = academicEvents[month] && academicEvents[month][i] && academicEvents[month][i].year 
+                    ? academicEvents[month][i].year 
+                    : year;
+                
+                if (academicEvents[month] && academicEvents[month][i] && eventYear === year) {
+                    const event = academicEvents[month][i];
+                    hasEvent = true;
+                    
+                    let eventClass = '';
+                    let eventColor = '';
+                    
+                    switch(event.type) {
+                        case 'midterm':
+                            eventClass = 'midterm-event';
+                            eventColor = 'bg-red-500';
+                            break;
+                        case 'exam':
+                            eventClass = 'exam-event';
+                            eventColor = 'bg-yellow-500';
+                            break;
+                        case 'resumption':
+                            eventClass = 'resumption-event';
+                            eventColor = 'bg-green-500';
+                            break;
+                        default:
+                            eventClass = 'other-event';
+                            eventColor = 'bg-purple-500';
+                    }
+                    
+                    dayElement.classList.add(eventClass, 'text-white');
+                    dayElement.classList.remove('bg-white', 'hover:bg-blue-50');
+                    dayElement.classList.add(eventColor);
+                    
+                    eventHtml = `<span class="font-bold">${i}</span><div class="text-xs mt-1">${event.title}</div>`;
+                }
+                
+                dayElement.innerHTML = eventHtml;
+                calendarBody.appendChild(dayElement);
+            }
+
+            // Update month and year display
+            document.getElementById('calendar-month-year').textContent = `${monthNames[month]} ${year}`;
+            
+            // Update upcoming events
+            updateUpcomingEvents(month, year);
+        }
+
+        function updateUpcomingEvents(month, year) {
+            const upcomingEventsContainer = document.getElementById('upcoming-events');
+            upcomingEventsContainer.innerHTML = '';
+            
+            // Get current date
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            
+            // Find upcoming events in the next 60 days
+            const events = [];
+            const daysToCheck = 60;
+            
+            for (let i = 0; i <= daysToCheck; i++) {
+                const checkDate = new Date(currentDate);
+                checkDate.setDate(checkDate.getDate() + i);
+                
+                const checkMonth = checkDate.getMonth();
+                const checkDay = checkDate.getDate();
+                const checkYear = checkDate.getFullYear();
+                
+                // Check if event exists and matches the year (or doesn't specify a year)
+                if (academicEvents[checkMonth] && academicEvents[checkMonth][checkDay]) {
+                    const event = academicEvents[checkMonth][checkDay];
+                    const eventYear = event.year || checkYear;
+                    
+                    if (eventYear === checkYear) {
+                        // Format date
+                        const eventDate = new Date(checkYear, checkMonth, checkDay);
+                        const formattedDate = eventDate.toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric',
+                            year: 'numeric'
+                        });
+                        
+                        // Add to events list
+                        events.push({
+                            date: formattedDate,
+                            title: event.title,
+                            description: event.description,
+                            type: event.type
+                        });
+                    }
+                }
+            }
+            
+            // Limit to 3 events
+            const displayEvents = events.slice(0, 3);
+            
+            // Create event cards
+            displayEvents.forEach(event => {
+                let borderColor = 'border-accent';
+                let bgColor = 'bg-accent';
+                
+                switch(event.type) {
+                    case 'midterm':
+                        borderColor = 'border-red-500';
+                        bgColor = 'bg-red-500';
+                        break;
+                    case 'exam':
+                        borderColor = 'border-yellow-500';
+                        bgColor = 'bg-yellow-500';
+                        break;
+                    case 'resumption':
+                        borderColor = 'border-green-500';
+                        bgColor = 'bg-green-500';
+                        break;
+                }
+                
+                const eventCard = document.createElement('div');
+                eventCard.className = `bg-white rounded-xl shadow-lg overflow-hidden border-l-4 ${borderColor} transform hover:-translate-y-1 transition duration-300`;
+                eventCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-secondary">${event.title}</h3>
+                            <span class="${bgColor} text-white text-sm font-semibold py-1 px-3 rounded-full">${event.date}</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">${event.description}</p>
+                        <div class="flex items-center text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>All Day</span>
+                        </div>
+                    </div>
+                `;
+                
+                upcomingEventsContainer.appendChild(eventCard);
+            });
+        }
+
+        // Initialize calendar with September 2025
+        currentMonth = 8; // September
+        currentYear = 2025;
+        renderCalendar(currentMonth, currentYear);
+
+        // Previous and next month buttons with enhanced responsiveness
+        document.getElementById('prev-month').addEventListener('click', function() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('next-month').addEventListener('click', function() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+
+        // Add fade-in animation to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

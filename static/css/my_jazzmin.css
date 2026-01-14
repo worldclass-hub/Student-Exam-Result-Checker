@@ -1,0 +1,110 @@
+/* ✅ Login card styling */
+.card-body.auth-card,
+.login-box .card {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    padding: 0px !important;
+}
+
+/* ✅ Mobile responsiveness */
+@media (max-width: 768px) {
+    .card-body.auth-card,
+    .login-box .card {
+        max-width: 75% !important;
+        margin: 0 auto !important;
+        padding: 0px !important;
+        border-radius: 8px !important;
+    }
+
+    .card-body.auth-card input.form-control,
+    .login-box .card input {
+        font-size: 14px !important;
+        padding: 8px !important;
+    }
+
+    .card-body.auth-card button,
+    .login-box .card button {
+        font-size: 14px !important;
+        padding: 8px !important;
+    }
+}
+
+/* ✅ Fullscreen background video */
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#background-video source {
+    display: block;
+}
+
+/* ✅ Round user avatar only */
+img.user-avatar,
+#user-tools img {
+    border-radius: 50%;
+}
+
+/* ✅ Navbar link style - Dark Green Theme */
+.navbar-nav .nav-link {
+    font-size: 16px;
+    color: #064e3b !important;
+    padding: 8px 10px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(6, 78, 59, 0.2);
+    border-radius: 5px;
+    border-bottom: 2px solid currentColor;
+}
+
+.navbar-nav .nav-link i {
+    transition: transform 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover i {
+    transform: scale(1.2);
+}
+
+/* ✅ Floating Home Button */
+.floating-home-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #064e3b;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    transition: transform 0.4s ease, background-color 0.3s ease, opacity 0.4s ease;
+}
+
+.floating-home-btn:hover {
+    background-color: #0f766e;
+    transform: scale(1.1);
+}
+
+.floating-home-btn i {
+    font-size: 20px;
+}
+
+/* ✅ Hide on scroll */
+.floating-home-btn.hide {
+    transform: translateY(100px);
+    opacity: 0;
+    pointer-events: none;
+}

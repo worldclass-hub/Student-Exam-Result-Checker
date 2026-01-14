@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Emilia Foremost School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'bounce-in': 'bounceIn 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.3)' },
+                            '100%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.5)' },
+                        },
+                        bounceIn: {
+                            '0%': { transform: 'scale(0.3)', opacity: '0' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '70%': { transform: 'scale(0.9)' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0)' },
+                            '100%': { transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .grading-scale-item {
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+        }
+        .grading-scale-item:hover {
+            transform: translateX(5px);
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #e5e7eb;
+        }
+        .progress-fill {
+            height: 100%;
+            transition: width 1.5s ease-in-out;
+        }
+        
+        /* New styles for the enhanced demo section */
+        .demo-container {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: all 0.4s ease;
+        }
+        .demo-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+        }
+        .demo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .demo-container:hover .demo-overlay {
+            opacity: 1;
+        }
+        .demo-content {
+            position: relative;
+            z-index: 2;
+            padding: 3rem;
+            text-align: center;
+            color: white;
+        }
+        .demo-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+        }
+        .demo-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .demo-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .demo-button {
+            background: white;
+            color: #1e40af;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .demo-features {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .demo-feature {
+            text-align: center;
+            flex: 1;
+        }
+        .demo-feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+        .demo-feature-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Particle animation for background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        /* Enhanced modal styles */
+        .enhanced-modal {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl mr-3">
+                        E
+                    </div>
+                    <span class="text-xl font-bold text-gray-800">Emilia Foremost School</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="{% url 'general_exam_page' %}" class="text-gray-600 hover:text-primary transition-colors duration-300">Home</a>
+                    <a href="{% url 'general_exam_page' %}" class="text-gray-600 hover:text-primary transition-colors duration-300">Result</a>
+                    <a href="{% url 'staff_broadsheet' %}" class="text-gray-600 hover:text-primary transition-colors duration-300">Broadsheet</a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-primary focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200">
+                <a href="general_page" class="block py-2 text-gray-600 hover:text-primary transition-colors duration-300">Home</a>
+                <a href="general_exam_page" class="block py-2 text-gray-600 hover:text-primary transition-colors duration-300">Result</a>
+                <a href="staff_broadsheet" class="block py-2 text-gray-600 hover:text-primary transition-colors duration-300">Broadsheet</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">About Emilia Foremost School</h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-10 animate-slide-up">Excellence in Education, Innovation in Assessment</p>
+            <div class="flex justify-center space-x-4 animate-slide-up">
+                <a href="#our-story" class="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">Our Story</a>
+                <a href="#scoring-system" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors duration-300">Scoring System</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="our-story" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 animate-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 gradient-text">Our Educational Journey</h2>
+                    <p class="text-gray-600 mb-6 text-lg">Emilia Foremost School was established in 2007 with a vision to revolutionize education through innovative assessment methods and result management systems.</p>
+                    <p class="text-gray-600 mb-6 text-lg">We believe that every student deserves a fair, transparent, and comprehensive evaluation system that truly reflects their capabilities and potential.</p>
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="bg-gray-50 p-6 rounded-lg card-hover">
+                            <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white mb-4">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Academic Excellence</h3>
+                            <p class="text-gray-600">Consistently producing top-performing students across all disciplines.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg card-hover">
+                            <div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-white mb-4">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Innovative Assessment</h3>
+                            <p class="text-gray-600">Revolutionary scoring system that accurately measures student performance.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center animate-float">
+                    <div class="relative">
+                        <div class="w-80 h-80 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-school text-8xl"></i>
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
+                            <p class="font-bold text-lg">Since 2007</p>
+                            <p class="text-gray-600">16+ years of excellence</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div class="bg-white p-8 rounded-lg shadow-md card-hover">
+                    <div class="text-4xl font-bold text-primary mb-2">15,000+</div>
+                    <div class="text-gray-600">Students Assessed</div>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md card-hover">
+                    <div class="text-4xl font-bold text-primary mb-2">98%</div>
+                    <div class="text-gray-600">Accuracy Rate</div>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md card-hover">
+                    <div class="text-4xl font-bold text-primary mb-2">500+</div>
+                    <div class="text-gray-600">Schools Partnered</div>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md card-hover">
+                    <div class="text-4xl font-bold text-primary mb-2">16</div>
+                    <div class="text-gray-600">Years of Excellence</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scoring System Section -->
+    <section id="scoring-system" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Our Revolutionary Scoring System</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">We've developed a comprehensive assessment framework that accurately evaluates student performance across multiple dimensions.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                        <h3 class="text-2xl font-bold mb-6 text-center">Grading Scale Visualization</h3>
+                        
+                        <!-- Interactive Grading Scale - CORRECTED -->
+                        <div class="space-y-4 mb-8">
+                            <div class="grading-scale-item bg-green-50 border-green-500 p-4 rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold text-green-700">Excellent (A)</span>
+                                    <span class="text-green-600 font-semibold">70 - 100%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-green-500" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grading-scale-item bg-blue-50 border-blue-500 p-4 rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold text-blue-700">Very Good (B)</span>
+                                    <span class="text-blue-600 font-semibold">60 - 69%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-blue-500" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grading-scale-item bg-yellow-50 border-yellow-500 p-4 rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold text-yellow-700">Good (C)</span>
+                                    <span class="text-yellow-600 font-semibold">50 - 59%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-yellow-500" style="width: 55%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grading-scale-item bg-orange-50 border-orange-500 p-4 rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold text-orange-700">Fair (D)</span>
+                                    <span class="text-orange-600 font-semibold">45 - 49%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-orange-500" style="width: 47%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grading-scale-item bg-purple-50 border-purple-500 p-4 rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold text-purple-700">Fair (E)</span>
+                                    <span class="text-purple-600 font-semibold">40 - 44%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-purple-500" style="width: 42%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grading-scale-item bg-red-50 border-red-500 p-4 rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold text-red-700">Poor (F)</span>
+                                    <span class="text-red-600 font-semibold">0 - 39%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-red-500" style="width: 20%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Enhanced Demo Section -->
+                        <div class="demo-container cursor-pointer" id="demo-video-trigger">
+                            <div class="particles" id="particles-container"></div>
+                            <div class="demo-content">
+                                <div class="demo-icon animate-float">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <h3 class="demo-title">Experience Our Revolutionary Scoring System</h3>
+                                <p class="demo-subtitle">Watch how our cutting-edge assessment framework transforms student evaluation</p>
+                                <button class="demo-button animate-pulse-slow">
+                                    <i class="fas fa-play"></i>
+                                    Launch Interactive Demo
+                                </button>
+                                <div class="demo-features">
+                                    <div class="demo-feature">
+                                        <div class="demo-feature-icon">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div class="demo-feature-text">Performance Analytics</div>
+                                    </div>
+                                    <div class="demo-feature">
+                                        <div class="demo-feature-icon">
+                                            <i class="fas fa-bullseye"></i>
+                                        </div>
+                                        <div class="demo-feature-text">Precision Scoring</div>
+                                    </div>
+                                    <div class="demo-feature">
+                                        <div class="demo-feature-icon">
+                                            <i class="fas fa-rocket"></i>
+                                        </div>
+                                        <div class="demo-feature-text">Future-Ready Assessment</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="demo-overlay">
+                                <div class="text-white text-center">
+                                    <i class="fas fa-expand-arrows-alt text-4xl mb-4"></i>
+                                    <p class="text-xl font-semibold">Click to explore</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 md:pl-12">
+                    <h3 class="text-2xl font-bold mb-6">Transparent & Fair Evaluation</h3>
+                    <p class="text-gray-600 mb-6">Our scoring system is designed to provide a clear, objective measure of student performance while encouraging continuous improvement.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-4 flex-shrink-0">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Comprehensive Assessment</h4>
+                                <p class="text-gray-600">Evaluating knowledge, application, and critical thinking skills.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-4 flex-shrink-0">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Performance Analytics</h4>
+                                <p class="text-gray-600">Detailed insights into strengths and areas for improvement.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-4 flex-shrink-0">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Recognition of Excellence</h4>
+                                <p class="text-gray-600">Celebrating outstanding achievements across all performance levels.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Demo Button -->
+                    <div class="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg mb-3">Try Our Interactive Demo</h4>
+                        <p class="text-gray-600 mb-4">Enter a score to see how it's categorized:</p>
+                        <div class="flex">
+                            <input type="number" id="score-input" min="0" max="100" placeholder="Enter score (0-100)" class="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                            <button id="check-score" class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition-colors">Check</button>
+                        </div>
+                        <div id="score-result" class="mt-3 p-3 rounded-lg text-center font-semibold hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Our Leadership Team</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">The visionary educators and administrators behind our innovative assessment systems.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover">
+                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fas fa-user-tie text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Dr. Michael Johnson</h3>
+                        <p class="text-gray-600 mb-4">Head of Academics</p>
+                        <p class="text-gray-600">Leading our academic excellence initiatives with 20+ years of experience.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover">
+                    <div class="h-48 bg-gradient-to-r from-secondary to-accent flex items-center justify-center">
+                        <i class="fas fa-user-graduate text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Prof. Sarah Williams</h3>
+                        <p class="text-gray-600 mb-4">Director of Assessment</p>
+                        <p class="text-gray-600">Pioneer of our revolutionary scoring and evaluation methodologies.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover">
+                    <div class="h-48 bg-gradient-to-r from-accent to-primary flex items-center justify-center">
+                        <i class="fas fa-chalkboard-teacher text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Mr. David Chen</h3>
+                        <p class="text-gray-600 mb-4">Technology Director</p>
+                        <p class="text-gray-600">Architect of our cutting-edge result management and broadsheet systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 gradient-bg text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Experience Educational Excellence</h2>
+            <p class="text-xl max-w-2xl mx-auto mb-8">Join thousands of educators and students who trust our assessment systems.</p>
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <a href="{% url 'general_exam_page' %}" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">Make Results</a>
+                <a href="{% url 'staff_broadsheet' %}" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors duration-300">Generate Broadsheet</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold">Emilia Foremost School</h2>
+            <p class="mt-2 text-gray-400">Excellence in Education Since 2007</p>
+        </div>
+    </footer>
+
+    <!-- Enhanced Video Modal -->
+    <div id="video-modal" class="fixed inset-0 enhanced-modal flex items-center justify-center z-50 hidden">
+        <div class="modal-content w-11/12 max-w-4xl">
+            <div class="flex justify-between items-center p-6 border-b bg-gradient-to-r from-primary to-secondary text-white">
+                <h3 class="text-2xl font-bold">Interactive Scoring System Demo</h3>
+                <button id="close-modal" class="text-white hover:text-gray-200 transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/md3zBhjgI-w" title="Grading System Explanation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="p-6 bg-gray-50 border-t">
+                <p class="text-gray-600 text-center">Our comprehensive assessment framework provides accurate, transparent evaluation of student performance across multiple dimensions.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Video modal functionality
+        const videoModal = document.getElementById('video-modal');
+        const demoVideoTrigger = document.getElementById('demo-video-trigger');
+        const closeModal = document.getElementById('close-modal');
+
+        demoVideoTrigger.addEventListener('click', function() {
+            videoModal.classList.remove('hidden');
+        });
+
+        closeModal.addEventListener('click', function() {
+            videoModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside the video
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === videoModal) {
+                videoModal.classList.add('hidden');
+            }
+        });
+
+        // Create particle animation
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 6 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Interactive scoring demo - CORRECTED with accurate grading system
+        document.getElementById('check-score').addEventListener('click', function() {
+            const scoreInput = document.getElementById('score-input');
+            const scoreResult = document.getElementById('score-result');
+            const score = parseInt(scoreInput.value);
+            
+            if (isNaN(score) || score < 0 || score > 100) {
+                scoreResult.textContent = "Please enter a valid score between 0 and 100";
+                scoreResult.className = "mt-3 p-3 rounded-lg text-center font-semibold bg-red-100 text-red-700";
+                scoreResult.classList.remove('hidden');
+                return;
+            }
+            
+            let grade, color, description;
+            
+            // CORRECTED grading system
+            if (score >= 70) {
+                grade = "A";
+                description = "EXCELLENT";
+                color = "bg-green-100 text-green-700";
+            } else if (score >= 60) {
+                grade = "B";
+                description = "VERY GOOD";
+                color = "bg-blue-100 text-blue-700";
+            } else if (score >= 50) {
+                grade = "C";
+                description = "GOOD";
+                color = "bg-yellow-100 text-yellow-700";
+            } else if (score >= 45) {
+                grade = "D";
+                description = "FAIR";
+                color = "bg-orange-100 text-orange-700";
+            } else if (score >= 40) {
+                grade = "E";
+                description = "FAIR";
+                color = "bg-purple-100 text-purple-700";
+            } else {
+                grade = "F";
+                description = "POOR";
+                color = "bg-red-100 text-red-700";
+            }
+            
+            scoreResult.textContent = `Score: ${score}% - Grade: ${grade} (${description})`;
+            scoreResult.className = `mt-3 p-3 rounded-lg text-center font-semibold ${color}`;
+            scoreResult.classList.remove('hidden');
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.card-hover').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Add floating animation to stats on hover
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Animate progress bars on scroll
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressFill = entry.target.querySelector('.progress-fill');
+                    const currentWidth = progressFill.style.width;
+                    progressFill.style.width = '0%';
+                    
+                    setTimeout(() => {
+                        progressFill.style.width = currentWidth;
+                    }, 300);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.grading-scale-item').forEach(item => {
+            progressObserver.observe(item);
+        });
+
+        // Initialize particles when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
