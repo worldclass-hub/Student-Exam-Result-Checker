@@ -17,4 +17,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
-CMD bash -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn emilia_report.wsgi:application --bind 0.0.0.0:$PORT"
+CMD bash -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn StudentResultPortal.wsgi:application --bind 0.0.0.0:$PORT"

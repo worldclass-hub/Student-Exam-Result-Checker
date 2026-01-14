@@ -1,1 +1,1 @@
-web: gunicorn emilia_report.wsgi:application
+web: gunicorn StudentResultPortal.wsgi:application
