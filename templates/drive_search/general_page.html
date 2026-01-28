@@ -18,32 +18,107 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
+    <!-- ==================== ULTIMATE ANTI-OVERSCROLL SYSTEM ==================== -->
     <style>
+        /* 1. FIXED POSITION BODY - Prevents any movement beyond boundaries */
+        html, body {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            overflow: hidden;
+            background: #f9fafb;
+            margin: 0;
+            padding: 0;
+            touch-action: pan-y;
+            overscroll-behavior: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        /* 2. SINGLE SCROLL CONTAINER - Only this can scroll internally */
+        .scroll-container {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            background: #f9fafb;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* 3. PREVENT TOUCH OVERSCROLL */
+        .no-overscroll {
+            touch-action: pan-y;
+            overscroll-behavior: contain;
+        }
+        
+        /* 4. NO WHITE BORDERS EVER - Content completely contained */
+        .main-wrapper {
+            width: 100%;
+            min-height: 100%;
+            background: #f9fafb;
+        }
+        
+        /* 5. MOBILE-SPECIFIC FIXES */
+        @media (max-width: 768px) {
+            .scroll-container {
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+            }
+        }
+        
+        /* 6. SCROLL EDGE DETECTION HELPER */
+        .scroll-boundary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1a237e, #1b5e20);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .scroll-boundary.visible {
+            opacity: 1;
+        }
+        
+        /* 7. FULL WIDTH FOOTER */
+        .full-width-footer {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: #111827;
+        }
+        
+        /* 8. CONTENT CONTAINER - Main content area */
+        .content-container {
+            max-width: 7xl;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 10px;
+            }
+        }
+        
+        /* 9. PRESERVED FUNCTIONALITY - Original styles continue below */
+        
+        /* ==================== ORIGINAL STYLES FROM CODE B ==================== */
         * {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
-        /* FIXED: Prevent overscroll bounce effect */
-        html {
-            overflow-x: hidden;
-            max-width: 100%;
-            position: relative;
-            overscroll-behavior: none;
-            height: 100%;
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            background: #f9fafb;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            max-width: 100%;
-            width: 100%;
-            overscroll-behavior-y: none;
         }
         
         /* ========== WORLD-CLASS ADMIN FLOATING BUTTON ========== */
@@ -639,11 +714,6 @@
             -webkit-overflow-scrolling: touch;
         }
         
-        /* FIXED: Prevent pull-to-refresh */
-        body {
-            overscroll-behavior-y: contain;
-        }
-        
         /* FIXED: Smooth scrolling boundaries */
         html {
             scroll-behavior: smooth;
@@ -815,7 +885,7 @@
         }
         
         .logout-btn:hover {
-            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+            background: linear-gradient(135deg, #b91c1b 0%, #991b1b 100%);
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(220, 38, 38, 0.3);
         }
@@ -866,409 +936,475 @@
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- ========== SUPER POWERFUL ADMIN FLOATING BUTTON ========== -->
-    <!-- This button only appears for admin users -->
-    <div class="admin-float-btn-container" id="adminFloatBtnContainer">
-        <div class="admin-pulse"></div>
-        <button class="admin-float-btn glow" id="adminFloatBtn" title="Admin Panel Access">
-            <i class="fas fa-crown"></i>
-        </button>
-        <div class="admin-tooltip">
-            <strong>Admin Panel Access</strong><br>
-            Quick access to Django Admin for system management, user control, and database administration.
-        </div>
-    </div>
-    
+<body class="no-overscroll">
+    <!-- ==================== ULTIMATE SCROLL RESTRICTION SYSTEM ==================== -->
     <!-- Scroll Boundary Indicator -->
     <div id="scrollBoundary" class="scroll-boundary"></div>
     
-    <!-- Django Messages Display -->
-    {% if messages %}
-    <div class="django-messages">
-        {% for message in messages %}
-        <div class="django-message message-{{ message.tags }}">
-            <div class="message-content">
-                <div class="message-icon">
-                    {% if message.tags == 'success' %}
-                    <i class="fas fa-check-circle"></i>
-                    {% elif message.tags == 'error' %}
-                    <i class="fas fa-exclamation-circle"></i>
-                    {% elif message.tags == 'warning' %}
-                    <i class="fas fa-exclamation-triangle"></i>
-                    {% else %}
-                    <i class="fas fa-info-circle"></i>
-                    {% endif %}
-                </div>
-                <div class="message-text">
-                    {{ message }}
+    <!-- 2. SINGLE SCROLL CONTAINER -->
+    <div class="scroll-container" id="scrollContainer">
+        <div class="main-wrapper">
+            <!-- ========== SUPER POWERFUL ADMIN FLOATING BUTTON ========== -->
+            <!-- This button only appears for admin users -->
+            <div class="admin-float-btn-container" id="adminFloatBtnContainer">
+                <div class="admin-pulse"></div>
+                <button class="admin-float-btn glow" id="adminFloatBtn" title="Admin Panel Access">
+                    <i class="fas fa-crown"></i>
+                </button>
+                <div class="admin-tooltip">
+                    <strong>Admin Panel Access</strong><br>
+                    Quick access to Django Admin for system management, user control, and database administration.
                 </div>
             </div>
-            <button class="message-close" onclick="this.parentElement.style.animation='slideOutRight 0.3s ease-out forwards'; setTimeout(() => this.parentElement.remove(), 300)">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    
-    <div class="page-container" id="pageContainer">
-        <!-- Yellow Notice Bar - Fixed to sit properly with navbar -->
-        <div class="school-yellow text-gray-900 py-2 px-4 text-center font-medium w-full">
-            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2">
-                <span class="flex items-center">
-                    <i class="fas fa-star mr-2"></i> 
-                    <span class="hidden sm:inline">Student Results Portal - All Terms Available</span>
-                    <span class="sm:hidden">Results Available</span>
-                </span>
-                <span class="hidden sm:inline">|</span>
-                <span class="font-bold">Official School Results</span>
-            </div>
-        </div>
-
-        <!-- Main Header -->
-        <header class="header-gradient text-white py-4 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <!-- School Logo & Name -->
-                    <div class="flex items-center mb-4 md:mb-0 mobile-center">
-                        <div class="mr-4">
-                            <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                 alt="Emilia Foremost High School Logo"
-                                 class="w-16 h-16 object-contain bg-white p-2 rounded-xl shadow-lg">
+            
+            <!-- Django Messages Display -->
+            {% if messages %}
+            <div class="django-messages">
+                {% for message in messages %}
+                <div class="django-message message-{{ message.tags }}">
+                    <div class="message-content">
+                        <div class="message-icon">
+                            {% if message.tags == 'success' %}
+                            <i class="fas fa-check-circle"></i>
+                            {% elif message.tags == 'error' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                            {% elif message.tags == 'warning' %}
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {% else %}
+                            <i class="fas fa-info-circle"></i>
+                            {% endif %}
                         </div>
-                        <div class="text-center md:text-left">
-                            <h1 class="text-xl sm:text-2xl md:text-3xl font-bold title-font leading-tight">EMILIA FOREMOST HIGH SCHOOL</h1>
-                            <p class="text-blue-100 text-xs sm:text-sm md:text-base">Academic Excellence & Character Development Since 2007</p>
+                        <div class="message-text">
+                            {{ message }}
                         </div>
                     </div>
-
-                    <!-- School Motto & Logout Button -->
-                    <div class="flex items-center gap-4 mobile-mt-4">
-                        <!-- School Motto -->
-                        <div class="text-center md:text-right">
-                            <div class="logo-badge">
-                                <i class="fas fa-graduation-cap mr-2"></i>
-                                EMIFORPHS
-                            </div>
-                            <p class="text-sm text-gray-200 mt-1 hidden sm:block">Knowledge • Integrity • Excellence</p>
-                        </div>
-                        
-                        <!-- Professional Logout Button - UPDATED FOR DJANGO -->
-                        <button id="logoutBtn" class="logout-btn" data-logout-url="{% url 'logout' %}">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </button>
+                    <button class="message-close" onclick="this.parentElement.style.animation='slideOutRight 0.3s ease-out forwards'; setTimeout(() => this.parentElement.remove(), 300)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="page-container" id="pageContainer">
+                <!-- Yellow Notice Bar - Fixed to sit properly with navbar -->
+                <div class="school-yellow text-gray-900 py-2 px-4 text-center font-medium w-full">
+                    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2">
+                        <span class="flex items-center">
+                            <i class="fas fa-star mr-2"></i> 
+                            <span class="hidden sm:inline">Student Results Portal - All Terms Available</span>
+                            <span class="sm:hidden">Results Available</span>
+                        </span>
+                        <span class="hidden sm:inline">|</span>
+                        <span class="font-bold">Official School Results</span>
                     </div>
                 </div>
-            </div>
-        </header>
 
-        <!-- Main Content -->
-        <main class="content-wrapper max-w-7xl mx-auto px-4 py-8">
-            <!-- Page Title -->
-            <div class="text-center mb-10">
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">Student Result Portal</h2>
-                <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
-                    Enter student details below to access official academic results for JSS 1 - SS 3
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Left Column - Result Checker -->
-                <div class="bg-white rounded-2xl card-shadow overflow-hidden gradient-border">
-                    <!-- Form Header -->
-                    <div class="school-primary text-white p-6">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-search text-blue-900 text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg sm:text-xl font-bold">Check Student Result</h3>
-                                <p class="text-blue-100 text-sm">Enter accurate student information</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Result Form -->
-                    <div class="p-4 sm:p-6 md:p-8">
-                        <!-- Django CSRF Token for AJAX -->
-                        {% csrf_token %}
-                        
-                        <form id="resultForm">
-                            <!-- Full Name - EMPTY -->
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-semibold mb-2">
-                                    <i class="fas fa-user-circle text-blue-600 mr-2"></i>
-                                    Student's Full Name
-                                </label>
-                                <input type="text" id="fullName" 
-                                    class="form-input"
-                                    placeholder="Enter student's complete name as registered"
-                                    required>
-                                <p class="text-xs sm:text-sm text-gray-500 mt-2">
-                                    <i class="fas fa-info-circle mr-1"></i>
-                                    Enter first name, middle name, and surname exactly as in school records
-                                </p>
-                            </div>
-
-                            <!-- Class Selection - EMPTY -->
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-semibold mb-2">
-                                    <i class="fas fa-school text-blue-600 mr-2"></i>
-                                    Class
-                                </label>
-                                <select id="studentClass" class="form-select" required>
-                                    <option value="">Select Class</option>
-                                    <option value="JSS1">JSS 1</option>
-                                    <option value="JSS2">JSS 2</option>
-                                    <option value="JSS3">JSS 3</option>
-                                    <option value="SS1">SS 1</option>
-                                    <option value="SS2">SS 2</option>
-                                    <option value="SS3">SS 3</option>
-                                </select>
-                            </div>
-
-                            <!-- Term & Session - EMPTY -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                                <div>
-                                    <label class="block text-gray-700 font-semibold mb-2">
-                                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
-                                        Term
-                                    </label>
-                                    <select id="term" class="form-select" required>
-                                        <option value="">Select Term</option>
-                                        <option value="1">First Term</option>
-                                        <option value="2">Second Term</option>
-                                        <option value="3">Third Term</option>
-                                    </select>
+                <!-- Main Header -->
+                <header class="header-gradient text-white py-4 sticky top-0 z-50">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <!-- School Logo & Name -->
+                            <div class="flex items-center mb-4 md:mb-0 mobile-center">
+                                <div class="mr-4">
+                                    <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
+                                         alt="Emilia Foremost High School Logo"
+                                         class="w-16 h-16 object-contain bg-white p-2 rounded-xl shadow-lg">
                                 </div>
-                                <div>
-                                    <label class="block text-gray-700 font-semibold mb-2">
-                                        <i class="fas fa-calendar text-blue-600 mr-2"></i>
-                                        Academic Session
-                                    </label>
-                                    <select id="session" class="form-select" required>
-                                        <option value="">Loading sessions...</option>
-                                    </select>
+                                <div class="text-center md:text-left">
+                                    <h1 class="text-xl sm:text-2xl md:text-3xl font-bold title-font leading-tight">EMILIA FOREMOST HIGH SCHOOL</h1>
+                                    <p class="text-blue-100 text-xs sm:text-sm md:text-base">Academic Excellence & Character Development Since 2007</p>
                                 </div>
                             </div>
 
-                            <!-- Submit Button -->
-                            <button type="submit" id="checkResultBtn" 
-                                class="w-full school-green text-white font-bold py-3 sm:py-4 rounded-lg hover:opacity-90 transition duration-300 text-base sm:text-lg flex items-center justify-center shadow-lg">
-                                <i class="fas fa-file-alt mr-2 sm:mr-3"></i> 
-                                CHECK STUDENT RESULT
-                            </button>
-
-                            <div class="mt-6 pt-6 border-t border-gray-200">
-                                <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
-                                    <div class="flex items-center">
-                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                             alt="Emilia Logo"
-                                             class="w-6 h-6 sm:w-8 sm:h-8 mr-2">
-                                        <span class="text-gray-700 font-semibold text-sm sm:text-base">Official School Portal</span>
+                            <!-- School Motto & Logout Button -->
+                            <div class="flex items-center gap-4 mobile-mt-4">
+                                <!-- School Motto -->
+                                <div class="text-center md:text-right">
+                                    <div class="logo-badge">
+                                        <i class="fas fa-graduation-cap mr-2"></i>
+                                        EMIFORPHS
                                     </div>
-                                    <div class="flex items-center">
-                                        <i class="fas fa-shield-alt text-green-600 text-lg sm:text-xl mr-2"></i>
-                                        <span class="text-gray-600 text-sm sm:text-base">Secure & Verified</span>
+                                    <p class="text-sm text-gray-200 mt-1 hidden sm:block">Knowledge • Integrity • Excellence</p>
+                                </div>
+                                
+                                <!-- Professional Logout Button - UPDATED FOR DJANGO -->
+                                <button id="logoutBtn" class="logout-btn" data-logout-url="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Main Content -->
+                <main class="content-wrapper max-w-7xl mx-auto px-4 py-8">
+                    <!-- Page Title -->
+                    <div class="text-center mb-10">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">Student Result Portal</h2>
+                        <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
+                            Enter student details below to access official academic results for JSS 1 - SS 3
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Left Column - Result Checker -->
+                        <div class="bg-white rounded-2xl card-shadow overflow-hidden gradient-border">
+                            <!-- Form Header -->
+                            <div class="school-primary text-white p-6">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-search text-blue-900 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg sm:text-xl font-bold">Check Student Result</h3>
+                                        <p class="text-blue-100 text-sm">Enter accurate student information</p>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </div>
 
-                <!-- Right Column - Results Display -->
-                <div>
-                    <!-- Instructions / Welcome -->
-                    <div id="welcomePanel" class="bg-white rounded-2xl card-shadow p-6 sm:p-8 mb-8">
-                        <div class="text-center">
-                            <div class="floating mb-6">
-                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                     alt="Emilia Logo"
-                                     class="w-20 h-20 sm:w-24 sm:h-24 mx-auto">
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Welcome to EMIFORPHS Result Portal</h3>
-                            <p class="text-gray-600 mb-6 text-sm sm:text-base">
-                                Enter student details on the left to access official academic results. 
-                                This portal provides instant access to results for all classes from JSS 1 to SS 3.
-                            </p>
-                            
-                            <!-- Quick Stats - Updated with responsive background -->
-                            <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
-                                <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                    <div class="text-xl sm:text-2xl font-bold text-blue-700">1,200+</div>
-                                    <div class="text-xs sm:text-sm text-gray-600 mt-1">Students</div>
-                                </div>
-                                <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                    <div class="text-xl sm:text-2xl font-bold text-green-700">100%</div>
-                                    <div class="text-xs sm:text-sm text-gray-600 mt-1">Result Accuracy</div>
-                                </div>
-                                <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                    <div class="text-xl sm:text-2xl font-bold text-purple-700">24/7</div>
-                                    <div class="text-xs sm:text-sm text-gray-600 mt-1">Access</div>
-                                </div>
-                            </div>
+                            <!-- Result Form -->
+                            <div class="p-4 sm:p-6 md:p-8">
+                                <!-- Django CSRF Token for AJAX -->
+                                {% csrf_token %}
+                                
+                                <form id="resultForm">
+                                    <!-- Full Name - EMPTY -->
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 font-semibold mb-2">
+                                            <i class="fas fa-user-circle text-blue-600 mr-2"></i>
+                                            Student's Full Name
+                                        </label>
+                                        <input type="text" id="fullName" 
+                                            class="form-input"
+                                            placeholder="Enter student's complete name as registered"
+                                            required>
+                                        <p class="text-xs sm:text-sm text-gray-500 mt-2">
+                                            <i class="fas fa-info-circle mr-1"></i>
+                                            Enter first name, middle name, and surname exactly as in school records
+                                        </p>
+                                    </div>
 
-                            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                                <h4 class="font-bold text-gray-800 mb-2 flex items-center text-sm sm:text-base">
-                                    <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>
-                                    Need Help?
-                                </h4>
-                                <p class="text-gray-700 text-xs sm:text-sm">
-                                    If you encounter any issues or need assistance, contact the school office at 
-                                    <strong>0905-714-749</strong> or email 
-                                    <strong>emiliaforemost@gmail.com</strong>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                                    <!-- Class Selection - EMPTY -->
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 font-semibold mb-2">
+                                            <i class="fas fa-school text-blue-600 mr-2"></i>
+                                            Class
+                                        </label>
+                                        <select id="studentClass" class="form-select" required>
+                                            <option value="">Select Class</option>
+                                            <option value="JSS1">JSS 1</option>
+                                            <option value="JSS2">JSS 2</option>
+                                            <option value="JSS3">JSS 3</option>
+                                            <option value="SS1">SS 1</option>
+                                            <option value="SS2">SS 2</option>
+                                            <option value="SS3">SS 3</option>
+                                        </select>
+                                    </div>
 
-                    <!-- PDF File Results Display -->
-                    <div id="pdfResultsContainer" class="hidden bg-white rounded-2xl card-shadow overflow-hidden mb-8">
-                        <!-- Results Header -->
-                        <div class="school-primary text-white p-4 sm:p-6">
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between">
-                                <div class="mb-4 sm:mb-0">
-                                    <h3 class="text-xl sm:text-2xl font-bold">SEARCH RESULTS</h3>
-                                    <div class="flex items-center mt-2">
-                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                             alt="Emilia Logo"
-                                             class="w-8 h-8 sm:w-10 sm:h-10 mr-3 bg-white p-1 rounded">
+                                    <!-- Term & Session - EMPTY -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
                                         <div>
-                                            <div id="searchStudentName" class="text-base sm:text-lg font-semibold">-</div>
-                                            <div id="searchClassInfo" class="text-blue-100 text-xs sm:text-sm">-</div>
+                                            <label class="block text-gray-700 font-semibold mb-2">
+                                                <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                                                Term
+                                            </label>
+                                            <select id="term" class="form-select" required>
+                                                <option value="">Select Term</option>
+                                                <option value="1">First Term</option>
+                                                <option value="2">Second Term</option>
+                                                <option value="3">Third Term</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-semibold mb-2">
+                                                <i class="fas fa-calendar text-blue-600 mr-2"></i>
+                                                Academic Session
+                                            </label>
+                                            <select id="session" class="form-select" required>
+                                                <option value="">Loading sessions...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <button type="submit" id="checkResultBtn" 
+                                        class="w-full school-green text-white font-bold py-3 sm:py-4 rounded-lg hover:opacity-90 transition duration-300 text-base sm:text-lg flex items-center justify-center shadow-lg">
+                                        <i class="fas fa-file-alt mr-2 sm:mr-3"></i> 
+                                        CHECK STUDENT RESULT
+                                    </button>
+
+                                    <div class="mt-6 pt-6 border-t border-gray-200">
+                                        <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
+                                            <div class="flex items-center">
+                                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
+                                                     alt="Emilia Logo"
+                                                     class="w-6 h-6 sm:w-8 sm:h-8 mr-2">
+                                                <span class="text-gray-700 font-semibold text-sm sm:text-base">Official School Portal</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i class="fas fa-shield-alt text-green-600 text-lg sm:text-xl mr-2"></i>
+                                                <span class="text-gray-600 text-sm sm:text-base">Secure & Verified</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Results Display -->
+                        <div>
+                            <!-- Instructions / Welcome -->
+                            <div id="welcomePanel" class="bg-white rounded-2xl card-shadow p-6 sm:p-8 mb-8">
+                                <div class="text-center">
+                                    <div class="floating mb-6">
+                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
+                                             alt="Emilia Logo"
+                                             class="w-20 h-20 sm:w-24 sm:h-24 mx-auto">
+                                    </div>
+                                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Welcome to EMIFORPHS Result Portal</h3>
+                                    <p class="text-gray-600 mb-6 text-sm sm:text-base">
+                                        Enter student details on the left to access official academic results. 
+                                        This portal provides instant access to results for all classes from JSS 1 to SS 3.
+                                    </p>
+                                    
+                                    <!-- Quick Stats - Updated with responsive background -->
+                                    <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
+                                        <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
+                                            <div class="text-xl sm:text-2xl font-bold text-blue-700">1,200+</div>
+                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Students</div>
+                                        </div>
+                                        <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
+                                            <div class="text-xl sm:text-2xl font-bold text-green-700">100%</div>
+                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Result Accuracy</div>
+                                        </div>
+                                        <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
+                                            <div class="text-xl sm:text-2xl font-bold text-purple-700">24/7</div>
+                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Access</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                        <h4 class="font-bold text-gray-800 mb-2 flex items-center text-sm sm:text-base">
+                                            <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>
+                                            Need Help?
+                                        </h4>
+                                        <p class="text-gray-700 text-xs sm:text-sm">
+                                            If you encounter any issues or need assistance, contact the school office at 
+                                            <strong>0905-714-749</strong> or email 
+                                            <strong>emiliaforemost@gmail.com</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PDF File Results Display -->
+                            <div id="pdfResultsContainer" class="hidden bg-white rounded-2xl card-shadow overflow-hidden mb-8">
+                                <!-- Results Header -->
+                                <div class="school-primary text-white p-4 sm:p-6">
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                                        <div class="mb-4 sm:mb-0">
+                                            <h3 class="text-xl sm:text-2xl font-bold">SEARCH RESULTS</h3>
+                                            <div class="flex items-center mt-2">
+                                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
+                                                     alt="Emilia Logo"
+                                                     class="w-8 h-8 sm:w-10 sm:h-10 mr-3 bg-white p-1 rounded">
+                                                <div>
+                                                    <div id="searchStudentName" class="text-base sm:text-lg font-semib">-</div>
+                                                    <div id="searchClassInfo" class="text-blue-100 text-xs sm:text-sm">-</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-left sm:text-right">
+                                            <button onclick="hidePDFResults()" class="text-white hover:text-gray-300">
+                                                <i class="fas fa-times text-xl"></i>
+                                            </button>
+                                            <div class="mt-2 text-xs sm:text-sm">
+                                                <i class="fas fa-calendar mr-1"></i>
+                                                <span id="searchTermSession">-</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-left sm:text-right">
-                                    <button onclick="hidePDFResults()" class="text-white hover:text-gray-300">
-                                        <i class="fas fa-times text-xl"></i>
-                                    </button>
-                                    <div class="mt-2 text-xs sm:text-sm">
-                                        <i class="fas fa-calendar mr-1"></i>
-                                        <span id="searchTermSession">-</span>
+
+                                <!-- Results Content -->
+                                <div class="p-4 sm:p-6">
+                                    <div id="pdfResultsContent">
+                                        <!-- PDF files will appear here -->
+                                    </div>
+                                </div>
+
+                                <!-- Verification Footer -->
+                                <div class="bg-gray-900 text-white p-3 sm:p-4 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
+                                             alt="Emilia Logo"
+                                             class="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 bg-white p-1 rounded">
+                                        <div>
+                                            <div class="font-medium text-sm sm:text-base">OFFICIAL RESULT FILES</div>
+                                            <div class="text-gray-400 text-xs sm:text-sm">© EMILIA FOREMOST HIGH SCHOOL • Authorized Use Only</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Announcements -->
+                            <div class="bg-white rounded-2xl card-shadow p-4 sm:p-6 mt-6 sm:mt-8">
+                                <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
+                                    <i class="fas fa-bullhorn text-red-600 mr-2 sm:mr-3"></i>
+                                    School Announcements
+                                </h4>
+                                <div class="space-y-3 sm:space-y-4">
+                                    <div class="flex items-start border-l-4 border-blue-500 pl-3 sm:pl-4 py-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-800 text-sm sm:text-base">All Results Available</p>
+                                            <p class="text-gray-600 text-xs sm:text-sm">Results for all terms and sessions are accessible through this portal.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start border-l-4 border-green-500 pl-3 sm:pl-4 py-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-800 text-sm sm:text-base">New Academic Session</p>
+                                            <p class="text-gray-600 text-xs sm:text-sm">2025/2026 session begins September 2025.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start border-l-4 border-yellow-500 pl-3 sm:pl-4 py-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-800 text-sm sm:text-base">Result Verification</p>
+                                            <p class="text-gray-600 text-xs sm:text-sm">Report any discrepancies to the school office immediately.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </main>
 
-                        <!-- Results Content -->
-                        <div class="p-4 sm:p-6">
-                            <div id="pdfResultsContent">
-                                <!-- PDF files will appear here -->
+                <!-- FULL WIDTH FOOTER -->
+                <footer class="full-width-footer bg-gray-900 text-white mt-8 sm:mt-12">
+                    <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8">
+                        <div class="flex flex-col md:flex-row justify-between items-center mobile-stack">
+                            <!-- School Info - Updated with white background logo -->
+                            <div class="mb-6 md:mb-0 text-center md:text-left">
+                                <div class="flex items-center justify-center md:justify-start mb-3 sm:mb-4">
+                                    <!-- White background added to logo -->
+                                    <div class="bg-white p-1 rounded-lg mr-3 sm:mr-4">
+                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
+                                             alt="Emilia Logo"
+                                             class="w-10 h-10 sm:w-12 sm:h-12 object-contain">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg sm:text-xl font-bold">EMILIA FOREMOST HIGH SCHOOL</h3>
+                                        <p class="text-gray-400 text-xs sm:text-sm">EMIFORPHS • Excellence in Education</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-400 text-xs sm:text-sm max-w-md">
+                                    Providing quality secondary education since 2007. 
+                                    Committed to academic excellence and moral development.
+                                </p>
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="text-center md:text-right mobile-mt-4">
+                                <h4 class="font-bold mb-2 sm:mb-4 text-sm sm:text-base">Contact Information</h4>
+                                <div class="space-y-1 sm:space-y-2">
+                                    <p class="text-gray-400 text-xs sm:text-sm">
+                                        <i class="fas fa-map-marker-alt mr-2"></i>
+                                        2, Olasupo Avenue, Off Adeyemi Street, Oke-Agbo, Ojo, Lagos
+                                    </p>
+                                    <p class="text-gray-400 text-xs sm:text-sm">
+                                        <i class="fas fa-phone mr-2"></i>
+                                        0905-714-749, 0802-285-4677
+                                    </p>
+                                    <p class="text-gray-400 text-xs sm:text-sm">
+                                        <i class="fas fa-envelope mr-2"></i>
+                                        emiliaforemost@gmail.com
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Verification Footer -->
-                        <div class="bg-gray-900 text-white p-3 sm:p-4 text-center">
-                            <div class="flex items-center justify-center">
-                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                     alt="Emilia Logo"
-                                     class="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 bg-white p-1 rounded">
-                                <div>
-                                    <div class="font-medium text-sm sm:text-base">OFFICIAL RESULT FILES</div>
-                                    <div class="text-gray-400 text-xs sm:text-sm">© EMILIA FOREMOST HIGH SCHOOL • Authorized Use Only</div>
+                        <div class="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <p class="text-gray-500 text-xs sm:text-sm">
+                                    &copy; 2024 EMILIA FOREMOST HIGH SCHOOL. All Rights Reserved.
+                                </p>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="text-gray-500 text-xs sm:text-sm">
+                                        <i class="fas fa-lock mr-1"></i>
+                                        Secure Student Result Portal v2.0
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Announcements -->
-                    <div class="bg-white rounded-2xl card-shadow p-4 sm:p-6 mt-6 sm:mt-8">
-                        <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
-                            <i class="fas fa-bullhorn text-red-600 mr-2 sm:mr-3"></i>
-                            School Announcements
-                        </h4>
-                        <div class="space-y-3 sm:space-y-4">
-                            <div class="flex items-start border-l-4 border-blue-500 pl-3 sm:pl-4 py-2">
-                                <div>
-                                    <p class="font-semibold text-gray-800 text-sm sm:text-base">All Results Available</p>
-                                    <p class="text-gray-600 text-xs sm:text-sm">Results for all terms and sessions are accessible through this portal.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start border-l-4 border-green-500 pl-3 sm:pl-4 py-2">
-                                <div>
-                                    <p class="font-semibold text-gray-800 text-sm sm:text-base">New Academic Session</p>
-                                    <p class="text-gray-600 text-xs sm:text-sm">2025/2026 session begins September 2025.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start border-l-4 border-yellow-500 pl-3 sm:pl-4 py-2">
-                                <div>
-                                    <p class="font-semibold text-gray-800 text-sm sm:text-base">Result Verification</p>
-                                    <p class="text-gray-600 text-xs sm:text-sm">Report any discrepancies to the school office immediately.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </footer>
             </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="page-footer bg-gray-900 text-white mt-8 sm:mt-12 footer-wrapper">
-            <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8">
-                <div class="flex flex-col md:flex-row justify-between items-center mobile-stack">
-                    <!-- School Info - Updated with white background logo -->
-                    <div class="mb-6 md:mb-0 text-center md:text-left">
-                        <div class="flex items-center justify-center md:justify-start mb-3 sm:mb-4">
-                            <!-- White background added to logo -->
-                            <div class="bg-white p-1 rounded-lg mr-3 sm:mr-4">
-                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                     alt="Emilia Logo"
-                                     class="w-10 h-10 sm:w-12 sm:h-12 object-contain">
-                            </div>
-                            <div>
-                                <h3 class="text-lg sm:text-xl font-bold">EMILIA FOREMOST HIGH SCHOOL</h3>
-                                <p class="text-gray-400 text-xs sm:text-sm">EMIFORPHS • Excellence in Education</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-400 text-xs sm:text-sm max-w-md">
-                            Providing quality secondary education since 2007. 
-                            Committed to academic excellence and moral development.
-                        </p>
-                    </div>
-
-                    <!-- Contact -->
-                    <div class="text-center md:text-right mobile-mt-4">
-                        <h4 class="font-bold mb-2 sm:mb-4 text-sm sm:text-base">Contact Information</h4>
-                        <div class="space-y-1 sm:space-y-2">
-                            <p class="text-gray-400 text-xs sm:text-sm">
-                                <i class="fas fa-map-marker-alt mr-2"></i>
-                                2, Olasupo Avenue, Off Adeyemi Street, Oke-Agbo, Ojo, Lagos
-                            </p>
-                            <p class="text-gray-400 text-xs sm:text-sm">
-                                <i class="fas fa-phone mr-2"></i>
-                                0905-714-749, 0802-285-4677
-                            </p>
-                            <p class="text-gray-400 text-xs sm:text-sm">
-                                <i class="fas fa-envelope mr-2"></i>
-                                emiliaforemost@gmail.com
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <p class="text-gray-500 text-xs sm:text-sm">
-                            &copy; 2024 EMILIA FOREMOST HIGH SCHOOL. All Rights Reserved.
-                        </p>
-                        <div class="mt-2 md:mt-0">
-                            <span class="text-gray-500 text-xs sm:text-sm">
-                                <i class="fas fa-lock mr-1"></i>
-                                Secure Student Result Portal v2.0
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        </div>
     </div>
 
     <!-- JavaScript -->
     <script>
+        // ==================== ENHANCED SCROLL MANAGEMENT ====================
+        
+        function setupScrollManagement() {
+            const scrollContainer = document.getElementById('scrollContainer');
+            
+            // 1. FIXED POSITION BODY already set in CSS
+            
+            // 2. SINGLE SCROLL CONTAINER management
+            scrollContainer.style.overflowY = 'auto';
+            scrollContainer.style.overflowX = 'hidden';
+            
+            // 3. PREVENT TOUCH OVERSCROLL
+            if ('ontouchstart' in window) {
+                // iOS specific fixes
+                scrollContainer.style.WebkitOverflowScrolling = 'touch';
+                
+                // Prevent pull-to-refresh
+                document.addEventListener('touchmove', function(e) {
+                    if (scrollContainer.scrollTop <= 0) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                // Prevent rubber band effect
+                document.body.addEventListener('touchstart', function() {
+                    if (scrollContainer.scrollTop === 0) {
+                        scrollContainer.scrollTop = 1;
+                    }
+                    if (scrollContainer.scrollHeight - scrollContainer.scrollTop === scrollContainer.clientHeight) {
+                        scrollContainer.scrollTop = scrollContainer.scrollTop - 1;
+                    }
+                });
+            }
+            
+            // 6. SCROLL EDGE DETECTION
+            scrollContainer.addEventListener('scroll', function() {
+                // Show boundary indicator when near bottom
+                const distanceFromBottom = this.scrollHeight - (this.scrollTop + this.clientHeight);
+                const boundary = document.getElementById('scrollBoundary');
+                
+                if (distanceFromBottom <= 50 && distanceFromBottom > 0) {
+                    boundary.classList.add('visible');
+                } else {
+                    boundary.classList.remove('visible');
+                }
+                
+                // Prevent overscroll at top
+                if (this.scrollTop <= 0) {
+                    this.scrollTop = 1;
+                }
+                
+                // Prevent overscroll at bottom
+                if (this.scrollTop + this.clientHeight >= this.scrollHeight) {
+                    this.scrollTop = this.scrollHeight - this.clientHeight - 1;
+                }
+            });
+            
+            // 7. PRESERVED FUNCTIONALITY - All original functionality preserved
+        }
+
         // ==================== ADMIN FLOATING BUTTON SYSTEM ====================
         function setupAdminFloatingButton() {
             const adminFloatBtnContainer = document.getElementById('adminFloatBtnContainer');
@@ -1450,11 +1586,11 @@
         
         // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', function() {
+            // Setup scroll management FIRST
+            setupScrollManagement();
+            
             // Load available sessions
             loadAvailableSessions();
-            
-            // Setup scroll management
-            setupScrollManagement();
             
             // Add ripple effect to buttons
             setupRippleEffect();
@@ -1969,50 +2105,6 @@
             }
             
             return '';
-        }
-
-        // ==================== SCROLL MANAGEMENT ====================
-        function setupScrollManagement() {
-            let lastScrollTop = 0;
-            let scrollTimeout;
-            
-            function checkScrollPosition() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollHeight = document.documentElement.scrollHeight;
-                const clientHeight = document.documentElement.clientHeight;
-                
-                // Check if we're at the bottom
-                const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
-                
-                // Show boundary indicator when near bottom
-                if (distanceFromBottom <= 50 && distanceFromBottom > 0) {
-                    document.getElementById('scrollBoundary').classList.add('visible');
-                } else {
-                    document.getElementById('scrollBoundary').classList.remove('visible');
-                }
-                
-                // Prevent overscroll beyond footer
-                if (distanceFromBottom < 0) {
-                    // We've scrolled past the bottom, bounce back
-                    window.scrollTo({
-                        top: scrollHeight - clientHeight,
-                        behavior: 'smooth'
-                    });
-                }
-                
-                lastScrollTop = scrollTop;
-            }
-            
-            function handleScroll() {
-                if (scrollTimeout) {
-                    window.cancelAnimationFrame(scrollTimeout);
-                }
-                
-                scrollTimeout = window.requestAnimationFrame(checkScrollPosition);
-            }
-            
-            window.addEventListener('scroll', handleScroll, { passive: true });
-            checkScrollPosition();
         }
 
         // ==================== UI ENHANCEMENTS ====================
