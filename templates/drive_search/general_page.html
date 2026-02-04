@@ -20,11 +20,6 @@
     
     <!-- ==================== ULTIMATE ANTI-OVERSCROLL SYSTEM ==================== -->
     <style>
-        /* SMOOTH SCROLLING SYSTEM */
-        html {
-            scroll-behavior: smooth;
-        }
-        
         /* 1. FIXED POSITION BODY - Prevents any movement beyond boundaries */
         html, body {
             width: 100%;
@@ -42,7 +37,7 @@
             bottom: 0;
         }
         
-        /* 2. SMOOTH SCROLL CONTAINER */
+        /* 2. SINGLE SCROLL CONTAINER - Only this can scroll internally */
         .scroll-container {
             width: 100%;
             height: 100%;
@@ -51,7 +46,6 @@
             position: relative;
             background: #f9fafb;
             -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
         }
         
         /* 3. PREVENT TOUCH OVERSCROLL */
@@ -72,7 +66,6 @@
             .scroll-container {
                 -webkit-overflow-scrolling: touch;
                 overscroll-behavior: contain;
-                scroll-behavior: smooth;
             }
         }
         
@@ -94,7 +87,7 @@
             opacity: 1;
         }
         
-        /* 7. FULL WIDTH FOOTER */
+        /* 7. FULL WIDTH FOOTER - FIXED TO BE FULL WIDTH */
         .full-width-footer {
             width: 100vw;
             position: relative;
@@ -103,6 +96,7 @@
             margin-left: -50vw;
             margin-right: -50vw;
             background: #111827;
+            z-index: 40;
         }
         
         /* 8. CONTENT CONTAINER - Main content area */
@@ -502,14 +496,13 @@
             position: relative;
         }
         
-        /* Footer - FIXED: Stays at bottom */
+        /* Footer - FIXED: Stays at bottom - ENHANCED FOR STIFFNESS */
         .page-footer {
             flex-shrink: 0;
             width: 100%;
             position: relative;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            background: #111827;
+            z-index: 40;
         }
         
         /* FIXED: Scroll boundary indicator */
@@ -595,6 +588,9 @@
         .header-gradient {
             background: linear-gradient(135deg, rgba(26, 35, 126, 0.95) 0%, rgba(27, 94, 32, 0.95) 100%);
             backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
         .subject-row:hover {
             background-color: #f0f7ff;
@@ -773,7 +769,6 @@
             position: relative;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
         }
         
         /* FIXED: Smooth scrolling boundaries */
@@ -1301,12 +1296,12 @@
                     </div>
                 </div>
 
-                <!-- Main Header -->
-                <header class="header-gradient text-white py-4 sticky top-0 z-50">
+                <!-- Main Header - ENHANCED FOR STIFFNESS -->
+                <header class="header-gradient text-white py-4 sticky top-0 z-50 shadow-lg">
                     <div class="max-w-7xl mx-auto px-4">
                         <div class="flex flex-col md:flex-row justify-between items-center">
                             <!-- School Logo & Name - Clickable to Dashboard -->
-                            <a href="{% url 'dashboard_exam_page' %}" class="flex items-center mb-4 md:mb-0 mobile-center hover:opacity-90 transition-opacity">
+                            <a href="" class="flex items-center mb-4 md:mb-0 mobile-center hover:opacity-90 transition-opacity">
                                 <div class="mr-4">
                                     <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
                                         alt="Emilia Foremost High School Logo"
@@ -1392,6 +1387,7 @@
                                             <i class="fas fa-info-circle mr-1"></i>
                                             Enter your complete school ID number exactly as it appears on the report card
                                         </p>
+                                        <!-- REMOVED: ID Examples section -->
                                     </div>
 
                                     <!-- Class Selection -->
@@ -1511,6 +1507,8 @@
                                             Example: Student with ID <span class="bg-yellow-100 px-1 font-bold text-wrap-anywhere">EMFHS-2009-032</span> can access results from 2009/2010 session.
                                             <br><br>
                                             <strong class="text-green-700 text-wrap-anywhere">✅ All years supported (2000 - Present)</strong>
+                                            <br><br>
+                                            <strong class="text-purple-700 text-wrap-anywhere">✅ Supports NEW ID Format: EMFHS-YYYY-XXX-XX (mixed alphanumeric)</strong>
                                         </p>
                                     </div>
                                 </div>
@@ -1608,8 +1606,8 @@
                     </div>
                 </main>
 
-                <!-- FULL WIDTH FOOTER -->
-                <footer class="full-width-footer bg-gray-900 text-white mt-8 sm:mt-12">
+                <!-- FULL WIDTH FOOTER - ENHANCED FOR STIFFNESS - FIXED TO BE FULL WIDTH -->
+                <footer class="full-width-footer page-footer bg-gray-900 text-white shadow-2xl border-t-4 border-blue-600">
                     <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8">
                         <div class="flex flex-col md:flex-row justify-between items-center mobile-stack">
                             <!-- School Info - Updated with white background logo -->
@@ -1680,10 +1678,9 @@
             
             // 1. FIXED POSITION BODY already set in CSS
             
-            // 2. SMOOTH SCROLL CONTAINER management
+            // 2. SINGLE SCROLL CONTAINER management
             scrollContainer.style.overflowY = 'auto';
             scrollContainer.style.overflowX = 'hidden';
-            scrollContainer.style.scrollBehavior = 'smooth';
             
             // 3. PREVENT TOUCH OVERSCROLL
             if ('ontouchstart' in window) {

@@ -491,7 +491,7 @@ def general_exam_page(request):
     
     status = drive_service.system_status()
     
-    return render(request, "drive_search/general_exam_page.html", {
+    return render(request, "drive_search/general_page.html", {
         'available_sessions': available_sessions,
         'system_status': status
     })
@@ -573,3 +573,7 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'You have been successfully logged out.')
     return redirect('login_page')
+
+
+
+
