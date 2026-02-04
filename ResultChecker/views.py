@@ -14,12 +14,20 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required  # ADD THIS IMPORT
 
 
-@login_required
-def general_exam_page(request):
-    """Main page for parents to search results"""
-    return render(request, "drive_search/general_page.html")
 
-# views.py - COMPLETE FINAL VERSION
+
+
+
+
+
+
+
+
+
+
+
+
+# views.py - UPDATED FOR NEW ID FORMAT: EMFHS-YYYY-XXX-XX
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -27,22 +35,18 @@ import json
 from datetime import datetime
 from googleapiclient.http import MediaIoBaseDownload
 import io
-
 from .drive_service import drive_service
 
 # ============ MAIN PAGE ============
 def home_page(request):
     """Main page for parents"""
-    # Get available sessions from Drive
     try:
         available_sessions = drive_service.get_available_sessions()
     except Exception as e:
         print(f"⚠️ Error getting sessions: {e}")
-        # Generate sessions locally
         current_year = datetime.now().year
-        available_sessions = [f"{year}/{year+1}" for year in range(2025, current_year + 11)]
+        available_sessions = [f"{year}/{year+1}" for year in range(2000, current_year + 11)]
     
-    # Get system status
     status = drive_service.system_status()
     
     return render(request, "home.html", {
@@ -50,27 +54,33 @@ def home_page(request):
         'system_status': status
     })
 
-# ============ SEARCH FUNCTION ============
+# ============ SEARCH FUNCTION - SUPPORTS NEW ID FORMAT ============
 @csrf_exempt
 def search_result(request):
-    """Handle search with term and session"""
+    """Handle search with NO YEAR RESTRICTIONS - SUPPORTS NEW ID FORMAT"""
     if request.method != 'POST':
         return JsonResponse({'error': 'POST method required'}, status=400)
     
     try:
         data = json.loads(request.body)
         student_name = data.get('student_name', '').strip()
+        student_id = data.get('student_id', '').strip()
         student_class = data.get('student_class', '').strip()
         term = data.get('term', '1').strip()
         session = data.get('session', '2025/2026').strip()
         
-        print(f"\n🔍 SEARCH REQUEST: {student_name} | {student_class} | Term {term} | {session}")
+        print(f"\n🔍 SEARCH (NEW ID FORMAT SUPPORTED):")
+        print(f"   🔑 ID: {student_id}")
+        print(f"   🆕 Format: EMFHS-YYYY-XXX-XX (mixed alphanumeric)")
+        print(f"   🏫 Class: {student_class}")
+        print(f"   📅 Term: {term} | Session: {session}")
+        print(f"   ⚠️  Note: Year matching is DISABLED")
         
         # Validate
-        if not student_name:
+        if not student_id:
             return JsonResponse({
                 'success': False,
-                'message': 'Please enter student name'
+                'message': 'Student ID is required'
             })
         
         if not student_class:
@@ -86,23 +96,62 @@ def search_result(request):
                 'message': 'Invalid session format. Use format: YYYY/YYYY'
             })
         
-        # Search Drive
-        pdf_files = drive_service.search_student_pdf(term, session, student_class, student_name)
+        # Extract year from ID for information only (NO RESTRICTION)
+        student_id_year = drive_service._extract_year_from_id(student_id)
+        session_start_year = drive_service._extract_year_from_session(session)
+        
+        # Search Drive with NEW ID FORMAT SUPPORT
+        pdf_files = drive_service.search_student_pdf(
+            term, 
+            session, 
+            student_class, 
+            student_name,  # Name is passed but NOT USED for verification
+            student_id
+        )
         
         if pdf_files:
             return JsonResponse({
                 'success': True,
                 'files': pdf_files,
                 'count': len(pdf_files),
-                'message': f'Found {len(pdf_files)} result(s) for {student_name} in {student_class}'
+                'student_id': student_id,
+                'student_id_year': student_id_year,
+                'session_year': session_start_year,
+                'strict_id_matching': True,
+                'student_name_verification': False,
+                'year_restrictions': False,
+                'id_format': 'NEW: EMFHS-YYYY-XXX-XX (mixed alphanumeric)',
+                'message': f'Found {len(pdf_files)} result(s) with ID: {student_id}'
             })
         else:
+            # Helpful error message with new ID format examples
+            error_msg = f'No results found with Student ID: {student_id} in {student_class}. '
+            
+            error_msg += 'Please check: '
+            error_msg += '1) Exact Student ID spelling '
+            error_msg += '2) Correct class selection '
+            error_msg += '3) Correct term/session '
+            error_msg += '4) Try both old and new ID formats if needed '
+            
+            # Add format guidance
+            format_note = ''
+            if student_id_year:
+                format_note = f'Your ID ({student_id}) appears to be from year {student_id_year}. '
+                format_note += 'New ID format: EMFHS-YYYY-XXX-XX (e.g., EMFHS-2025-A7K-B9) '
+                format_note += 'Old ID format: EMFHS-YYYY-NNN-XX (e.g., EMFHS-2025-001-A4)'
+            
             return JsonResponse({
                 'success': False,
                 'files': [],
                 'count': 0,
-                'message': f'No results found for "{student_name}" in {student_class}. '
-                          f'Please check: 1) Student name spelling 2) Correct class 3) Correct term/session'
+                'message': error_msg,
+                'format_note': format_note,
+                'student_id_year': student_id_year,
+                'session_year': session_start_year,
+                'strict_id_matching': True,
+                'student_name_verification': False,
+                'year_restrictions': False,
+                'id_format': 'Supports both old and new formats'
             })
             
     except json.JSONDecodeError:
@@ -185,20 +234,25 @@ def get_sessions(request):
                 'label': label,
                 'is_current': session == current_academic_session,
                 'is_future': session_year > current_academic_start,
-                'is_past': session_year < current_academic_start
+                'is_past': session_year < current_academic_start,
+                'start_year': session_year
             })
         
         return JsonResponse({
             'success': True,
             'sessions': sessions_with_labels,
             'current_session': current_academic_session,
-            'total': len(sessions)
+            'total': len(sessions),
+            'year_restriction': 'DISABLED',
+            'min_year': 2000,
+            'id_format': 'SUPPORTS: EMFHS-YYYY-XXX-XX (NEW MIXED FORMAT)',
+            'note': 'Search any session regardless of ID year'
         })
     except Exception as e:
         print(f"❌ Error getting sessions: {e}")
         # Generate sessions locally
         current_year = datetime.now().year
-        sessions = [f"{year}/{year+1}" for year in range(2025, current_year + 11)]
+        sessions = [f"{year}/{year+1}" for year in range(2000, current_year + 11)]
         
         sessions_with_labels = [{'value': s, 'label': s} for s in sessions]
         
@@ -207,7 +261,9 @@ def get_sessions(request):
             'sessions': sessions_with_labels,
             'current_session': f"{current_year}/{current_year+1}",
             'total': len(sessions),
-            'note': 'Generated locally due to error'
+            'note': 'Generated locally due to error',
+            'id_format': 'SUPPORTS: EMFHS-YYYY-XXX-XX (NEW MIXED FORMAT)',
+            'year_restriction': 'DISABLED'
         })
 
 @csrf_exempt
@@ -215,24 +271,26 @@ def generate_sessions(request):
     """Generate future academic sessions"""
     current_year = datetime.now().year
     
-    # Generate sessions from 2025 to 20 years in the future
     sessions = []
-    for year in range(2025, current_year + 21):
+    for year in range(2000, current_year + 21):
         sessions.append(f"{year}/{year + 1}")
     
-    # Add labels
     sessions_with_labels = []
     for session in sessions:
         sessions_with_labels.append({
             'value': session,
-            'label': session
+            'label': session,
+            'start_year': int(session.split('/')[0])
         })
     
     return JsonResponse({
         'success': True,
         'sessions': sessions_with_labels,
         'generated': len(sessions),
-        'note': 'Generated future sessions locally'
+        'note': 'Generated future sessions locally',
+        'min_year': 2000,
+        'id_format': 'SUPPORTS: EMFHS-YYYY-XXX-XX (NEW MIXED FORMAT)',
+        'year_restriction': 'DISABLED'
     })
 
 @csrf_exempt
@@ -267,7 +325,11 @@ def test_folder_structure(request):
             'term_folder_id': term_folder_id,
             'class_folder_id': class_folder_id,
             'pdf_count': len(pdfs),
-            'sample_pdfs': [pdf['name'] for pdf in pdfs[:3]]
+            'sample_pdfs': [pdf['name'] for pdf in pdfs[:3]],
+            'strict_id_matching': True,
+            'student_name_verification': False,
+            'year_restrictions': False,
+            'id_format': 'SUPPORTS: EMFHS-YYYY-XXX-XX (NEW MIXED FORMAT)'
         })
         
     except Exception as e:
@@ -328,7 +390,11 @@ def debug_search(request):
             'cache_info': {
                 'term_folders_cached': len(drive_service.term_folders_cache),
                 'class_folders_cached': len(drive_service.class_folders_cache)
-            }
+            },
+            'strict_id_matching': True,
+            'student_name_verification': False,
+            'year_restrictions': False,
+            'id_format': 'SUPPORTS: EMFHS-YYYY-XXX-XX (NEW MIXED FORMAT)'
         })
         
     except Exception as e:
@@ -370,11 +436,12 @@ def preview_pdf(request):
 # ============ BATCH TEST ============
 @csrf_exempt
 def batch_test(request):
-    """Test multiple search scenarios"""
+    """Test multiple search scenarios with folder verification"""
     test_cases = [
-        {'term': '1', 'session': '2025/2026', 'class': 'JSS1', 'student': 'Sample'},
-        {'term': '2', 'session': '2025/2026', 'class': 'JSS2', 'student': 'Sample'},
-        {'term': '3', 'session': '2025/2026', 'class': 'SS1', 'student': 'Sample'},
+        {'term': '1', 'session': '2009/2010', 'class': 'JSS1', 'student': 'Sample', 'student_id': 'EMFHS-2009-001'},
+        {'term': '2', 'session': '2010/2011', 'class': 'JSS2', 'student': 'Sample', 'student_id': 'EMFHS-2010-002'},
+        {'term': '3', 'session': '2025/2026', 'class': 'SS1', 'student': 'Sample', 'student_id': 'EMFHS-2025-A7K-B9'},
+        {'term': '1', 'session': '2024/2025', 'class': 'JSS3', 'student': 'Sample', 'student_id': 'EMFHS-2024-C2D-E3'},
     ]
     
     results = []
@@ -402,8 +469,33 @@ def batch_test(request):
         'success': True,
         'tests': results,
         'passed': sum(1 for r in results if r['status'] == '✅ Found'),
-        'failed': sum(1 for r in results if r['status'] == '❌ Failed')
+        'failed': sum(1 for r in results if r['status'] == '❌ Failed'),
+        'strict_id_matching': True,
+        'student_name_verification': False,
+        'year_restrictions': False,
+        'id_format': 'SUPPORTS BOTH OLD AND NEW FORMATS'
     })
+
+# ============ STUDENT RESULT SEARCH PAGE ============
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def general_exam_page(request):
+    """Render the student result search page"""
+    try:
+        available_sessions = drive_service.get_available_sessions()
+    except Exception as e:
+        print(f"⚠️ Error getting sessions: {e}")
+        current_year = datetime.now().year
+        available_sessions = [f"{year}/{year+1}" for year in range(2000, current_year + 11)]
+    
+    status = drive_service.system_status()
+    
+    return render(request, "drive_search/general_exam_page.html", {
+        'available_sessions': available_sessions,
+        'system_status': status
+    })
+
 
 
 

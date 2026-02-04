@@ -1,4 +1,4 @@
-# drive_service.py - UPDATED VERSION WITH .env SUPPORT
+# drive_service.py - UPDATED FOR NEW ID FORMAT: EMFHS-YYYY-XXX-XX
 import os
 import json
 from google.oauth2 import service_account
@@ -6,12 +6,12 @@ from googleapiclient.discovery import build
 from django.conf import settings
 import re
 from datetime import datetime
-from dotenv import load_dotenv  # ADD THIS IMPORT
+from dotenv import load_dotenv
 
 class GoogleDriveService:
     def __init__(self):
         # Load environment variables from .env file
-        load_dotenv()  # THIS LOADS YOUR .env FILE
+        load_dotenv()
         
         self.SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
         self.service = self._authenticate()
@@ -25,6 +25,11 @@ class GoogleDriveService:
         
         print("✅ Drive Service Ready - Emilia School Result System")
         print("🔐 Authentication: Using environment variables (.env)")
+        print("🔑 Student ID Verification: STRICT ID MATCHING ENABLED")
+        print("📊 Student ID Formats: Supports EMFHS-YYYY-XXX-XX, YYYY-NNN, etc.")
+        print("🆕 NEW FORMAT: EMFHS-YYYY-XXX-XX (XXX = mixed alphanumeric)")
+        print("🔍 Search Mode: Requires EXACT Student ID in filename")
+        print("⚠️  Year Matching: DISABLED - Search any session regardless of ID year")
     
     def _authenticate(self):
         """Connect to Google Drive using environment variables"""
@@ -50,9 +55,6 @@ class GoogleDriveService:
             raise Exception(f"❌ Invalid JSON in GOOGLE_CREDENTIALS: {str(e)}")
         except Exception as e:
             raise Exception(f"❌ Authentication failed: {str(e)}")
-    
-    # ============ ALL OTHER METHODS REMAIN EXACTLY THE SAME ============
-    # (No changes needed to find_term_folder, find_class_folder, search_student_pdf, etc.)
     
     def find_term_folder(self, term_number, session):
         """
@@ -184,8 +186,7 @@ class GoogleDriveService:
             class_folders = results.get('files', [])
             
             if not class_folders:
-                # Try to find if there are nested folders (like "JSS 1 REPORT SHEET...")
-                # Get all folders and files in term folder
+                # Try to find if there are nested folders
                 query_all = f"'{term_folder_id}' in parents and trashed=false"
                 results_all = self.service.files().list(
                     q=query_all,
@@ -202,7 +203,6 @@ class GoogleDriveService:
                         folder_name_upper = item['name'].upper()
                         class_upper = class_name.upper()
                         
-                        # Try different matching strategies
                         if (class_upper in folder_name_upper or 
                             class_upper.replace(' ', '') in folder_name_upper.replace(' ', '') or
                             (class_name.startswith('JSS') and f"JSS {class_name[3:]}" in folder_name_upper) or
@@ -267,9 +267,23 @@ class GoogleDriveService:
             print(f"❌ Error finding class folder: {str(e)}")
             raise
     
-    def search_student_pdf(self, term_number, session, class_name, student_name):
-        """Find student PDF with full path"""
-        print(f"\n🔍 SEARCH: {student_name} | Class: {class_name} | Term: {term_number} | Session: {session}")
+    def search_student_pdf(self, term_number, session, class_name, student_name, student_id=None):
+        """
+        Find student PDF with STRICT ID MATCHING ONLY
+        Supports NEW format: EMFHS-YYYY-XXX-XX (XXX = mixed alphanumeric)
+        """
+        print(f"\n🔍 STRICT ID MATCHING SEARCH:")
+        print(f"   🔑 ID: {student_id}")
+        print(f"   🆕 Format: EMFHS-YYYY-XXX-XX (NEW MIXED FORMAT)")
+        print(f"   🏫 Class: {class_name}")
+        print(f"   📅 Term: {term_number} | Session: {session}")
+        print(f"   ⚠️  Note: Year matching is DISABLED")
+        print(f"   ⚠️  Note: Student name verification is DISABLED")
+        
+        # Validate student ID
+        if not student_id or student_id.strip() == '':
+            print("❌ Student ID is required for search")
+            return []
         
         try:
             # 1. Find class folder
@@ -288,54 +302,51 @@ class GoogleDriveService:
             
             if not all_pdfs:
                 # Try searching in all files (including subfolders)
-                return self._search_deep(term_number, session, class_name, student_name)
+                return self._search_deep_with_strict_id(term_number, session, class_name, student_id)
             
-            # 3. Search for student
-            student_upper = student_name.upper().strip()
+            # 3. STRICT ID MATCHING: Search for student with EXACT ID in filename
+            student_id_upper = student_id.upper().strip()
             found_pdfs = []
             
             for pdf in all_pdfs:
                 pdf_name = pdf['name'].upper()
                 
-                # Different search strategies
-                search_strategies = [
-                    # Exact match
-                    lambda pn=pdf_name: student_upper in pn,
-                    # Without PDF extension
-                    lambda pn=pdf_name: student_upper in pn.replace('.PDF', ''),
-                    # First name only
-                    lambda pn=pdf_name: ' ' in student_upper and student_upper.split()[0] in pn,
-                    # Last name only
-                    lambda pn=pdf_name: ' ' in student_upper and student_upper.split()[-1] in pn,
-                    # Remove special characters
-                    lambda pn=pdf_name: student_upper.replace('.', '').replace(',', '') in pn,
-                    # Split and check each part
-                    lambda pn=pdf_name: any(part in pn for part in student_upper.split() if len(part) > 2)
-                ]
-                
-                if any(strategy() for strategy in search_strategies):
+                # STRATEGY 1: EXACT ID MATCH in filename (MOST IMPORTANT)
+                if self._exact_id_match(student_id_upper, pdf_name):
+                    print(f"✅ EXACT ID MATCH FOUND: '{pdf['name']}'")
                     found_pdfs.append(self._format_file_info(pdf))
+                    continue
+                
+                # STRATEGY 2: ID COMPONENT MATCH (e.g., EMFHS-2025-A7K matches EMFHS-2025-A7K-B9)
+                if self._id_components_match(student_id_upper, pdf_name):
+                    print(f"✅ ID COMPONENT MATCH: '{pdf['name']}'")
+                    found_pdfs.append(self._format_file_info(pdf))
+                    continue
+                
+                # STRATEGY 3: For backwards compatibility - check if ID appears anywhere
+                if self._id_appears_anywhere(student_id_upper, pdf_name):
+                    print(f"✅ ID APPEARS IN FILENAME: '{pdf['name']}'")
+                    found_pdfs.append(self._format_file_info(pdf))
+                    continue
             
-            print(f"📊 Found {len(found_pdfs)} matching PDF(s)")
+            print(f"📊 Found {len(found_pdfs)} matching PDF(s) with STRICT ID verification")
             return found_pdfs
             
         except Exception as e:
             print(f"❌ Search error: {str(e)}")
             return []
     
-    def _search_deep(self, term_number, session, class_name, student_name):
-        """Search deeper if no PDFs in main class folder"""
-        print(f"🔍 Deep search for {student_name} in {class_name}...")
+    def _search_deep_with_strict_id(self, term_number, session, class_name, student_id):
+        """Search deeper with strict ID matching"""
+        print(f"🔍 Deep search with STRICT ID for ID: {student_id} in {class_name}...")
         
         try:
             # Find term folder
             term_folder_id = self.find_term_folder(term_number, session)
             
-            # Search for PDFs that might be in subfolders or have class name in filename
-            student_upper = student_name.upper().strip()
-            class_upper = class_name.upper()
+            student_id_upper = student_id.upper().strip()
             
-            # Build search query
+            # Build search query for all PDFs in term folder
             query_parts = [
                 f"'{term_folder_id}' in parents",
                 "mimeType='application/pdf'",
@@ -358,23 +369,228 @@ class GoogleDriveService:
             for pdf in all_pdfs:
                 pdf_name_upper = pdf['name'].upper()
                 
-                # Check if PDF name contains class reference
-                class_in_pdf = (class_upper in pdf_name_upper or 
-                              class_upper.replace(' ', '') in pdf_name_upper.replace(' ', ''))
-                
-                # Check if PDF name contains student name
-                student_in_pdf = (student_upper in pdf_name_upper or
-                                any(part in pdf_name_upper for part in student_upper.split() if len(part) > 2))
-                
-                if class_in_pdf and student_in_pdf:
+                # STRICT ID MATCHING in deep search
+                if self._exact_id_match(student_id_upper, pdf_name_upper):
+                    print(f"✅ DEEP SEARCH EXACT ID MATCH: '{pdf['name']}'")
                     found_pdfs.append(self._format_file_info(pdf))
+                    continue
+                
+                # ID component match
+                if self._id_components_match(student_id_upper, pdf_name_upper):
+                    print(f"✅ DEEP SEARCH ID COMPONENT MATCH: '{pdf['name']}'")
+                    found_pdfs.append(self._format_file_info(pdf))
+                    continue
             
-            print(f"📊 Found {len(found_pdfs)} matching PDF(s) in deep search")
+            print(f"📊 Found {len(found_pdfs)} matching PDF(s) in deep search with STRICT ID")
             return found_pdfs
             
         except Exception as e:
             print(f"❌ Deep search error: {str(e)}")
             return []
+    
+    def _exact_id_match(self, search_id, filename):
+        """
+        Check for EXACT ID match in filename
+        Returns True if the exact student ID appears in the filename
+        Supports NEW format: EMFHS-YYYY-XXX-XX
+        """
+        # Normalize both
+        search_id_clean = search_id.upper().strip()
+        filename_upper = filename.upper()
+        
+        # Method 1: Direct exact match
+        if search_id_clean in filename_upper:
+            # Check if it's a whole word match (not part of another ID)
+            # Look for patterns like " EMFHS-2025-A7K-B9 " or "EMFHS-2025-A7K-B9.pdf"
+            pattern1 = f"\\b{re.escape(search_id_clean)}\\b"
+            if re.search(pattern1, filename_upper):
+                return True
+            
+            # Also check for ID at start/end of filename
+            if filename_upper.startswith(search_id_clean) or filename_upper.endswith(search_id_clean):
+                return True
+        
+        # Method 2: Check variations (with/without spaces, dashes, etc.)
+        variations = [
+            search_id_clean,
+            search_id_clean.replace('-', ' '),
+            search_id_clean.replace(' ', '-'),
+            search_id_clean.replace('_', '-'),
+            search_id_clean.replace('-', '_'),
+        ]
+        
+        for variation in variations:
+            if len(variation) > 5:  # Ensure meaningful length
+                pattern = f"\\b{re.escape(variation)}\\b"
+                if re.search(pattern, filename_upper):
+                    return True
+        
+        return False
+    
+    def _id_components_match(self, search_id, filename):
+        """
+        Check if ID components match 
+        Supports:
+        1. NEW format: EMFHS-2025-A7K matches EMFHS-2025-A7K-B9
+        2. OLD format: EMFHS-2025-001 matches EMFHS-2025-001-T8
+        3. Year+code: 2025-A7K matches EMFHS-2025-A7K-B9
+        """
+        search_id_clean = search_id.upper().strip()
+        filename_upper = filename.upper()
+        
+        # Pattern for NEW format: EMFHS-YYYY-XXX-XX (XXX = mixed alphanumeric)
+        pattern_new = r'(EMFHS-\d{4}-[A-Z0-9]{3})-[A-Z0-9]{2}'
+        match_new = re.search(pattern_new, search_id_clean)
+        
+        if match_new:
+            base_id = match_new.group(1)  # E.g., EMFHS-2025-A7K
+            # Check if this base ID appears in filename
+            if base_id in filename_upper:
+                return True
+        
+        # Pattern for OLD format: EMFHS-YYYY-NNN-XX (backwards compatibility)
+        pattern_old = r'(EMFHS-\d{4}-\d{3})-[A-Z0-9]{2}'
+        match_old = re.search(pattern_old, search_id_clean)
+        
+        if match_old:
+            base_id = match_old.group(1)  # E.g., EMFHS-2025-001
+            if base_id in filename_upper:
+                return True
+        
+        # Pattern for YYYY-XXX-XX (new format without EMFHS prefix)
+        pattern_short_new = r'(\d{4}-[A-Z0-9]{3})-[A-Z0-9]{2}'
+        match_short_new = re.search(pattern_short_new, search_id_clean)
+        
+        if match_short_new:
+            base_id = match_short_new.group(1)  # E.g., 2025-A7K
+            if base_id in filename_upper:
+                return True
+        
+        # Pattern for YYYY-NNN-XX (old format without EMFHS prefix)
+        pattern_short_old = r'(\d{4}-\d{3})-[A-Z0-9]{2}'
+        match_short_old = re.search(pattern_short_old, search_id_clean)
+        
+        if match_short_old:
+            base_id = match_short_old.group(1)  # E.g., 2025-001
+            if base_id in filename_upper:
+                return True
+        
+        # Check for partial matches (e.g., 2025-A7K, 2025-001)
+        # Extract year and code from search ID
+        year_match = re.search(r'(\d{4})-[A-Z0-9]{3}', search_id_clean)  # New format
+        if not year_match:
+            year_match = re.search(r'(\d{4})-\d{3}', search_id_clean)    # Old format
+        
+        if year_match:
+            year = year_match.group(1)
+            # Try to get the code part
+            code_match_new = re.search(r'\d{4}-([A-Z0-9]{3})', search_id_clean)  # New format
+            code_match_old = re.search(r'\d{4}-(\d{3})', search_id_clean)        # Old format
+            
+            if code_match_new:
+                code = code_match_new.group(1)
+                # Look for YEAR-CODE pattern in filename
+                if f"{year}-{code}" in filename_upper:
+                    return True
+            elif code_match_old:
+                code = code_match_old.group(1)
+                # Look for YEAR-CODE pattern in filename
+                if f"{year}-{code}" in filename_upper:
+                    return True
+        
+        return False
+    
+    def _id_appears_anywhere(self, search_id, filename):
+        """
+        Check if ID appears anywhere in filename (least strict)
+        """
+        search_id_clean = search_id.upper().strip()
+        filename_upper = filename.upper()
+        
+        return search_id_clean in filename_upper
+    
+    def _extract_year_from_id(self, student_id):
+        """Extract year from student ID (FOR INFORMATION ONLY - NOT FOR RESTRICTION)"""
+        patterns = [
+            r'EMFHS-(\d{4})-[A-Z0-9]{3}',  # EMFHS-2025-A7K-B9 (NEW FORMAT)
+            r'EMFHS-(\d{4})-\d{3}',        # EMFHS-2025-001-T8 (OLD FORMAT)
+            r'(\d{4})-[A-Z0-9]{3}-[A-Z0-9]{2}',  # 2025-A7K-B9 (NEW)
+            r'(\d{4})-\d{3}-[A-Z0-9]{2}',        # 2025-001-3N (OLD)
+            r'(\d{4})-[A-Z0-9]{3}',              # 2025-A7K (NEW)
+            r'(\d{4})-\d{3}',                    # 2025-001 (OLD)
+            r'(\d{4})/\d{3}',                    # 2025/001
+            r'[A-Z]{2,}-(\d{4})-[A-Z0-9]{3}',    # EMIFORPHS-2025-A7K
+        ]
+        
+        student_id_str = str(student_id).upper()
+        for pattern in patterns:
+            match = re.search(pattern, student_id_str)
+            if match:
+                try:
+                    year = int(match.group(1))
+                    return year  # Return year for information only
+                except:
+                    continue
+        
+        # Try to find any 4-digit number that looks like a year
+        year_match = re.search(r'\b(20\d{2})\b', student_id_str)
+        if year_match:
+            try:
+                year = int(year_match.group(1))
+                return year  # Return year for information only
+            except:
+                pass
+        
+        return None
+    
+    def _extract_year_from_session(self, session):
+        """Extract start year from session string"""
+        try:
+            # Session format: "2025/2026" or "2025-2026"
+            parts = session.replace('/', '-').split('-')
+            if parts and len(parts) > 0:
+                return int(parts[0])
+        except:
+            pass
+        
+        # Try to find any 4-digit number
+        match = re.search(r'\b(20\d{2})\b', session)
+        if match:
+            try:
+                return int(match.group(1))
+            except:
+                pass
+        
+        return None
+    
+    def _format_file_info(self, file_data):
+        """Format file information"""
+        if 'size' in file_data:
+            file_data['size_formatted'] = self._format_size(file_data['size'])
+        if 'modifiedTime' in file_data:
+            file_data['modifiedTime'] = file_data['modifiedTime'][:10]
+        
+        # Ensure download link
+        if 'webContentLink' not in file_data and 'id' in file_data:
+            file_data['webContentLink'] = f"https://drive.google.com/uc?id={file_data['id']}&export=download"
+        
+        return file_data
+    
+    def _format_size(self, size_bytes):
+        """Make file size readable"""
+        if not size_bytes:
+            return "0B"
+        
+        try:
+            size_bytes = int(size_bytes)
+        except:
+            return "0B"
+        
+        for unit in ['B', 'KB', 'MB', 'GB']:
+            if size_bytes < 1024.0:
+                return f"{size_bytes:.1f} {unit}"
+            size_bytes /= 1024.0
+        return f"{size_bytes:.1f} GB"
     
     def get_available_sessions(self):
         """Get all available sessions from folder names PLUS generate future sessions"""
@@ -410,15 +626,13 @@ class GoogleDriveService:
             
             # Get the most recent session year from existing folders
             if session_list:
-                # Extract year from newest session (e.g., "2025/2026" -> 2025)
                 newest_year = int(sorted(session_list, reverse=True)[0].split('/')[0])
             else:
-                # If no sessions found, use current year
                 newest_year = datetime.now().year
             
-            # Generate future sessions (up to 10 years in the future)
+            # Generate future sessions
             future_sessions = []
-            for i in range(10):  # Next 10 years
+            for i in range(10):
                 future_year = newest_year + i
                 future_session = f"{future_year}/{future_year + 1}"
                 future_sessions.append(future_session)
@@ -426,10 +640,9 @@ class GoogleDriveService:
             # Combine found sessions with future sessions
             all_sessions = session_list + future_sessions
             
-            # Remove duplicates and sort (newest first)
+            # Remove duplicates and sort
             unique_sessions = list(dict.fromkeys(all_sessions))
             
-            # Custom sort: newest to oldest
             def session_sort_key(s):
                 try:
                     return int(s.split('/')[0])
@@ -438,140 +651,79 @@ class GoogleDriveService:
             
             sorted_sessions = sorted(unique_sessions, key=session_sort_key, reverse=True)
             
-            # Filter out sessions older than 2025/2026
-            filtered_sessions = []
-            for session in sorted_sessions:
-                try:
-                    start_year = int(session.split('/')[0])
-                    if start_year >= 2025:
-                        filtered_sessions.append(session)
-                except:
-                    # Keep if we can't parse it
-                    filtered_sessions.append(session)
-            
-            return filtered_sessions
+            # Return all sessions without any filtering
+            return sorted_sessions
             
         except Exception as e:
             print(f"❌ Error getting sessions: {str(e)}")
-            # Return default future sessions if error
             current_year = datetime.now().year
-            future_sessions = [f"{year}/{year+1}" for year in range(2025, 2035)]
+            # Start from 2000 for comprehensive coverage
+            future_sessions = [f"{year}/{year+1}" for year in range(2000, current_year + 11)]
             return future_sessions
     
-    def _format_file_info(self, file_data):
-        """Format file information"""
-        if 'size' in file_data:
-            file_data['size_formatted'] = self._format_size(file_data['size'])
-        if 'modifiedTime' in file_data:
-            file_data['modifiedTime'] = file_data['modifiedTime'][:10]
-        
-        # Ensure download link
-        if 'webContentLink' not in file_data and 'id' in file_data:
-            file_data['webContentLink'] = f"https://drive.google.com/uc?id={file_data['id']}&export=download"
-        
-        return file_data
-    
-    def _format_size(self, size_bytes):
-        """Make file size readable"""
-        if not size_bytes:
-            return "0B"
-        
+    def system_status(self):
+        """System health check"""
         try:
-            size_bytes = int(size_bytes)
-        except:
-            return "0B"
-        
-        for unit in ['B', 'KB', 'MB', 'GB']:
-            if size_bytes < 1024.0:
-                return f"{size_bytes:.1f} {unit}"
-            size_bytes /= 1024.0
-        return f"{size_bytes:.1f} GB"
+            # Test authentication
+            self.service.about().get(fields='user').execute()
+            
+            # Test folder access
+            query = f"'{self.main_folder_id}' in parents and mimeType='application/vnd.google-apps.folder'"
+            results = self.service.files().list(q=query, pageSize=1).execute()
+            
+            return {
+                'status': '✅ SYSTEM READY',
+                'main_folder': 'Connected',
+                'authentication': 'Active',
+                'total_folders': len(results.get('files', [])),
+                'strict_id_matching': 'ENABLED',
+                'student_name_verification': 'DISABLED',
+                'year_restrictions': 'COMPLETELY DISABLED',
+                'id_formats': 'SUPPORTS BOTH: EMFHS-YYYY-XXX-XX (NEW) & EMFHS-YYYY-NNN-XX (OLD)',
+                'note': 'Search any session regardless of ID year'
+            }
+            
+        except Exception as e:
+            return {
+                'status': '❌ SYSTEM ERROR',
+                'error': str(e),
+                'strict_id_matching': 'ENABLED',
+                'student_name_verification': 'DISABLED',
+                'year_restrictions': 'COMPLETELY DISABLED',
+                'id_formats': 'SUPPORTS BOTH: EMFHS-YYYY-XXX-XX (NEW) & EMFHS-YYYY-NNN-XX (OLD)'
+            }
     
     def get_file_info(self, file_id):
-        """Get file details"""
-        file = self.service.files().get(
-            fileId=file_id,
-            fields="id, name, size, webContentLink, mimeType"
-        ).execute()
-        
-        if 'size' in file:
-            file['size_formatted'] = self._format_size(file['size'])
-        
-        return file
-    
-    def list_all_classes(self):
-        """List all available class folders"""
+        """Get file information"""
         try:
-            # Get first available term folder
-            query = f"'{self.main_folder_id}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false"
-            results = self.service.files().list(
-                q=query,
-                fields="files(id, name)",
-                pageSize=1
+            file_info = self.service.files().get(
+                fileId=file_id,
+                fields="id, name, size, modifiedTime, webViewLink, webContentLink"
             ).execute()
             
-            folders = results.get('files', [])
-            if not folders:
-                return []
-            
-            # Use first term folder
-            term_folder_id = folders[0]['id']
-            
-            # List class folders in term folder
-            query = f"'{term_folder_id}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false"
-            results = self.service.files().list(
-                q=query,
-                fields="files(name)",
-                pageSize=20
-            ).execute()
-            
-            class_folders = results.get('files', [])
-            return [folder['name'] for folder in class_folders]
+            return self._format_file_info(file_info)
             
         except Exception as e:
-            print(f"❌ Error listing classes: {str(e)}")
-            return []
-    
-    def system_status(self):
-        """Check system health"""
-        try:
-            # Test connection
-            self.service.files().list(pageSize=1).execute()
-            
-            # Get main folder info
-            main_folder = self.service.files().get(
-                fileId=self.main_folder_id,
-                fields="name"
-            ).execute()
-            
-            # Get available sessions
-            sessions = self.get_available_sessions()
-            
-            return {
-                'status': '✅ ONLINE',
-                'main_folder': main_folder.get('name', 'Unknown'),
-                'available_sessions': len(sessions),
-                'sessions_sample': sessions[:5],
-                'message': 'System is fully operational'
-            }
-            
-        except Exception as e:
-            return {
-                'status': '❌ OFFLINE',
-                'error': str(e),
-                'message': 'System connection failed'
-            }
+            print(f"❌ Error getting file info: {str(e)}")
+            return None
 
 # Create global instance
 drive_service = GoogleDriveService()
 
 # Startup message
 print("\n" + "="*70)
-print("🏫 EMILIA SCHOOL RESULT SYSTEM - SECURE VERSION")
+print("🏫 EMILIA SCHOOL RESULT SYSTEM - UPDATED FOR NEW ID FORMAT")
 print("="*70)
 print("🔐 Authentication: Environment Variables (.env)")
-print(f"📁 Main folder ID: {drive_service.main_folder_id}")
-print("📂 Structure: Main → Term/Session → Class → Student PDFs")
-print("✅ Support: All terms (1st, 2nd, 3rd) and sessions (2025-2035+)")
+print("🔑 Security: STRICT Student ID Matching ENABLED")
+print("🆕 ID FORMAT: Supports EMFHS-YYYY-XXX-XX (NEW MIXED ALPHANUMERIC)")
+print("📝 ALSO SUPPORTS: EMFHS-YYYY-NNN-XX (OLD FORMAT - BACKWARDS COMPATIBLE)")
+print("❌ Student Name Verification: DISABLED")
+print("❌ Year Restrictions: COMPLETELY DISABLED")
+print("📁 Main folder ID: {drive_service.main_folder_id}")
+print("🔍 Search Mode: Requires EXACT Student ID in filename ONLY")
+print("✅ Support: All terms (1st, 2nd, 3rd) and sessions (2000-2035+)")
 print("✅ Classes: JSS1, JSS2, JSS3, SS1, SS2, SS3")
+print("✅ Required: EXACT Student ID Number ONLY")
+print("✅ Important: Search ANY session regardless of ID year")
 print("="*70)

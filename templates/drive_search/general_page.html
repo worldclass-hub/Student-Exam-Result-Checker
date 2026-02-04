@@ -20,6 +20,11 @@
     
     <!-- ==================== ULTIMATE ANTI-OVERSCROLL SYSTEM ==================== -->
     <style>
+        /* SMOOTH SCROLLING SYSTEM */
+        html {
+            scroll-behavior: smooth;
+        }
+        
         /* 1. FIXED POSITION BODY - Prevents any movement beyond boundaries */
         html, body {
             width: 100%;
@@ -37,7 +42,7 @@
             bottom: 0;
         }
         
-        /* 2. SINGLE SCROLL CONTAINER - Only this can scroll internally */
+        /* 2. SMOOTH SCROLL CONTAINER */
         .scroll-container {
             width: 100%;
             height: 100%;
@@ -46,6 +51,7 @@
             position: relative;
             background: #f9fafb;
             -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
         
         /* 3. PREVENT TOUCH OVERSCROLL */
@@ -66,6 +72,7 @@
             .scroll-container {
                 -webkit-overflow-scrolling: touch;
                 overscroll-behavior: contain;
+                scroll-behavior: smooth;
             }
         }
         
@@ -601,6 +608,39 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
+        /* TEXT WRAPPING FIXES FOR ALL SCREEN SIZES */
+        .text-wrap-anywhere {
+            overflow-wrap: anywhere;
+            word-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+        }
+        
+        .text-truncate-multiline {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Responsive text sizing */
+        .responsive-text {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+        
+        /* Fixed width containers for long text */
+        .fixed-width-container {
+            max-width: 100%;
+            width: 100%;
+        }
+        
+        @media (max-width: 640px) {
+            .fixed-width-container {
+                max-width: 100%;
+            }
+        }
+        
         /* Super Powerful Button Styles */
         .action-btn {
             position: relative;
@@ -705,6 +745,27 @@
             .mobile-mt-4 {
                 margin-top: 1rem !important;
             }
+            
+            /* Mobile text wrapping */
+            .mobile-text-wrap {
+                word-break: break-word !important;
+                overflow-wrap: anywhere !important;
+            }
+            
+            /* Mobile responsive grid for results */
+            .mobile-grid-results {
+                grid-template-columns: 1fr !important;
+                gap: 0.5rem !important;
+            }
+            
+            /* Mobile font sizing */
+            .mobile-text-sm {
+                font-size: 0.875rem !important;
+            }
+            
+            .mobile-text-xs {
+                font-size: 0.75rem !important;
+            }
         }
         
         /* FIXED: Better scroll management */
@@ -712,6 +773,7 @@
             position: relative;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
         
         /* FIXED: Smooth scrolling boundaries */
@@ -745,7 +807,7 @@
             color: #6b7280;
         }
         
-        /* PDF File Results Styling */
+        /* PDF File Results Styling - UPDATED FOR SMALL BUTTONS */
         .pdf-result-item {
             border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
@@ -753,6 +815,8 @@
             margin-bottom: 1rem;
             transition: all 0.3s ease;
             background: white;
+            max-width: 100%;
+            overflow: hidden;
         }
         
         .pdf-result-item:hover {
@@ -767,16 +831,27 @@
             padding: 0.25rem 0.5rem;
             border-radius: 0.375rem;
             font-weight: 600;
+            white-space: nowrap;
         }
         
         .pdf-file-info {
             font-size: 0.875rem;
             color: #6b7280;
             display: flex;
-            gap: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             margin-top: 0.5rem;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
         
+        .pdf-file-info span {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* SMALLER BUTTONS FOR MOBILE */
         .pdf-action-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -784,7 +859,48 @@
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-height: 40px;
+            font-size: 0.875rem;
+        }
+        
+        /* Even smaller buttons on mobile */
+        @media (max-width: 640px) {
+            .pdf-action-btn {
+                padding: 0.4rem 0.75rem !important;
+                font-size: 0.8rem !important;
+                min-height: 36px;
+                gap: 0.3rem;
+            }
+            
+            .pdf-action-btn i {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Extra small buttons for very small screens */
+        @media (max-width: 380px) {
+            .pdf-action-btn {
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.75rem !important;
+                min-height: 34px;
+                gap: 0.25rem;
+            }
+            
+            .pdf-action-btn i {
+                font-size: 0.85rem;
+            }
+            
+            .pdf-action-btn span {
+                display: none; /* Hide text on very small screens */
+            }
+            
+            .pdf-action-btn i {
+                margin: 0 !important;
+            }
         }
         
         .pdf-view-btn {
@@ -820,12 +936,24 @@
             background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
             border: 1px solid #10b981;
             color: #065f46;
+            max-width: 100%;
+            overflow-wrap: anywhere;
         }
         
         .error-alert {
             background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
             border: 1px solid #ef4444;
             color: #7f1d1d;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+        
+        .folder-verified-alert {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            border: 1px solid #4f46e5;
+            color: #3730a3;
+            max-width: 100%;
+            overflow-wrap: anywhere;
         }
         
         /* Form field styling */
@@ -934,6 +1062,179 @@
                 margin: 0;
             }
         }
+        
+        /* Student ID specific styles */
+        .id-hint {
+            font-size: 0.75rem;
+            color: #4b5563;
+            background-color: #f3f4f6;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            margin-top: 0.25rem;
+            border-left: 3px solid #3b82f6;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+        
+        .id-example {
+            font-family: monospace;
+            background-color: #e5e7eb;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            margin: 0 0.125rem;
+            font-size: 0.7rem;
+            display: inline-block;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+        
+        .id-verified-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            white-space: nowrap;
+        }
+        
+        .id-required {
+            color: #dc2626;
+            font-weight: bold;
+        }
+        
+        .folder-verified-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            white-space: nowrap;
+        }
+        
+        .year-match-badge {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            white-space: nowrap;
+        }
+        
+        .session-mismatch-warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            overflow-wrap: anywhere;
+        }
+        
+        /* Results display specific fixes */
+        .result-id-display {
+            font-family: monospace;
+            background-color: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            word-break: break-all;
+            overflow-wrap: anywhere;
+            max-width: 100%;
+            display: inline-block;
+        }
+        
+        .result-class-display {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+        
+        .result-info-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            max-width: 100%;
+        }
+        
+        .result-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            max-width: 100%;
+        }
+        
+        /* Grid layout for results display */
+        @media (min-width: 768px) {
+            .results-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .results-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+        
+        /* COMPACT BUTTON CONTAINER FOR MOBILE */
+        .compact-btn-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+        }
+        
+        @media (max-width: 640px) {
+            .compact-btn-container {
+                gap: 0.4rem;
+                justify-content: flex-start;
+                width: 100%;
+            }
+            
+            .compact-btn-container .pdf-action-btn {
+                flex: 0 1 auto;
+                min-width: auto;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .compact-btn-container {
+                gap: 0.3rem;
+            }
+        }
+        
+        /* COMPACT LAYOUT FOR PDF RESULTS */
+        .pdf-result-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        @media (max-width: 640px) {
+            .pdf-result-compact {
+                gap: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body class="no-overscroll">
@@ -953,7 +1254,7 @@
                 </button>
                 <div class="admin-tooltip">
                     <strong>Admin Panel Access</strong><br>
-                    Quick access to Django Admin for system management, user control, and database administration.
+                    Quick access to EMIFORPHS Admin for system management, user control, and database administration.
                 </div>
             </div>
             
@@ -992,8 +1293,8 @@
                     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2">
                         <span class="flex items-center">
                             <i class="fas fa-star mr-2"></i> 
-                            <span class="hidden sm:inline">Student Results Portal - All Terms Available</span>
-                            <span class="sm:hidden">Results Available</span>
+                            <span class="hidden sm:inline">Student Results Portal - ID ONLY VERIFICATION</span>
+                            <span class="sm:hidden">ID Only Verification</span>
                         </span>
                         <span class="hidden sm:inline">|</span>
                         <span class="font-bold">Official School Results</span>
@@ -1004,18 +1305,18 @@
                 <header class="header-gradient text-white py-4 sticky top-0 z-50">
                     <div class="max-w-7xl mx-auto px-4">
                         <div class="flex flex-col md:flex-row justify-between items-center">
-                            <!-- School Logo & Name -->
-                            <div class="flex items-center mb-4 md:mb-0 mobile-center">
+                            <!-- School Logo & Name - Clickable to Dashboard -->
+                            <a href="{% url 'dashboard_exam_page' %}" class="flex items-center mb-4 md:mb-0 mobile-center hover:opacity-90 transition-opacity">
                                 <div class="mr-4">
                                     <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                         alt="Emilia Foremost High School Logo"
-                                         class="w-16 h-16 object-contain bg-white p-2 rounded-xl shadow-lg">
+                                        alt="Emilia Foremost High School Logo"
+                                        class="w-16 h-16 object-contain bg-white p-2 rounded-xl shadow-lg">
                                 </div>
                                 <div class="text-center md:text-left">
                                     <h1 class="text-xl sm:text-2xl md:text-3xl font-bold title-font leading-tight">EMILIA FOREMOST HIGH SCHOOL</h1>
-                                    <p class="text-blue-100 text-xs sm:text-sm md:text-base">Academic Excellence & Character Development Since 2007</p>
+                                    <p class="text-blue-100 text-xs sm:text-sm md:text-base text-wrap-anywhere">Academic Excellence & Character Development Since 2007</p>
                                 </div>
-                            </div>
+                            </a>
 
                             <!-- School Motto & Logout Button -->
                             <div class="flex items-center gap-4 mobile-mt-4">
@@ -1043,9 +1344,13 @@
                     <!-- Page Title -->
                     <div class="text-center mb-10">
                         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">Student Result Portal</h2>
-                        <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
-                            Enter student details below to access official academic results for JSS 1 - SS 3
+                        <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto text-wrap-anywhere">
+                            Enter student ID below to access official academic results for JSS 1 - SS 3
                         </p>
+                        <div class="mt-4 inline-flex items-center bg-blue-50 px-4 py-2 rounded-lg">
+                            <i class="fas fa-fingerprint text-blue-600 mr-2"></i>
+                            <span class="text-sm text-blue-700">ID-Only Verification Enabled</span>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1055,11 +1360,11 @@
                             <div class="school-primary text-white p-6">
                                 <div class="flex items-center">
                                     <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4">
-                                        <i class="fas fa-search text-blue-900 text-xl"></i>
+                                        <i class="fas fa-fingerprint text-blue-900 text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-lg sm:text-xl font-bold">Check Student Result</h3>
-                                        <p class="text-blue-100 text-sm">Enter accurate student information</p>
+                                        <p class="text-blue-100 text-sm text-wrap-anywhere">Enter Student ID ONLY (Name verification disabled)</p>
                                     </div>
                                 </div>
                             </div>
@@ -1070,23 +1375,26 @@
                                 {% csrf_token %}
                                 
                                 <form id="resultForm">
-                                    <!-- Full Name - EMPTY -->
-                                    <div class="mb-6">
+                                    <!-- Student ID Number Field - ONLY FIELD REQUIRED -->
+                                    <div class="mb-8">
                                         <label class="block text-gray-700 font-semibold mb-2">
-                                            <i class="fas fa-user-circle text-blue-600 mr-2"></i>
-                                            Student's Full Name
+                                            <i class="fas fa-id-card text-green-600 mr-2"></i>
+                                            Student ID Number
+                                            <span class="id-required">*</span>
                                         </label>
-                                        <input type="text" id="fullName" 
+                                        <input type="text" id="studentId" 
                                             class="form-input"
-                                            placeholder="Enter student's complete name as registered"
-                                            required>
-                                        <p class="text-xs sm:text-sm text-gray-500 mt-2">
+                                            placeholder="Enter student's ID number (e.g., EMFHS-2025-A7K-B9 or 2025-001)"
+                                            required
+                                            pattern="[A-Za-z0-9\-_\/]+"
+                                            title="Enter your Student ID exactly as it appears on the report card">
+                                        <p class="text-xs sm:text-sm text-gray-500 mt-2 text-wrap-anywhere">
                                             <i class="fas fa-info-circle mr-1"></i>
-                                            Enter first name, middle name, and surname exactly as in school records
+                                            Enter your complete school ID number exactly as it appears on the report card
                                         </p>
                                     </div>
 
-                                    <!-- Class Selection - EMPTY -->
+                                    <!-- Class Selection -->
                                     <div class="mb-6">
                                         <label class="block text-gray-700 font-semibold mb-2">
                                             <i class="fas fa-school text-blue-600 mr-2"></i>
@@ -1103,7 +1411,7 @@
                                         </select>
                                     </div>
 
-                                    <!-- Term & Session - EMPTY -->
+                                    <!-- Term & Session -->
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
                                         <div>
                                             <label class="block text-gray-700 font-semibold mb-2">
@@ -1131,8 +1439,8 @@
                                     <!-- Submit Button -->
                                     <button type="submit" id="checkResultBtn" 
                                         class="w-full school-green text-white font-bold py-3 sm:py-4 rounded-lg hover:opacity-90 transition duration-300 text-base sm:text-lg flex items-center justify-center shadow-lg">
-                                        <i class="fas fa-file-alt mr-2 sm:mr-3"></i> 
-                                        CHECK STUDENT RESULT
+                                        <i class="fas fa-fingerprint mr-2 sm:mr-3"></i> 
+                                        VERIFY ID & CHECK RESULT
                                     </button>
 
                                     <div class="mt-6 pt-6 border-t border-gray-200">
@@ -1141,11 +1449,15 @@
                                                 <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
                                                      alt="Emilia Logo"
                                                      class="w-6 h-6 sm:w-8 sm:h-8 mr-2">
-                                                <span class="text-gray-700 font-semibold text-sm sm:text-base">Official School Portal</span>
+                                                <span class="text-gray-700 font-semibold text-sm sm:text-base text-wrap-anywhere">Official School Portal</span>
                                             </div>
                                             <div class="flex items-center">
-                                                <i class="fas fa-shield-alt text-green-600 text-lg sm:text-xl mr-2"></i>
-                                                <span class="text-gray-600 text-sm sm:text-base">Secure & Verified</span>
+                                                <i class="fas fa-fingerprint text-blue-600 text-lg sm:text-xl mr-2"></i>
+                                                <span class="text-gray-600 text-sm sm:text-base text-wrap-anywhere">ID Only Verification</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i class="fas fa-id-card text-green-600 text-lg sm:text-xl mr-2"></i>
+                                                <span class="text-gray-600 text-sm sm:text-base text-wrap-anywhere">No Name Required</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1164,36 +1476,41 @@
                                              class="w-20 h-20 sm:w-24 sm:h-24 mx-auto">
                                     </div>
                                     <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Welcome to EMIFORPHS Result Portal</h3>
-                                    <p class="text-gray-600 mb-6 text-sm sm:text-base">
-                                        Enter student details on the left to access official academic results. 
-                                        This portal provides instant access to results for all classes from JSS 1 to SS 3.
+                                    <p class="text-gray-600 mb-6 text-sm sm:text-base text-wrap-anywhere">
+                                        Enter Student ID only to access official academic results. 
+                                        <strong class="text-blue-700">Student name verification is disabled</strong> - only ID is required.
                                     </p>
                                     
                                     <!-- Quick Stats - Updated with responsive background -->
                                     <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
                                         <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                            <div class="text-xl sm:text-2xl font-bold text-blue-700">1,200+</div>
-                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Students</div>
+                                            <div class="text-xl sm:text-2xl font-bold text-blue-700">ID-Only</div>
+                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Verification</div>
                                         </div>
                                         <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
                                             <div class="text-xl sm:text-2xl font-bold text-green-700">100%</div>
-                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Result Accuracy</div>
+                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Secure</div>
                                         </div>
                                         <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                            <div class="text-xl sm:text-2xl font-bold text-purple-700">24/7</div>
-                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Access</div>
+                                            <div class="text-xl sm:text-2xl font-bold text-purple-700">All Years</div>
+                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Supported</div>
                                         </div>
                                     </div>
 
-                                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
                                         <h4 class="font-bold text-gray-800 mb-2 flex items-center text-sm sm:text-base">
-                                            <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>
-                                            Need Help?
+                                            <i class="fas fa-fingerprint text-blue-600 mr-2"></i>
+                                            ID-Only Verification System
                                         </h4>
-                                        <p class="text-gray-700 text-xs sm:text-sm">
-                                            If you encounter any issues or need assistance, contact the school office at 
-                                            <strong>0905-714-749</strong> or email 
-                                            <strong>emiliaforemost@gmail.com</strong>
+                                        <p class="text-gray-700 text-xs sm:text-sm text-wrap-anywhere">
+                                            The system now only requires Student ID for verification:
+                                            <br><br>
+                                            <strong>ID → Class → Term → Session</strong>
+                                            <br><br>
+                                            Student name is NOT required or verified. This simplifies access while maintaining security.
+                                            Example: Student with ID <span class="bg-yellow-100 px-1 font-bold text-wrap-anywhere">EMFHS-2009-032</span> can access results from 2009/2010 session.
+                                            <br><br>
+                                            <strong class="text-green-700 text-wrap-anywhere">✅ All years supported (2000 - Present)</strong>
                                         </p>
                                     </div>
                                 </div>
@@ -1204,15 +1521,20 @@
                                 <!-- Results Header -->
                                 <div class="school-primary text-white p-4 sm:p-6">
                                     <div class="flex flex-col sm:flex-row sm:items-center justify-between">
-                                        <div class="mb-4 sm:mb-0">
+                                        <div class="mb-4 sm:mb-0 fixed-width-container">
                                             <h3 class="text-xl sm:text-2xl font-bold">SEARCH RESULTS</h3>
-                                            <div class="flex items-center mt-2">
+                                            <div class="flex items-center mt-2 flex-wrap gap-2">
                                                 <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
                                                      alt="Emilia Logo"
-                                                     class="w-8 h-8 sm:w-10 sm:h-10 mr-3 bg-white p-1 rounded">
-                                                <div>
-                                                    <div id="searchStudentName" class="text-base sm:text-lg font-semib">-</div>
-                                                    <div id="searchClassInfo" class="text-blue-100 text-xs sm:text-sm">-</div>
+                                                     class="w-8 h-8 sm:w-10 sm:h-10 mr-3 bg-white p-1 rounded flex-shrink-0">
+                                                <div class="min-w-0 flex-1">
+                                                    <div id="searchStudentId" class="text-lg sm:text-xl font-semib text-wrap-anywhere mobile-text-sm">ID: -</div>
+                                                    <div class="result-info-container">
+                                                        <div id="searchClassInfo" class="result-class-display mobile-text-xs">-</div>
+                                                        <div id="searchYearMatch" class="text-blue-100 text-xs sm:text-sm mobile-text-xs">
+                                                            <i class="fas fa-calendar-check mr-1"></i> Year: -
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1220,7 +1542,7 @@
                                             <button onclick="hidePDFResults()" class="text-white hover:text-gray-300">
                                                 <i class="fas fa-times text-xl"></i>
                                             </button>
-                                            <div class="mt-2 text-xs sm:text-sm">
+                                            <div class="mt-2 text-xs sm:text-sm text-wrap-anywhere">
                                                 <i class="fas fa-calendar mr-1"></i>
                                                 <span id="searchTermSession">-</span>
                                             </div>
@@ -1230,20 +1552,20 @@
 
                                 <!-- Results Content -->
                                 <div class="p-4 sm:p-6">
-                                    <div id="pdfResultsContent">
+                                    <div id="pdfResultsContent" class="results-grid">
                                         <!-- PDF files will appear here -->
                                     </div>
                                 </div>
 
                                 <!-- Verification Footer -->
                                 <div class="bg-gray-900 text-white p-3 sm:p-4 text-center">
-                                    <div class="flex items-center justify-center">
+                                    <div class="flex items-center justify-center flex-wrap">
                                         <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
                                              alt="Emilia Logo"
-                                             class="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 bg-white p-1 rounded">
-                                        <div>
-                                            <div class="font-medium text-sm sm:text-base">OFFICIAL RESULT FILES</div>
-                                            <div class="text-gray-400 text-xs sm:text-sm">© EMILIA FOREMOST HIGH SCHOOL • Authorized Use Only</div>
+                                             class="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 bg-white p-1 rounded flex-shrink-0">
+                                        <div class="min-w-0">
+                                            <div class="font-medium text-sm sm:text-base text-wrap-anywhere">OFFICIAL RESULT FILES - ID ONLY VERIFICATION</div>
+                                            <div class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">© EMILIA FOREMOST HIGH SCHOOL • Authorized Use Only • Student Name Not Required</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1253,25 +1575,31 @@
                             <div class="bg-white rounded-2xl card-shadow p-4 sm:p-6 mt-6 sm:mt-8">
                                 <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
                                     <i class="fas fa-bullhorn text-red-600 mr-2 sm:mr-3"></i>
-                                    School Announcements
+                                    Important Announcements
                                 </h4>
                                 <div class="space-y-3 sm:space-y-4">
                                     <div class="flex items-start border-l-4 border-blue-500 pl-3 sm:pl-4 py-2">
-                                        <div>
-                                            <p class="font-semibold text-gray-800 text-sm sm:text-base">All Results Available</p>
-                                            <p class="text-gray-600 text-xs sm:text-sm">Results for all terms and sessions are accessible through this portal.</p>
+                                        <div class="min-w-0">
+                                            <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">ID-Only Verification</p>
+                                            <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">Student name verification is now disabled. Only Student ID is required.</p>
                                         </div>
                                     </div>
                                     <div class="flex items-start border-l-4 border-green-500 pl-3 sm:pl-4 py-2">
-                                        <div>
-                                            <p class="font-semibold text-gray-800 text-sm sm:text-base">New Academic Session</p>
-                                            <p class="text-gray-600 text-xs sm:text-sm">2025/2026 session begins September 2025.</p>
+                                        <div class="min-w-0">
+                                            <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">All Years Supported</p>
+                                            <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">Results from 2000 to present are accessible through this portal.</p>
                                         </div>
                                     </div>
                                     <div class="flex items-start border-l-4 border-yellow-500 pl-3 sm:pl-4 py-2">
-                                        <div>
-                                            <p class="font-semibold text-gray-800 text-sm sm:text-base">Result Verification</p>
-                                            <p class="text-gray-600 text-xs sm:text-sm">Report any discrepancies to the school office immediately.</p>
+                                        <div class="min-w-0">
+                                            <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">NEW ID Format Support</p>
+                                            <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">System now supports EMFHS-YYYY-XXX-XX format (mixed alphanumeric).</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start border-l-4 border-purple-500 pl-3 sm:pl-4 py-2">
+                                        <div class="min-w-0">
+                                            <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">Dual Format Support</p>
+                                            <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">Supports both NEW (mixed alphanumeric) and OLD (sequential numbers) ID formats.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -1293,12 +1621,12 @@
                                              alt="Emilia Logo"
                                              class="w-10 h-10 sm:w-12 sm:h-12 object-contain">
                                     </div>
-                                    <div>
-                                        <h3 class="text-lg sm:text-xl font-bold">EMILIA FOREMOST HIGH SCHOOL</h3>
-                                        <p class="text-gray-400 text-xs sm:text-sm">EMIFORPHS • Excellence in Education</p>
+                                    <div class="min-w-0">
+                                        <h3 class="text-lg sm:text-xl font-bold text-wrap-anywhere">EMILIA FOREMOST HIGH SCHOOL</h3>
+                                        <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">EMIFORPHS • Excellence in Education</p>
                                     </div>
                                 </div>
-                                <p class="text-gray-400 text-xs sm:text-sm max-w-md">
+                                <p class="text-gray-400 text-xs sm:text-sm max-w-md text-wrap-anywhere">
                                     Providing quality secondary education since 2007. 
                                     Committed to academic excellence and moral development.
                                 </p>
@@ -1308,15 +1636,15 @@
                             <div class="text-center md:text-right mobile-mt-4">
                                 <h4 class="font-bold mb-2 sm:mb-4 text-sm sm:text-base">Contact Information</h4>
                                 <div class="space-y-1 sm:space-y-2">
-                                    <p class="text-gray-400 text-xs sm:text-sm">
+                                    <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">
                                         <i class="fas fa-map-marker-alt mr-2"></i>
                                         2, Olasupo Avenue, Off Adeyemi Street, Oke-Agbo, Ojo, Lagos
                                     </p>
-                                    <p class="text-gray-400 text-xs sm:text-sm">
+                                    <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">
                                         <i class="fas fa-phone mr-2"></i>
                                         0905-714-749, 0802-285-4677
                                     </p>
-                                    <p class="text-gray-400 text-xs sm:text-sm">
+                                    <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">
                                         <i class="fas fa-envelope mr-2"></i>
                                         emiliaforemost@gmail.com
                                     </p>
@@ -1326,13 +1654,13 @@
 
                         <div class="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
                             <div class="flex flex-col md:flex-row justify-between items-center">
-                                <p class="text-gray-500 text-xs sm:text-sm">
+                                <p class="text-gray-500 text-xs sm:text-sm text-wrap-anywhere">
                                     &copy; 2024 EMILIA FOREMOST HIGH SCHOOL. All Rights Reserved.
                                 </p>
                                 <div class="mt-2 md:mt-0">
-                                    <span class="text-gray-500 text-xs sm:text-sm">
-                                        <i class="fas fa-lock mr-1"></i>
-                                        Secure Student Result Portal v2.0
+                                    <span class="text-gray-500 text-xs sm:text-sm text-wrap-anywhere">
+                                        <i class="fas fa-fingerprint mr-1"></i>
+                                        ID-Only Student Result Portal v4.1 (Supports NEW ID Format: EMFHS-YYYY-XXX-XX)
                                     </span>
                                 </div>
                             </div>
@@ -1352,9 +1680,10 @@
             
             // 1. FIXED POSITION BODY already set in CSS
             
-            // 2. SINGLE SCROLL CONTAINER management
+            // 2. SMOOTH SCROLL CONTAINER management
             scrollContainer.style.overflowY = 'auto';
             scrollContainer.style.overflowX = 'hidden';
+            scrollContainer.style.scrollBehavior = 'smooth';
             
             // 3. PREVENT TOUCH OVERSCROLL
             if ('ontouchstart' in window) {
@@ -1411,14 +1740,6 @@
             const adminFloatBtn = document.getElementById('adminFloatBtn');
             
             // Check if user is admin using Django template variable
-            // You should adjust this based on your Django implementation
-            {% comment %}
-            // In your Django view, add:
-            // context['is_admin'] = request.user.is_staff or request.user.is_superuser
-            // Then in template: {% if is_admin %}show button{% endif %}
-            {% endcomment %}
-            
-            // For this template, we'll check for staff/superuser status
             const isAdminUser = {% if user.is_authenticated and user.is_staff %}true{% else %}false{% endif %};
             
             // Also check for specific admin usernames if needed
@@ -1482,9 +1803,6 @@
                     if (contextMenu) contextMenu.remove();
                 }
             });
-            
-            // For testing: Uncomment to always show the button
-            // if (adminFloatBtnContainer) adminFloatBtnContainer.style.display = 'block';
         }
         
         function showAdminContextMenu(e) {
@@ -1604,6 +1922,14 @@
             // Auto-remove Django messages after 5 seconds
             autoRemoveMessages();
             
+            // Auto-focus on student ID field for better UX
+            setTimeout(() => {
+                const studentIdField = document.getElementById('studentId');
+                if (studentIdField) {
+                    studentIdField.focus();
+                }
+            }, 500);
+            
             // Add keyboard shortcut for admin panel (Ctrl+Shift+A)
             document.addEventListener('keydown', function(e) {
                 if (e.ctrlKey && e.shiftKey && e.key === 'A') {
@@ -1612,8 +1938,73 @@
                     if (adminBtn) adminBtn.click();
                 }
             });
+            
+            // REMOVED: Session mismatch detection - Year matching is disabled
         });
 
+        // ==================== NO YEAR RESTRICTIONS SYSTEM ====================
+        
+        // Helper function to extract year from ID (FOR INFORMATION ONLY)
+        function extractYearFromId(studentId) {
+            if (!studentId) return null;
+            
+            // Patterns for extracting year from various ID formats
+            const patterns = [
+                /EMFHS-(\d{4})-[A-Z0-9]{3}/i,        // NEW FORMAT: EMFHS-2025-A7K-B9
+                /EMFHS-(\d{4})-\d{3}/i,              // OLD FORMAT: EMFHS-2025-001-A4
+                /(\d{4})-[A-Z0-9]{3}-[A-Z0-9]{2}/i,  // NEW: 2025-A7K-B9
+                /(\d{4})-\d{3}-[A-Z0-9]{2}/i,        // OLD: 2025-001-3N
+                /(\d{4})-[A-Z0-9]{3}/i,              // NEW: 2025-A7K
+                /(\d{4})-\d{3}/i,                    // OLD: 2025-001
+                /(\d{4})\/\d{3}/i,                   // 2025/001
+                /[A-Z]{2,}-(\d{4})-[A-Z0-9]{3}/i,    // EMIFORPHS-2025-A7K (NEW)
+                /[A-Z]{2,}-(\d{4})-\d{3}/i,          // EMIFORPHS-2025-001 (OLD)
+            ];
+            
+            for (const pattern of patterns) {
+                const match = studentId.match(pattern);
+                if (match && match[1]) {
+                    const year = parseInt(match[1]);
+                    if (year >= 2000 && year <= 2100) {
+                        return year;
+                    }
+                }
+            }
+            
+            // Try to find any 4-digit number that looks like a year
+            const yearMatch = studentId.match(/\b(20\d{2})\b/);
+            if (yearMatch && yearMatch[1]) {
+                const year = parseInt(yearMatch[1]);
+                if (year >= 2000 && year <= 2100) {
+                    return year;
+                }
+            }
+            
+            return null;
+        }
+        
+        // Helper function to extract year from session
+        function extractYearFromSession(session) {
+            if (!session) return null;
+            
+            // Session format: "2025/2026" or "2025-2026"
+            const parts = session.replace('/', '-').split('-');
+            if (parts && parts.length > 0) {
+                const year = parseInt(parts[0]);
+                if (!isNaN(year)) {
+                    return year;
+                }
+            }
+            
+            // Try to find any 4-digit number
+            const yearMatch = session.match(/\b(20\d{2})\b/);
+            if (yearMatch && yearMatch[1]) {
+                return parseInt(yearMatch[1]);
+            }
+            
+            return null;
+        }
+        
         // ==================== DJANGO LOGOUT FUNCTIONALITY ====================
         function setupDjangoLogoutButton() {
             const logoutBtn = document.getElementById('logoutBtn');
@@ -1739,7 +2130,7 @@
                     <div class="message-icon">
                         <i class="${icon}"></i>
                     </div>
-                    <div class="message-text">
+                    <div class="message-text text-wrap-anywhere">
                         ${message}
                     </div>
                 </div>
@@ -1805,14 +2196,14 @@
         }
 
         function generateFutureSessions() {
-            // Generate sessions from current year - 1 to 10 years in future
+            // Generate sessions from 2000 to 10 years in future
             const currentYear = new Date().getFullYear();
-            const startYear = currentYear - 1; // Include previous year
+            const startYear = 2000;
             
             const sessions = [];
             
             // Generate sessions for next 10 years
-            for (let year = startYear; year <= startYear + 10; year++) {
+            for (let year = startYear; year <= currentYear + 10; year++) {
                 sessions.push(`${year}/${year + 1}`);
             }
             
@@ -1858,6 +2249,7 @@
                 const option = document.createElement('option');
                 option.value = session;
                 option.textContent = session;
+                option.className = 'text-wrap-anywhere';
                 
                 // Add CSS classes for styling
                 if (session === currentAcademicSession) {
@@ -1885,17 +2277,17 @@
             console.log(`✅ Loaded ${sessions.length} sessions ${fromBackend ? 'from server' : 'generated locally'}`);
         }
 
-        // Form submission
+        // Form submission - NO YEAR RESTRICTIONS
         document.getElementById('resultForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const fullName = document.getElementById('fullName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
             const studentClass = document.getElementById('studentClass').value;
             const term = document.getElementById('term').value;
             const session = document.getElementById('session').value;
             
             // Validation
-            if (!fullName || !studentClass || !term || !session) {
+            if (!studentId || !studentClass || !term || !session) {
                 showAlert('Please fill in all required fields.', 'error');
                 return;
             }
@@ -1906,6 +2298,18 @@
                 return;
             }
             
+            // Validate student ID format (SUPPORTS BOTH NEW AND OLD FORMATS)
+            if (!isValidStudentId(studentId)) {
+                showAlert('Please enter a valid Student ID. Examples: EMFHS-2025-A7K-B9, EMFHS-2025-001-A4, 2025-A7K-B9, 2025-001-3N', 'error');
+                return;
+            }
+            
+            // Extract year from ID for information only - NO RESTRICTIONS
+            const studentIdYear = extractYearFromId(studentId);
+            const sessionYear = extractYearFromSession(session);
+            
+            // NO YEAR MATCHING WARNINGS - Just search whatever session is selected
+            
             // Show loading state
             const submitBtn = document.getElementById('checkResultBtn');
             const originalText = submitBtn.innerHTML;
@@ -1913,7 +2317,7 @@
             submitBtn.disabled = true;
             
             try {
-                // Search for PDF files (this would call your backend API)
+                // Search for PDF files with NO YEAR RESTRICTIONS
                 const response = await fetch('/search/', {
                     method: 'POST',
                     headers: {
@@ -1921,7 +2325,8 @@
                         'X-CSRFToken': getCsrfToken()
                     },
                     body: JSON.stringify({
-                        student_name: fullName,
+                        student_name: '', // Empty name - NOT USED
+                        student_id: studentId,
                         student_class: studentClass,
                         term: term,
                         session: session
@@ -1931,7 +2336,7 @@
                 const data = await response.json();
                 
                 // Show PDF results
-                showPDFResults(data, fullName, studentClass, term, session);
+                showPDFResults(data, studentId, studentClass, term, session, studentIdYear, sessionYear);
                 
             } catch (error) {
                 showAlert('Search failed. Please try again.', 'error');
@@ -1943,50 +2348,116 @@
             }
         });
 
-        // Show PDF results
-        function showPDFResults(data, fullName, studentClass, term, session) {
+        // Validate student ID format - UPDATED FOR NEW ID FORMAT
+        function isValidStudentId(studentId) {
+            if (!studentId || studentId.trim() === '') return false;
+            
+            // Common patterns for EMIFORPHS student IDs (BOTH NEW AND OLD FORMATS)
+            const patterns = [
+                // NEW FORMAT: EMFHS-YYYY-XXX-XX (XXX = mixed alphanumeric)
+                /^EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i,  // EMFHS-2025-A7K-B9
+                /^EMFHS-\d{4}-[A-Z0-9]{3}$/i,              // EMFHS-2025-A7K
+                /^\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i,        // 2025-A7K-B9
+                /^\d{4}-[A-Z0-9]{3}$/i,                    // 2025-A7K
+                
+                // OLD FORMAT: EMFHS-YYYY-NNN-XX (NNN = sequential numbers)
+                /^EMFHS-\d{4}-\d{3}-[A-Z0-9]{2}$/i,        // EMFHS-2025-001-A4
+                /^EMFHS-\d{4}-\d{3}$/i,                    // EMFHS-2025-001
+                /^\d{4}-\d{3}-[A-Z0-9]{2}$/i,              // 2025-001-3N
+                /^\d{4}-\d{3}$/i,                          // 2025-001
+                
+                // Backwards compatibility formats
+                /^[A-Z]{2,}-\d{4}-[A-Z0-9]{3}$/i,          // EMIFORPHS-2025-A7K
+                /^[A-Z]{2,}-\d{4}-\d{3}$/i,                // EMIFORPHS-2025-001
+                /^[A-Z]{2,}\/\d{4}\/[A-Z0-9]{3}$/i,        // EMIFORPHS/2025/A7K
+                /^[A-Z]{2,}\/\d{4}\/\d{3}$/i,              // EMIFORPHS/2025/001
+                /^\d{4}\/[A-Z0-9]{3}$/i,                   // 2025/A7K
+                /^\d{4}\/\d{3}$/i,                         // 2025/001
+                /^\d{4}[-/][A-Z0-9]{3}$/i,                 // Year followed by 3 alphanumeric
+                /^\d{4}[-/]\d{3}$/i                        // Year followed by 3 digits
+            ];
+            
+            // Check if any pattern matches
+            const matchesPattern = patterns.some(pattern => pattern.test(studentId));
+            
+            // Also allow if it looks like a reasonable ID (year + code/number)
+            const hasYearAndCode = /\d{4}[-/][A-Z0-9]{2,}/.test(studentId);
+            
+            return matchesPattern || hasYearAndCode;
+        }
+
+        // ==================== SHOW PDF RESULTS - NO YEAR RESTRICTIONS ====================
+        function showPDFResults(data, studentId, studentClass, term, session, studentIdYear, sessionYear) {
             const welcomePanel = document.getElementById('welcomePanel');
             const pdfResultsContainer = document.getElementById('pdfResultsContainer');
             const pdfResultsContent = document.getElementById('pdfResultsContent');
             
-            // Update search info
-            document.getElementById('searchStudentName').textContent = fullName;
+            // Update search info with text wrapping
+            document.getElementById('searchStudentId').innerHTML = `ID: <span class="result-id-display">${studentId}</span>`;
             document.getElementById('searchClassInfo').textContent = studentClass;
             
+            // Show year information (for display only, not for matching)
+            if (studentIdYear && sessionYear) {
+                const yearInfo = `ID Year: ${studentIdYear} | Session: ${sessionYear}`;
+                const yearInfoClass = 'text-blue-300';
+                document.getElementById('searchYearMatch').innerHTML = 
+                    `<i class="fas fa-info-circle mr-1"></i> <span class="${yearInfoClass} text-wrap-anywhere">${yearInfo}</span>`;
+            } else {
+                document.getElementById('searchYearMatch').textContent = '';
+            }
+            
             const termNames = {'1': 'First', '2': 'Second', '3': 'Third'};
-            document.getElementById('searchTermSession').textContent = `${termNames[term] || term} Term • ${session}`;
+            document.getElementById('searchTermSession').innerHTML = `<span class="text-wrap-anywhere">${termNames[term] || term} Term • ${session}</span>`;
             
             if (data.success && data.files && data.files.length > 0) {
                 let filesHtml = '';
                 
                 data.files.forEach((file, index) => {
+                    // Extract ID from filename for verification display
+                    const extractedId = extractStudentIdFromFilename(file.name);
+                    const extractedYear = extractYearFromId(extractedId);
+                    
+                    // Verification badge
+                    let verificationBadge = '<span class="id-verified-badge"><i class="fas fa-fingerprint mr-1"></i> ID Verified</span>';
+                    
                     filesHtml += `
-                        <div class="pdf-result-item">
-                            <div class="flex justify-between items-start">
-                                <div class="flex-1">
-                                    <div class="flex items-center gap-2 mb-2">
+                        <div class="pdf-result-item pdf-result-compact">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2 mb-2 mobile-grid-results">
+                                        ${verificationBadge}
                                         <span class="pdf-result-badge">File ${index + 1}</span>
-                                        <span class="text-xs text-gray-500">
+                                        <span class="text-xs text-gray-500 text-wrap-anywhere">
                                             <i class="fas fa-calendar-alt mr-1"></i>
                                             Term ${term} | ${session}
                                         </span>
                                     </div>
-                                    <h4 class="font-bold text-gray-800 text-sm sm:text-base">${file.name}</h4>
-                                    <div class="pdf-file-info">
-                                        ${file.size_formatted ? `<span><i class="fas fa-weight mr-1"></i>${file.size_formatted}</span>` : ''}
-                                        ${file.modifiedTime ? `<span><i class="far fa-clock mr-1"></i>${file.modifiedTime}</span>` : ''}
+                                    <h4 class="font-bold text-gray-800 text-sm sm:text-base text-wrap-anywhere mobile-text-sm mb-2">${file.name}</h4>
+                                    <div class="pdf-file-info mobile-text-xs">
+                                        ${file.size_formatted ? `<span class="text-wrap-anywhere"><i class="fas fa-weight mr-1"></i>${file.size_formatted}</span>` : ''}
+                                        ${file.modifiedTime ? `<span class="text-wrap-anywhere"><i class="far fa-clock mr-1"></i>${file.modifiedTime}</span>` : ''}
+                                        <span class="text-green-600 font-medium text-wrap-anywhere">
+                                            <i class="fas fa-fingerprint mr-1"></i>
+                                            ID: ${studentId}
+                                        </span>
+                                        ${extractedYear ? `<span class="text-blue-600 font-medium text-wrap-anywhere">
+                                            <i class="fas fa-calendar mr-1"></i>
+                                            Year: ${extractedYear}
+                                        </span>` : ''}
                                     </div>
                                 </div>
-                                <div class="flex gap-2 ml-4">
+                                <div class="compact-btn-container sm:ml-4 flex-shrink-0 mobile-text-xs mt-3 sm:mt-0">
                                     <button onclick="previewPDF('${file.id}')" 
                                             class="pdf-action-btn pdf-view-btn">
                                         <i class="fas fa-eye"></i>
                                         <span class="hidden sm:inline">View</span>
+                                        <span class="sm:hidden hidden xs:inline">View</span>
                                     </button>
                                     <button onclick="startFileDownload('${file.id}', '${file.name}')" 
                                             class="pdf-action-btn pdf-download-btn">
                                         <i class="fas fa-download"></i>
                                         <span class="hidden sm:inline">Download</span>
+                                        <span class="sm:hidden hidden xs:inline">Download</span>
                                     </button>
                                 </div>
                             </div>
@@ -1994,40 +2465,75 @@
                     `;
                 });
                 
-                pdfResultsContent.innerHTML = `
+                // Add success message
+                filesHtml = `
                     <div class="success-alert p-4 rounded-lg mb-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle text-xl mr-3"></i>
-                            <div>
-                                <strong class="text-lg">Found ${data.count} result(s) for ${fullName}</strong>
-                                <div class="text-sm mt-1">
-                                    <span class="bg-green-200 px-2 py-1 rounded mr-2">${studentClass}</span>
-                                    <span class="bg-yellow-100 px-2 py-1 rounded mr-2">${termNames[term] || term} Term</span>
-                                    <span class="bg-blue-100 px-2 py-1 rounded">${session} Session</span>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                            <i class="fas fa-check-circle text-xl sm:text-2xl text-green-600 flex-shrink-0"></i>
+                            <div class="min-w-0">
+                                <strong class="text-lg sm:text-xl text-wrap-anywhere">✅ SEARCH SUCCESSFUL - Found ${data.count} result(s)</strong>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="bg-green-200 px-2 py-1 rounded text-sm text-wrap-anywhere">${studentClass}</span>
+                                    <span class="bg-yellow-100 px-2 py-1 rounded text-sm text-wrap-anywhere">${termNames[term] || term} Term</span>
+                                    <span class="bg-blue-100 px-2 py-1 rounded text-sm text-wrap-anywhere">${session} Session</span>
+                                    <span class="bg-red-100 px-2 py-1 rounded text-sm text-wrap-anywhere">
+                                        <i class="fas fa-fingerprint mr-1"></i> ID: ${studentId}
+                                    </span>
+                                    ${studentIdYear ? `<span class="bg-purple-100 px-2 py-1 rounded text-sm text-wrap-anywhere">
+                                        <i class="fas fa-calendar mr-1"></i> ID Year: ${studentIdYear}
+                                    </span>` : ''}
                                 </div>
-                                <p class="mt-2">${data.message}</p>
+                                <p class="mt-2 text-sm text-wrap-anywhere">${data.message}</p>
+                                <div class="mt-3 p-2 bg-blue-50 rounded border border-blue-200">
+                                    <p class="text-xs text-blue-800 text-wrap-anywhere">
+                                        <i class="fas fa-lightbulb mr-1"></i>
+                                        <strong>Search Tips:</strong><br>
+                                        1. No year restrictions - Search any session<br>
+                                        2. Student name is NOT required<br>
+                                        3. Try different sessions if current one doesn't work<br>
+                                        4. System supports BOTH ID formats:<br>
+                                           • NEW: EMFHS-2025-A7K-B9 (mixed alphanumeric)<br>
+                                           • OLD: EMFHS-2025-001-A4 (sequential numbers)<br>
+                                        5. If ID has multiple formats, try different variations
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    ${filesHtml}
-                `;
+                ` + filesHtml;
+                
+                pdfResultsContent.innerHTML = filesHtml;
                 
             } else {
+                // Error message without year mismatch warnings
                 pdfResultsContent.innerHTML = `
                     <div class="error-alert p-4 rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-exclamation-circle text-xl mr-3"></i>
-                            <div>
-                                <strong class="text-lg">No Results Found</strong>
-                                <p class="mt-1">${data.message || 'Please check the details and try again'}</p>
-                                <div class="mt-2 text-sm">
-                                    <p>What to check:</p>
-                                    <ul class="list-disc pl-5 mt-1">
-                                        <li>Student name spelling (exactly as on result sheet)</li>
-                                        <li>Correct class selection</li>
-                                        <li>Correct term and session</li>
-                                        <li>If name has multiple parts, try first name only</li>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                            <i class="fas fa-exclamation-circle text-xl sm:text-2xl text-red-600 flex-shrink-0"></i>
+                            <div class="min-w-0">
+                                <strong class="text-lg sm:text-xl text-wrap-anywhere">❌ No Results Found</strong>
+                                <p class="mt-1 text-wrap-anywhere">${data.message || 'Please check the details and try again'}</p>
+                                <div class="mt-2 text-sm text-wrap-anywhere">
+                                    <p><strong>What to check:</strong></p>
+                                    <ul class="list-disc pl-5 mt-1 space-y-1">
+                                        <li class="text-wrap-anywhere">Correct Student ID Number (e.g., EMFHS-2025-A7K-B9, EMFHS-2025-001-A4, etc.)</li>
+                                        <li class="text-wrap-anywhere">Correct class selection</li>
+                                        <li class="text-wrap-anywhere">Correct term and session (try different sessions if needed)</li>
+                                        <li class="text-wrap-anywhere">If ID has multiple formats, try different variations</li>
                                     </ul>
+                                    <div class="mt-3 p-2 bg-blue-50 rounded border border-blue-200">
+                                        <p class="text-xs text-blue-800 text-wrap-anywhere">
+                                            <i class="fas fa-lightbulb mr-1"></i>
+                                            <strong>Search Tips:</strong><br>
+                                            1. No year restrictions - Search any session<br>
+                                            2. Student name is NOT required<br>
+                                            3. Try different sessions if current one doesn't work<br>
+                                            4. System supports BOTH ID formats:<br>
+                                               • NEW: EMFHS-2025-A7K-B9 (mixed alphanumeric)<br>
+                                               • OLD: EMFHS-2025-001-A4 (sequential numbers)<br>
+                                            5. If ID has multiple formats, try different variations
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2041,6 +2547,58 @@
             
             // Scroll to results
             pdfResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Apply responsive text wrapping to all result elements
+            applyTextWrapping();
+        }
+
+        // Apply text wrapping to all result elements
+        function applyTextWrapping() {
+            // Select all elements that might have long text
+            const longTextElements = document.querySelectorAll('#pdfResultsContent .text-wrap-anywhere, #pdfResultsContent .pdf-file-info span, #pdfResultsContent h4');
+            
+            longTextElements.forEach(el => {
+                el.style.overflowWrap = 'anywhere';
+                el.style.wordBreak = 'break-word';
+                el.style.hyphens = 'auto';
+            });
+        }
+
+        // Extract student ID from filename - UPDATED FOR NEW ID FORMAT
+        function extractStudentIdFromFilename(filename) {
+            // Common patterns for EMIFORPHS student IDs (BOTH FORMATS)
+            const patterns = [
+                // NEW FORMAT: EMFHS-YYYY-XXX-XX
+                /EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}/i,    // EMFHS-2025-A7K-B9
+                /EMFHS-\d{4}-[A-Z0-9]{3}/i,                // EMFHS-2025-A7K
+                /\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}/i,          // 2025-A7K-B9
+                /\d{4}-[A-Z0-9]{3}/i,                      // 2025-A7K
+                
+                // OLD FORMAT: EMFHS-YYYY-NNN-XX
+                /EMFHS-\d{4}-\d{3}-[A-Z0-9]{2}/i,          // EMFHS-2025-001-T8
+                /EMFHS-\d{4}-\d{3}/i,                      // EMFHS-2025-001
+                /\d{4}-\d{3}-[A-Z0-9]{2}/i,                // 2025-001-3N
+                /\d{4}-\d{3}/i,                            // 2025-001
+                
+                // Backwards compatibility
+                /[A-Z]{2,}-\d{4}-[A-Z0-9]{3}/i,            // EMIFORPHS-2025-A7K
+                /[A-Z]{2,}-\d{4}-\d{3}/i,                  // EMIFORPHS-2025-001
+                /[A-Z]{2,}\/\d{4}\/[A-Z0-9]{3}/i,          // EMIFORPHS/2025/A7K
+                /[A-Z]{2,}\/\d{4}\/\d{3}/i,                // EMIFORPHS/2025/001
+                /\d{4}\/[A-Z0-9]{3}/i,                     // 2025/A7K
+                /\d{4}\/\d{3}/i,                           // 2025/001
+                /\d{4}[-/][A-Z0-9]{3}/i,                   // Year + 3 alphanumeric
+                /\d{4}[-/]\d{3}/i                          // Year + 3 digits
+            ];
+            
+            for (const pattern of patterns) {
+                const match = filename.match(pattern);
+                if (match) {
+                    return match[0];
+                }
+            }
+            
+            return 'Unknown';
         }
 
         // Hide PDF results
@@ -2052,27 +2610,30 @@
             welcomePanel.classList.remove('hidden');
             
             // Clear form - but keep selections if user wants to search again
-            // Just reset the name field
-            document.getElementById('fullName').value = '';
-            document.getElementById('fullName').focus();
+            // Just reset the ID field
+            document.getElementById('studentId').value = '';
+            
+            // Auto-focus on student ID field
+            document.getElementById('studentId').focus();
             
             // Scroll to form
-            document.getElementById('fullName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('studentId').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // ==================== UTILITY FUNCTIONS ====================
         function showAlert(message, type = 'info') {
             // Create alert element
             const alert = document.createElement('div');
-            alert.className = `fixed top-20 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm ${
+            alert.className = `fixed top-20 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm text-wrap-anywhere ${
                 type === 'error' ? 'bg-red-100 border-red-400 text-red-700' :
                 type === 'success' ? 'bg-green-100 border-green-400 text-green-700' :
+                type === 'warning' ? 'bg-yellow-100 border-yellow-400 text-yellow-700' :
                 'bg-blue-100 border-blue-400 text-blue-700'
             }`;
             alert.innerHTML = `
                 <div class="flex items-center">
-                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'} mr-3"></i>
-                    <span>${message}</span>
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} mr-3"></i>
+                    <span class="text-wrap-anywhere">${message}</span>
                 </div>
             `;
             
