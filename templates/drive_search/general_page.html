@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMILIA FOREMOST HIGH SCHOOL | Student Result Portal</title>
+    <title>EMIFORPHS Student Result Portal</title>
     
     <!-- Django Static Loader -->
     {% load static %}
     
     <!-- Favicon - Emilia Logo -->
-    <link rel="icon" type="image/x-icon" href="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png">
+    <link rel="icon" type="image/x-icon" href="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/emilia_logo_circle.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1268,10 +1268,10 @@
                         </div>
                         
                         <!-- Professional Logout Button - UPDATED FOR DJANGO -->
-                        <button id="logoutBtn" class="logout-btn" data-logout-url="{% url 'logout' %}">
+                        {% comment %} <button id="logoutBtn" class="logout-btn" data-logout-url="">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
-                        </button>
+                        </button> {% endcomment %}
                     </div>
                 </div>
             </div>

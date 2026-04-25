@@ -7,11 +7,11 @@ from . import views  # Make sure to import views here
 urlpatterns = [
   
     # Redirect default Django login URL to your custom login page
-    path('accounts/login/', RedirectView.as_view(pattern_name='login_page', permanent=False)),
+    # path('accounts/login/', RedirectView.as_view(pattern_name='login_page', permanent=False)),
     
     # Authentication
-    path('login/', views.login_view, name='login_page'),
-    path('logout/', views.logout_view, name='logout'),
+    # path('login/', views.login_view, name='login_page'),
+    # path('logout/', views.logout_view, name='logout'),
     
     # Main page (protected with login_required)
     path('', views.general_exam_page, name="general_exam_page"),
