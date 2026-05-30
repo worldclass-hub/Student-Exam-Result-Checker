@@ -87,7 +87,7 @@
             width: 100%;
             background: linear-gradient(135deg, rgba(26, 35, 126, 0.95) 0%, rgba(27, 94, 32, 0.95) 100%);
             z-index: 40;
-            position: relative; /* Changed from sticky to relative */
+            position: relative;
         }
         
         /* Prevent overscroll */
@@ -126,9 +126,7 @@
             opacity: 1;
         }
         
-        /* 9. PRESERVED FUNCTIONALITY - Original styles continue below */
-        
-        /* ==================== ORIGINAL STYLES FROM CODE B ==================== */
+        /* ==================== ORIGINAL STYLES ==================== */
         * {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -137,13 +135,12 @@
         }
         
         /* ========== WORLD-CLASS ADMIN FLOATING BUTTON ========== */
-        /* Super powerful design - Only for admin users */
         .admin-float-btn-container {
             position: fixed;
             bottom: 30px;
             right: 30px;
             z-index: 100000;
-            display: none; /* Hidden by default, shown via JavaScript */
+            display: none;
         }
         
         .admin-float-btn {
@@ -216,7 +213,6 @@
             bottom: -45px;
         }
         
-        /* Admin button glow animation */
         @keyframes admin-glow {
             0%, 100% {
                 box-shadow: 0 0 25px rgba(109, 40, 217, 0.6);
@@ -230,7 +226,6 @@
             animation: admin-glow 2s infinite;
         }
         
-        /* Admin button tooltip expanded */
         .admin-tooltip {
             position: absolute;
             right: 85px;
@@ -271,7 +266,6 @@
             transform: translateX(0);
         }
         
-        /* Admin button pulse effect */
         .admin-pulse {
             position: absolute;
             top: 0;
@@ -299,7 +293,6 @@
             }
         }
         
-        /* Admin context menu */
         .admin-context-menu {
             position: fixed;
             background: rgba(0, 0, 0, 0.98);
@@ -351,7 +344,6 @@
             font-size: 16px;
         }
         
-        /* Mobile responsive admin button */
         @media (max-width: 768px) {
             .admin-float-btn-container {
                 bottom: 20px;
@@ -387,10 +379,9 @@
         
         @media (max-width: 480px) {
             .admin-tooltip {
-                display: none; /* Hide tooltip on very small screens */
+                display: none;
             }
         }
-        /* ========== END ADMIN FLOATING BUTTON ========== */
         
         /* Django Messages Styling */
         .django-messages {
@@ -492,7 +483,6 @@
             }
         }
         
-        /* Modal overlay fix */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -503,7 +493,6 @@
             background: rgba(0, 0, 0, 0.8);
         }
         
-        /* Prevent overscroll on mobile */
         @media (max-width: 768px) {
             body {
                 overscroll-behavior-y: contain;
@@ -517,22 +506,26 @@
             }
         }
         
-        /* Original Styles */
         .title-font {
             font-family: 'Playfair Display', serif;
         }
+        
         .school-primary {
             background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
         }
+        
         .school-green {
             background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
         }
+        
         .school-yellow {
             background: linear-gradient(135deg, #f57f17 0%, #ffb300 100%);
         }
+        
         .card-shadow {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
+        
         .logo-badge {
             background: linear-gradient(135deg, #1a237e, #1b5e20);
             color: white;
@@ -542,23 +535,28 @@
             text-align: center;
             display: inline-block;
         }
+        
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
+        
         @keyframes floating {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+        
         .gradient-border {
             border: 2px solid transparent;
             background: linear-gradient(white, white) padding-box,
                         linear-gradient(135deg, #1a237e, #1b5e20) border-box;
         }
+        
         .subject-row:hover {
             background-color: #f0f7ff;
             transform: translateX(5px);
             transition: all 0.3s ease;
         }
+        
         .stats-bg {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
             backdrop-filter: blur(10px);
@@ -566,7 +564,6 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
-        /* TEXT WRAPPING FIXES FOR ALL SCREEN SIZES */
         .text-wrap-anywhere {
             overflow-wrap: anywhere;
             word-wrap: break-word;
@@ -582,12 +579,10 @@
             text-overflow: ellipsis;
         }
         
-        /* Responsive text sizing */
         .responsive-text {
             font-size: clamp(0.875rem, 2vw, 1rem);
         }
         
-        /* Fixed width containers for long text */
         .fixed-width-container {
             max-width: 100%;
             width: 100%;
@@ -599,7 +594,6 @@
             }
         }
         
-        /* Super Powerful Button Styles */
         .action-btn {
             position: relative;
             overflow: hidden;
@@ -657,7 +651,6 @@
             transform: scale(1.1);
         }
         
-        /* Responsive button container */
         .btn-container {
             display: grid;
             gap: 0.75rem;
@@ -688,7 +681,6 @@
             }
         }
         
-        /* Mobile responsive adjustments */
         @media (max-width: 640px) {
             .mobile-stack {
                 flex-direction: column !important;
@@ -704,19 +696,16 @@
                 margin-top: 1rem !important;
             }
             
-            /* Mobile text wrapping */
             .mobile-text-wrap {
                 word-break: break-word !important;
                 overflow-wrap: anywhere !important;
             }
             
-            /* Mobile responsive grid for results */
             .mobile-grid-results {
                 grid-template-columns: 1fr !important;
                 gap: 0.5rem !important;
             }
             
-            /* Mobile font sizing */
             .mobile-text-sm {
                 font-size: 0.875rem !important;
             }
@@ -726,33 +715,32 @@
             }
         }
         
-        /* FIXED: Smooth scrolling boundaries */
         html {
             scroll-behavior: smooth;
         }
         
-        /* FIXED: Prevent content overflow */
         main {
             overflow-x: hidden;
             width: 100%;
         }
         
-        /* Session dropdown styling */
         .session-option {
             font-weight: 500;
         }
+        
         .session-option.current {
             color: #059669;
             font-weight: bold;
         }
+        
         .session-option.future {
             color: #2563eb;
         }
+        
         .session-option.past {
             color: #6b7280;
         }
         
-        /* PDF File Results Styling - UPDATED FOR SMALL BUTTONS */
         .pdf-result-item {
             border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
@@ -796,7 +784,6 @@
             text-overflow: ellipsis;
         }
         
-        /* SMALLER BUTTONS FOR MOBILE */
         .pdf-action-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -812,7 +799,6 @@
             font-size: 0.875rem;
         }
         
-        /* Even smaller buttons on mobile */
         @media (max-width: 640px) {
             .pdf-action-btn {
                 padding: 0.4rem 0.75rem !important;
@@ -826,7 +812,6 @@
             }
         }
         
-        /* Extra small buttons for very small screens */
         @media (max-width: 380px) {
             .pdf-action-btn {
                 padding: 0.35rem 0.6rem !important;
@@ -840,7 +825,7 @@
             }
             
             .pdf-action-btn span {
-                display: none; /* Hide text on very small screens */
+                display: none;
             }
             
             .pdf-action-btn i {
@@ -866,7 +851,6 @@
             background: linear-gradient(135deg, #166b1a 0%, #256628 100%);
         }
         
-        /* Loading spinner */
         .spinner {
             animation: spin 1s linear infinite;
         }
@@ -876,7 +860,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Search results styling */
         .success-alert {
             background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
             border: 1px solid #10b981;
@@ -901,7 +884,6 @@
             overflow-wrap: anywhere;
         }
         
-        /* Form field styling */
         .form-input {
             border: 2px solid #e5e7eb;
             border-radius: 0.5rem;
@@ -937,7 +919,6 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
-        /* Professional Logout Button Styles - UPDATED FOR DJANGO */
         .logout-btn {
             background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
             color: white;
@@ -1008,7 +989,6 @@
             }
         }
         
-        /* Student ID specific styles */
         .id-hint {
             font-size: 0.75rem;
             color: #4b5563;
@@ -1086,7 +1066,6 @@
             overflow-wrap: anywhere;
         }
         
-        /* Results display specific fixes */
         .result-id-display {
             font-family: monospace;
             background-color: #f3f4f6;
@@ -1124,7 +1103,6 @@
             max-width: 100%;
         }
         
-        /* Grid layout for results display */
         @media (min-width: 768px) {
             .results-grid {
                 display: grid;
@@ -1141,7 +1119,6 @@
             }
         }
         
-        /* COMPACT BUTTON CONTAINER FOR MOBILE */
         .compact-btn-container {
             display: flex;
             gap: 0.5rem;
@@ -1168,7 +1145,6 @@
             }
         }
         
-        /* COMPACT LAYOUT FOR PDF RESULTS */
         .pdf-result-compact {
             display: flex;
             flex-direction: column;
@@ -1181,19 +1157,16 @@
             }
         }
         
-        /* Prevent body scroll when modal is open */
         body.modal-open {
             overflow: hidden;
         }
     </style>
 </head>
 <body class="no-overscroll">
-    <!-- ==================== PROPER SCROLL MANAGEMENT SYSTEM ==================== -->
     <!-- Scroll Boundary Indicator -->
     <div id="scrollBoundary" class="scroll-boundary"></div>
     
-    <!-- ========== SUPER POWERFUL ADMIN FLOATING BUTTON ========== -->
-    <!-- This button only appears for admin users -->
+    <!-- Admin Floating Button -->
     <div class="admin-float-btn-container" id="adminFloatBtnContainer">
         <div class="admin-pulse"></div>
         <button class="admin-float-btn glow" id="adminFloatBtn" title="Admin Panel Access">
@@ -1235,7 +1208,7 @@
     {% endif %}
     
     <div class="page-container" id="pageContainer">
-        <!-- Yellow Notice Bar - Fixed to sit properly with navbar -->
+        <!-- Yellow Notice Bar -->
         <div class="school-yellow text-gray-900 py-2 px-4 text-center font-medium w-full">
             <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2">
                 <span class="flex items-center">
@@ -1248,11 +1221,10 @@
             </div>
         </div>
 
-        <!-- Main Header - NO LONGER STICKY (scrolls with page) -->
+        <!-- Main Header -->
         <header class="page-header text-white py-4 shadow-lg">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="flex flex-col md:flex-row justify-between items-center">
-                    <!-- School Logo & Name - Clickable to Dashboard -->
                     <a href="" class="flex items-center mb-4 md:mb-0 mobile-center hover:opacity-90 transition-opacity">
                         <div class="mr-4">
                             <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
@@ -1265,9 +1237,7 @@
                         </div>
                     </a>
 
-                    <!-- School Motto & Logout Button -->
                     <div class="flex items-center gap-4 mobile-mt-4">
-                        <!-- School Motto -->
                         <div class="text-center md:text-right">
                             <div class="logo-badge">
                                 <i class="fas fa-graduation-cap mr-2"></i>
@@ -1275,12 +1245,6 @@
                             </div>
                             <p class="text-sm text-gray-200 mt-1 hidden sm:block">Knowledge • Integrity • Excellence</p>
                         </div>
-                        
-                        <!-- Professional Logout Button - UPDATED FOR DJANGO -->
-                        {% comment %} <button id="logoutBtn" class="logout-btn" data-logout-url="">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </button> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -1288,7 +1252,6 @@
 
         <!-- Main Content -->
         <main class="content-wrapper container mx-auto px-4 py-8">
-            <!-- Page Title -->
             <div class="text-center mb-10">
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">Student Result Portal</h2>
                 <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto text-wrap-anywhere">
@@ -1303,7 +1266,6 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Left Column - Result Checker -->
                 <div class="bg-white rounded-2xl card-shadow overflow-hidden gradient-border">
-                    <!-- Form Header -->
                     <div class="school-primary text-white p-6">
                         <div class="flex items-center">
                             <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4">
@@ -1316,13 +1278,10 @@
                         </div>
                     </div>
 
-                    <!-- Result Form -->
                     <div class="p-4 sm:p-6 md:p-8">
-                        <!-- Django CSRF Token for AJAX -->
                         {% csrf_token %}
                         
                         <form id="resultForm">
-                            <!-- Student ID Number Field - ONLY FIELD REQUIRED -->
                             <div class="mb-8">
                                 <label class="block text-gray-700 font-semibold mb-2">
                                     <i class="fas fa-id-card text-green-600 mr-2"></i>
@@ -1331,18 +1290,14 @@
                                 </label>
                                 <input type="text" id="studentId" 
                                     class="form-input"
-                                    placeholder="Enter student's ID number (e.g., EMFHS-2025-A7K-B9 or 2025-001)"
-                                    required
-                                    pattern="[A-Za-z0-9\-_\/]+"
-                                    title="Enter your Student ID exactly as it appears on the report card">
+                                    placeholder="Enter student's ID number (e.g., EMFHS-2025-A7K-B9)"
+                                    required>
                                 <p class="text-xs sm:text-sm text-gray-500 mt-2 text-wrap-anywhere">
                                     <i class="fas fa-info-circle mr-1"></i>
                                     Enter your complete school ID number exactly as it appears on the report card
                                 </p>
-                                <!-- REMOVED: ID Examples section -->
                             </div>
 
-                            <!-- Class Selection -->
                             <div class="mb-6">
                                 <label class="block text-gray-700 font-semibold mb-2">
                                     <i class="fas fa-school text-blue-600 mr-2"></i>
@@ -1359,7 +1314,6 @@
                                 </select>
                             </div>
 
-                            <!-- Term & Session -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
                                 <div>
                                     <label class="block text-gray-700 font-semibold mb-2">
@@ -1379,12 +1333,11 @@
                                         Academic Session
                                     </label>
                                     <select id="session" class="form-select" required>
-                                        <option value="">Loading sessions...</option>
+                                        <option value="">Select Academic Session</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <!-- Submit Button -->
                             <button type="submit" id="checkResultBtn" 
                                 class="w-full school-green text-white font-bold py-3 sm:py-4 rounded-lg hover:opacity-90 transition duration-300 text-base sm:text-lg flex items-center justify-center shadow-lg">
                                 <i class="fas fa-fingerprint mr-2 sm:mr-3"></i> 
@@ -1415,7 +1368,6 @@
 
                 <!-- Right Column - Results Display -->
                 <div>
-                    <!-- Instructions / Welcome -->
                     <div id="welcomePanel" class="bg-white rounded-2xl card-shadow p-6 sm:p-8 mb-8">
                         <div class="text-center">
                             <div class="floating mb-6">
@@ -1429,7 +1381,6 @@
                                 <strong class="text-blue-700">Student name verification is disabled</strong> - only ID is required.
                             </p>
                             
-                            <!-- Quick Stats - Updated with responsive background -->
                             <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
                                 <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
                                     <div class="text-xl sm:text-2xl font-bold text-blue-700">ID-Only</div>
@@ -1455,20 +1406,17 @@
                                     <br><br>
                                     <strong>ID → Class → Term → Session</strong>
                                     <br><br>
-                                    Student name is NOT required or verified. This simplifies access while maintaining security.
-                                    Example: Student with ID <span class="bg-yellow-100 px-1 font-bold text-wrap-anywhere">EMFHS-2009-032</span> can access results from 2009/2010 session.
+                                    Student name is NOT required or verified.
                                     <br><br>
                                     <strong class="text-green-700 text-wrap-anywhere">✅ All years supported (2000 - Present)</strong>
                                     <br><br>
-                                    <strong class="text-purple-700 text-wrap-anywhere">✅ Supports NEW ID Format: EMFHS-YYYY-XXX-XX (mixed alphanumeric)</strong>
+                                    <strong class="text-purple-700 text-wrap-anywhere">✅ NEW ID Format: EMFHS-YYYY-XXX-XX (17 characters exactly)</strong>
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- PDF File Results Display -->
                     <div id="pdfResultsContainer" class="hidden bg-white rounded-2xl card-shadow overflow-hidden mb-8">
-                        <!-- Results Header -->
                         <div class="school-primary text-white p-4 sm:p-6">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between">
                                 <div class="mb-4 sm:mb-0 fixed-width-container">
@@ -1478,10 +1426,12 @@
                                              alt="Emilia Logo"
                                              class="w-8 h-8 sm:w-10 sm:h-10 mr-3 bg-white p-1 rounded flex-shrink-0">
                                         <div class="min-w-0 flex-1">
-                                            <div id="searchStudentId" class="text-lg sm:text-xl font-semib text-wrap-anywhere mobile-text-sm">ID: -</div>
+                                            <div id="searchStudentId" class="text-lg sm:text-xl font-bold text-wrap-anywhere mobile-text-sm">
+                                                <span class="text-white">ID:</span> <span id="studentIdValue" class="text-blue-900">-</span>
+                                            </div>
                                             <div class="result-info-container">
-                                                <div id="searchClassInfo" class="result-class-display mobile-text-xs">-</div>
-                                                <div id="searchYearMatch" class="text-blue-100 text-xs sm:text-sm mobile-text-xs">
+                                                <div id="searchClassInfo" class="result-class-display mobile-text-xs text-blue-800 font-semibold">-</div>
+                                                <div id="searchYearMatch" class="text-blue-700 text-xs sm:text-sm mobile-text-xs">
                                                     <i class="fas fa-calendar-check mr-1"></i> Year: -
                                                 </div>
                                             </div>
@@ -1500,14 +1450,10 @@
                             </div>
                         </div>
 
-                        <!-- Results Content -->
                         <div class="p-4 sm:p-6">
-                            <div id="pdfResultsContent" class="results-grid">
-                                <!-- PDF files will appear here -->
-                            </div>
+                            <div id="pdfResultsContent" class="results-grid"></div>
                         </div>
 
-                        <!-- Verification Footer -->
                         <div class="bg-gray-900 text-white p-3 sm:p-4 text-center">
                             <div class="flex items-center justify-center flex-wrap">
                                 <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
@@ -1521,7 +1467,6 @@
                         </div>
                     </div>
 
-                    <!-- Announcements -->
                     <div class="bg-white rounded-2xl card-shadow p-4 sm:p-6 mt-6 sm:mt-8">
                         <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
                             <i class="fas fa-bullhorn text-red-600 mr-2 sm:mr-3"></i>
@@ -1546,26 +1491,17 @@
                                     <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">System now supports EMFHS-YYYY-XXX-XX format (mixed alphanumeric).</p>
                                 </div>
                             </div>
-                            <div class="flex items-start border-l-4 border-purple-500 pl-3 sm:pl-4 py-2">
-                                <div class="min-w-0">
-                                    <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">Dual Format Support</p>
-                                    <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">Supports both NEW (mixed alphanumeric) and OLD (sequential numbers) ID formats.</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <!-- FULL WIDTH FOOTER - ENHANCED FOR STIFFNESS - FIXED TO BE FULL WIDTH -->
         <footer class="full-width-footer page-footer bg-gray-900 text-white shadow-2xl border-t-4 border-blue-600">
             <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8">
                 <div class="flex flex-col md:flex-row justify-between items-center mobile-stack">
-                    <!-- School Info - Updated with white background logo -->
                     <div class="mb-6 md:mb-0 text-center md:text-left">
                         <div class="flex items-center justify-center md:justify-start mb-3 sm:mb-4">
-                            <!-- White background added to logo -->
                             <div class="bg-white p-1 rounded-lg mr-3 sm:mr-4">
                                 <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
                                      alt="Emilia Logo"
@@ -1582,7 +1518,6 @@
                         </p>
                     </div>
 
-                    <!-- Contact -->
                     <div class="text-center md:text-right mobile-mt-4">
                         <h4 class="font-bold mb-2 sm:mb-4 text-sm sm:text-base">Contact Information</h4>
                         <div class="space-y-1 sm:space-y-2">
@@ -1610,7 +1545,7 @@
                         <div class="mt-2 md:mt-0">
                             <span class="text-gray-500 text-xs sm:text-sm text-wrap-anywhere">
                                 <i class="fas fa-fingerprint mr-1"></i>
-                                ID-Only Student Result Portal v4.1 (Supports NEW ID Format: EMFHS-YYYY-XXX-XX)
+                                ID-Only Student Result Portal v5.0 (Strict ID Format: EMFHS-YYYY-XXX-XX)
                             </span>
                         </div>
                     </div>
@@ -1622,15 +1557,11 @@
     <!-- JavaScript -->
     <script>
         // ==================== PROPER SCROLL MANAGEMENT ====================
-        
         function setupScrollManagement() {
-            // Simple scroll management - body handles scrolling naturally
             document.body.style.overflowY = 'auto';
             document.body.style.overflowX = 'hidden';
             
-            // SCROLL EDGE DETECTION
             window.addEventListener('scroll', function() {
-                // Show boundary indicator when near bottom
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const scrollHeight = document.documentElement.scrollHeight;
                 const clientHeight = document.documentElement.clientHeight;
@@ -1651,46 +1582,36 @@
             const adminFloatBtnContainer = document.getElementById('adminFloatBtnContainer');
             const adminFloatBtn = document.getElementById('adminFloatBtn');
             
-            // Check if user is admin using Django template variable
             const isAdminUser = {% if user.is_authenticated and user.is_staff %}true{% else %}false{% endif %};
-            
-            // Also check for specific admin usernames if needed
             const currentUsername = "{{ user.username|default:'' }}";
             const isAdminByUsername = currentUsername.includes('admin') || 
                                      currentUsername.includes('Admin') || 
                                      currentUsername.includes('ADMIN');
             
-            // Show button if user is admin (staff/superuser or has admin in username)
             if (isAdminUser || isAdminByUsername) {
                 if (adminFloatBtnContainer) {
                     adminFloatBtnContainer.style.display = 'block';
                     
-                    // Add click event to redirect to Django admin
                     if (adminFloatBtn) {
                         adminFloatBtn.addEventListener('click', function(e) {
-                            // If right-click, show context menu instead
                             if (e.button === 2 || (e.type === 'contextmenu')) {
                                 e.preventDefault();
                                 showAdminContextMenu(e);
                                 return;
                             }
-                            
-                            // Left click - go to admin panel
                             window.location.href = '/admin/';
                         });
                         
-                        // Add right-click context menu for extra admin options
                         adminFloatBtn.addEventListener('contextmenu', function(e) {
                             e.preventDefault();
                             showAdminContextMenu(e);
                         });
                         
-                        // Touch devices - long press for context menu
                         let touchTimer;
                         adminFloatBtn.addEventListener('touchstart', function(e) {
                             touchTimer = setTimeout(function() {
                                 showAdminContextMenu(e.touches[0] || e);
-                            }, 800); // 800ms long press
+                            }, 800);
                         });
                         
                         adminFloatBtn.addEventListener('touchend', function() {
@@ -1700,7 +1621,6 @@
                 }
             }
             
-            // Remove any existing context menu when clicking elsewhere
             document.addEventListener('click', function(e) {
                 const contextMenu = document.querySelector('.admin-context-menu');
                 if (contextMenu && !contextMenu.contains(e.target) && !adminFloatBtn.contains(e.target)) {
@@ -1708,7 +1628,6 @@
                 }
             });
             
-            // Also remove on escape key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     const contextMenu = document.querySelector('.admin-context-menu');
@@ -1718,15 +1637,12 @@
         }
         
         function showAdminContextMenu(e) {
-            // Remove existing context menu
             const existingMenu = document.querySelector('.admin-context-menu');
             if (existingMenu) existingMenu.remove();
             
-            // Calculate position
             const x = e.clientX || e.pageX;
             const y = e.clientY || e.pageY;
             
-            // Create context menu
             const contextMenu = document.createElement('div');
             contextMenu.className = 'admin-context-menu';
             contextMenu.style.right = `${window.innerWidth - x}px`;
@@ -1766,12 +1682,10 @@
             
             document.body.appendChild(contextMenu);
             
-            // Animate in
             setTimeout(() => {
                 contextMenu.classList.add('active');
             }, 10);
             
-            // Add click handlers
             const items = contextMenu.querySelectorAll('.admin-context-item');
             items.forEach(item => {
                 item.addEventListener('click', () => {
@@ -1794,19 +1708,15 @@
                 'backup': baseUrl + '/backup/'
             };
             
-            // Show loading on admin button
             const adminBtn = document.getElementById('adminFloatBtn');
             if (adminBtn) {
                 const originalIcon = adminBtn.innerHTML;
                 adminBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                
-                // Reset icon after 2 seconds
                 setTimeout(() => {
                     adminBtn.innerHTML = originalIcon;
                 }, 2000);
             }
             
-            // Navigate to URL
             if (actionUrls[action]) {
                 window.location.href = actionUrls[action];
             } else {
@@ -1814,63 +1724,81 @@
             }
         }
         
-        // ==================== INITIALIZATION ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Setup scroll management FIRST
-            setupScrollManagement();
+        // ==================== SESSION FUNCTIONS ====================
+        function loadAvailableSessions() {
+            console.log('Loading sessions directly...');
+            const sessionSelect = document.getElementById('session');
             
-            // Load available sessions
-            loadAvailableSessions();
+            if (!sessionSelect) {
+                console.error('Session select not found');
+                return;
+            }
             
-            // Add ripple effect to buttons
-            setupRippleEffect();
+            // Generate sessions directly - no backend call
+            const sessions = [];
+            const currentYear = new Date().getFullYear();
             
-            // Setup Django logout button functionality
-            setupDjangoLogoutButton();
+            for (let year = 2000; year <= currentYear + 10; year++) {
+                sessions.push(`${year}/${year + 1}`);
+            }
             
-            // Setup admin floating button
-            setupAdminFloatingButton();
-            
-            // Auto-remove Django messages after 5 seconds
-            autoRemoveMessages();
-            
-            // Auto-focus on student ID field for better UX
-            setTimeout(() => {
-                const studentIdField = document.getElementById('studentId');
-                if (studentIdField) {
-                    studentIdField.focus();
-                }
-            }, 500);
-            
-            // Add keyboard shortcut for admin panel (Ctrl+Shift+A)
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-                    e.preventDefault();
-                    const adminBtn = document.getElementById('adminFloatBtn');
-                    if (adminBtn) adminBtn.click();
-                }
+            // Sort newest first
+            sessions.sort((a, b) => {
+                const yearA = parseInt(a.split('/')[0]);
+                const yearB = parseInt(b.split('/')[0]);
+                return yearB - yearA;
             });
             
-            // REMOVED: Session mismatch detection - Year matching is disabled
-        });
+            // Clear and populate dropdown
+            sessionSelect.innerHTML = '<option value="">Select Academic Session</option>';
+            
+            // Get current academic year
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYearNow = now.getFullYear();
+            let currentAcademicYearStart;
+            if (currentMonth >= 8) {
+                currentAcademicYearStart = currentYearNow;
+            } else {
+                currentAcademicYearStart = currentYearNow - 1;
+            }
+            const currentAcademicSession = `${currentAcademicYearStart}/${currentAcademicYearStart + 1}`;
+            
+            sessions.forEach(session => {
+                const option = document.createElement('option');
+                option.value = session;
+                option.textContent = session;
+                
+                if (session === currentAcademicSession) {
+                    option.textContent += ' (Current)';
+                } else {
+                    const sessionYear = parseInt(session.split('/')[0]);
+                    if (sessionYear > currentAcademicYearStart) {
+                        option.textContent += ' (Upcoming)';
+                    } else if (sessionYear < currentAcademicYearStart) {
+                        option.textContent += ' (Past)';
+                    }
+                }
+                
+                sessionSelect.appendChild(option);
+            });
+            
+            console.log(`✅ Loaded ${sessions.length} sessions locally`);
+        }
 
-        // ==================== NO YEAR RESTRICTIONS SYSTEM ====================
-        
-        // Helper function to extract year from ID (FOR INFORMATION ONLY)
+        // ==================== HELPER FUNCTIONS ====================
         function extractYearFromId(studentId) {
             if (!studentId) return null;
-            
-            // Patterns for extracting year from various ID formats
             const patterns = [
-                /EMFHS-(\d{4})-[A-Z0-9]{3}/i,        // NEW FORMAT: EMFHS-2025-A7K-B9
-                /EMFHS-(\d{4})-\d{3}/i,              // OLD FORMAT: EMFHS-2025-001-A4
-                /(\d{4})-[A-Z0-9]{3}-[A-Z0-9]{2}/i,  // NEW: 2025-A7K-B9
-                /(\d{4})-\d{3}-[A-Z0-9]{2}/i,        // OLD: 2025-001-3N
-                /(\d{4})-[A-Z0-9]{3}/i,              // NEW: 2025-A7K
-                /(\d{4})-\d{3}/i,                    // OLD: 2025-001
-                /(\d{4})\/\d{3}/i,                   // 2025/001
-                /[A-Z]{2,}-(\d{4})-[A-Z0-9]{3}/i,    // EMIFORPHS-2025-A7K (NEW)
-                /[A-Z]{2,}-(\d{4})-\d{3}/i,          // EMIFORPHS-2025-001 (OLD)
+                /EMFHS-(\d{4})-[A-Z0-9]{3}/i,
+                /EMFHS-(\d{4})-\d{3}/i,
+                /(\d{4})-[A-Z0-9]{3}-[A-Z0-9]{2}/i,
+                /(\d{4})-\d{3}-[A-Z0-9]{2}/i,
+                /(\d{4})-[A-Z0-9]{3}/i,
+                /(\d{4})-\d{3}/i,
+                /(\d{4})\/\d{3}/i,
+                /[A-Z]{2,}-(\d{4})-[A-Z0-9]{3}/i,
+                /[A-Z]{2,}-(\d{4})-\d{3}/i,
             ];
             
             for (const pattern of patterns) {
@@ -1883,7 +1811,6 @@
                 }
             }
             
-            // Try to find any 4-digit number that looks like a year
             const yearMatch = studentId.match(/\b(20\d{2})\b/);
             if (yearMatch && yearMatch[1]) {
                 const year = parseInt(yearMatch[1]);
@@ -1891,15 +1818,11 @@
                     return year;
                 }
             }
-            
             return null;
         }
         
-        // Helper function to extract year from session
         function extractYearFromSession(session) {
             if (!session) return null;
-            
-            // Session format: "2025/2026" or "2025-2026"
             const parts = session.replace('/', '-').split('-');
             if (parts && parts.length > 0) {
                 const year = parseInt(parts[0]);
@@ -1907,105 +1830,11 @@
                     return year;
                 }
             }
-            
-            // Try to find any 4-digit number
             const yearMatch = session.match(/\b(20\d{2})\b/);
             if (yearMatch && yearMatch[1]) {
                 return parseInt(yearMatch[1]);
             }
-            
             return null;
-        }
-        
-        // ==================== DJANGO LOGOUT FUNCTIONALITY ====================
-        function setupDjangoLogoutButton() {
-            const logoutBtn = document.getElementById('logoutBtn');
-            const csrfToken = getCsrfToken();
-            const logoutUrl = logoutBtn.getAttribute('data-logout-url') || '/logout/';
-            
-            logoutBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Show confirmation dialog
-                if (confirm('Are you sure you want to logout from the Result Portal?')) {
-                    // Show loading state
-                    const originalHTML = logoutBtn.innerHTML;
-                    logoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Logging out...</span>';
-                    logoutBtn.disabled = true;
-                    
-                    // Create a form to submit logout request
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = logoutUrl;
-                    form.style.display = 'none';
-                    
-                    // Add CSRF token
-                    const csrfInput = document.createElement('input');
-                    csrfInput.type = 'hidden';
-                    csrfInput.name = 'csrfmiddlewaretoken';
-                    csrfInput.value = csrfToken;
-                    form.appendChild(csrfInput);
-                    
-                    // Add to body and submit
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            });
-            
-            // Add keyboard shortcut (Alt + L) for logout
-            document.addEventListener('keydown', function(e) {
-                if (e.altKey && e.key === 'l') {
-                    e.preventDefault();
-                    logoutBtn.click();
-                }
-            });
-            
-            // Add session timeout warning (optional)
-            setupSessionTimeoutWarning();
-        }
-        
-        // ==================== SESSION TIMEOUT WARNING ====================
-        function setupSessionTimeoutWarning() {
-            let timeoutWarningShown = false;
-            let logoutTimeout;
-            
-            // Reset timer on user activity
-            function resetLogoutTimer() {
-                if (logoutTimeout) {
-                    clearTimeout(logoutTimeout);
-                }
-                
-                // Set timeout for 30 minutes (1800000 ms)
-                logoutTimeout = setTimeout(function() {
-                    if (!timeoutWarningShown) {
-                        timeoutWarningShown = true;
-                        showSessionTimeoutWarning();
-                    }
-                }, 1800000); // 30 minutes
-            }
-            
-            // Show session timeout warning
-            function showSessionTimeoutWarning() {
-                if (confirm('Your session will expire in 5 minutes due to inactivity. Click OK to stay logged in.')) {
-                    // Reset the timer if user confirms
-                    timeoutWarningShown = false;
-                    resetLogoutTimer();
-                } else {
-                    // Logout after 5 minutes if no response
-                    setTimeout(function() {
-                        document.getElementById('logoutBtn').click();
-                    }, 300000); // 5 minutes
-                }
-            }
-            
-            // Listen for user activity
-            document.addEventListener('mousemove', resetLogoutTimer);
-            document.addEventListener('keypress', resetLogoutTimer);
-            document.addEventListener('click', resetLogoutTimer);
-            document.addEventListener('scroll', resetLogoutTimer);
-            
-            // Start the timer
-            resetLogoutTimer();
         }
 
         // ==================== DJANGO MESSAGES ====================
@@ -2019,177 +1848,66 @@
             }, 5000);
         }
 
-        // Function to show Django-style message
-        function showDjangoMessage(message, type = 'success') {
-            const messagesContainer = document.querySelector('.django-messages');
-            if (!messagesContainer) {
-                // Create messages container if it doesn't exist
-                const newContainer = document.createElement('div');
-                newContainer.className = 'django-messages';
-                document.body.appendChild(newContainer);
-            }
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `django-message message-${type}`;
-            
-            let icon = 'fas fa-info-circle';
-            if (type === 'success') icon = 'fas fa-check-circle';
-            else if (type === 'error') icon = 'fas fa-exclamation-circle';
-            else if (type === 'warning') icon = 'fas fa-exclamation-triangle';
-            
-            messageDiv.innerHTML = `
-                <div class="message-content">
-                    <div class="message-icon">
-                        <i class="${icon}"></i>
-                    </div>
-                    <div class="message-text text-wrap-anywhere">
-                        ${message}
-                    </div>
+        function showAlert(message, type = 'info') {
+            const alert = document.createElement('div');
+            alert.className = `fixed top-20 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm text-wrap-anywhere ${
+                type === 'error' ? 'bg-red-100 border-red-400 text-red-700' :
+                type === 'success' ? 'bg-green-100 border-green-400 text-green-700' :
+                type === 'warning' ? 'bg-yellow-100 border-yellow-400 text-yellow-700' :
+                'bg-blue-100 border-blue-400 text-blue-700'
+            }`;
+            alert.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} mr-3"></i>
+                    <span class="text-wrap-anywhere">${message}</span>
                 </div>
-                <button class="message-close" onclick="this.parentElement.style.animation='slideOutRight 0.3s ease-out forwards'; setTimeout(() => this.parentElement.remove(), 300)">
-                    <i class="fas fa-times"></i>
-                </button>
             `;
-            
-            const container = document.querySelector('.django-messages');
-            container.appendChild(messageDiv);
-            
-            // Auto-remove after 5 seconds
+            document.body.appendChild(alert);
             setTimeout(() => {
-                messageDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
-                setTimeout(() => messageDiv.remove(), 300);
+                alert.remove();
             }, 5000);
         }
 
-        // ==================== SIMPLE DOWNLOAD FUNCTION ====================
-        function startFileDownload(fileId, fileName) {
-            // Simple download without any monitoring
-            const link = document.createElement('a');
-            link.href = `/download/?file_id=${fileId}`;
-            link.download = fileName;
-            link.style.display = 'none';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-        
-        // Preview PDF file
-        function previewPDF(fileId) {
-            window.open(`https://drive.google.com/file/d/${fileId}/view`, '_blank');
-        }
-
-        // ==================== FORM FUNCTIONS ====================
-        async function loadAvailableSessions() {
-            try {
-                const sessionSelect = document.getElementById('session');
-                
-                // Try to get sessions from backend
-                const response = await fetch('/get_sessions/');
-                const data = await response.json();
-                
-                sessionSelect.innerHTML = '';
-                
-                if (data.success && data.sessions && data.sessions.length > 0) {
-                    // Use sessions from backend
-                    populateSessionDropdown(data.sessions, true);
-                } else {
-                    // Generate sessions locally if backend fails
-                    const generatedSessions = generateFutureSessions();
-                    populateSessionDropdown(generatedSessions, false);
-                }
-                
-            } catch (error) {
-                console.log('Error loading sessions, generating locally');
-                // Generate sessions locally if fetch fails
-                const generatedSessions = generateFutureSessions();
-                populateSessionDropdown(generatedSessions, false);
+        function getCsrfToken() {
+            const metaTag = document.querySelector('meta[name="csrf-token"]');
+            if (metaTag) {
+                return metaTag.getAttribute('content');
             }
+            const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+            if (csrfInput) {
+                return csrfInput.value;
+            }
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'csrftoken') return value;
+            }
+            return '';
         }
 
-        function generateFutureSessions() {
-            // Generate sessions from 2000 to 10 years in future
-            const currentYear = new Date().getFullYear();
-            const startYear = 2000;
+        // ==================== STRICT ID VALIDATION ====================
+        function isValidStudentId(studentId) {
+            if (!studentId || studentId.trim() === '') return false;
             
-            const sessions = [];
+            // STRICT VALIDATION - Must be exactly EMFHS-YYYY-XXX-XX format
+            const studentIdTrimmed = studentId.trim().toUpperCase();
             
-            // Generate sessions for next 10 years
-            for (let year = startYear; year <= currentYear + 10; year++) {
-                sessions.push(`${year}/${year + 1}`);
+            // Exact pattern: EMFHS-YYYY-XXX-XX (17 characters total)
+            const exactPattern = /^EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i;
+            
+            if (!exactPattern.test(studentIdTrimmed)) {
+                return false;
             }
             
-            return sessions;
+            // Check total length (should be 17 characters)
+            if (studentIdTrimmed.length !== 17) {
+                return false;
+            }
+            
+            return true;
         }
 
-        function populateSessionDropdown(sessions, fromBackend) {
-            const sessionSelect = document.getElementById('session');
-            
-            if (!sessions || sessions.length === 0) {
-                sessionSelect.innerHTML = '<option value="">No sessions available</option>';
-                return;
-            }
-            
-            // Sort sessions (newest first)
-            sessions.sort((a, b) => {
-                const yearA = parseInt(a.split('/')[0]);
-                const yearB = parseInt(b.split('/')[0]);
-                return yearB - yearA;
-            });
-            
-            // Get current academic year
-            const now = new Date();
-            const currentMonth = now.getMonth(); // 0 = January
-            const currentYear = now.getFullYear();
-            
-            // Academic year typically starts in September
-            let currentAcademicYearStart;
-            if (currentMonth >= 8) { // September or later
-                currentAcademicYearStart = currentYear;
-            } else {
-                currentAcademicYearStart = currentYear - 1;
-            }
-            const currentAcademicSession = `${currentAcademicYearStart}/${currentAcademicYearStart + 1}`;
-            
-            // Clear existing options except first one
-            while (sessionSelect.options.length > 1) {
-                sessionSelect.remove(1);
-            }
-            
-            // Add each session as an option
-            sessions.forEach(session => {
-                const option = document.createElement('option');
-                option.value = session;
-                option.textContent = session;
-                option.className = 'text-wrap-anywhere';
-                
-                // Add CSS classes for styling
-                if (session === currentAcademicSession) {
-                    option.classList.add('current');
-                    option.textContent += ' (Current)';
-                } else {
-                    const sessionYear = parseInt(session.split('/')[0]);
-                    const currentYearInt = parseInt(currentAcademicSession.split('/')[0]);
-                    
-                    if (sessionYear > currentYearInt) {
-                        option.classList.add('future');
-                        option.textContent += ' (Upcoming)';
-                    } else if (sessionYear < currentYearInt) {
-                        option.classList.add('past');
-                        option.textContent += ' (Past)';
-                    }
-                }
-                
-                sessionSelect.appendChild(option);
-            });
-            
-            // Select the placeholder option
-            sessionSelect.selectedIndex = 0;
-            
-            console.log(`✅ Loaded ${sessions.length} sessions ${fromBackend ? 'from server' : 'generated locally'}`);
-        }
-
-        // Form submission - NO YEAR RESTRICTIONS
+        // ==================== FORM SUBMISSION ====================
         document.getElementById('resultForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -2198,38 +1916,30 @@
             const term = document.getElementById('term').value;
             const session = document.getElementById('session').value;
             
-            // Validation
             if (!studentId || !studentClass || !term || !session) {
                 showAlert('Please fill in all required fields.', 'error');
                 return;
             }
             
-            // Validate that user selected something other than placeholder
             if (studentClass === "" || term === "" || session === "") {
                 showAlert('Please select an option for all dropdown fields.', 'error');
                 return;
             }
             
-            // Validate student ID format (SUPPORTS BOTH NEW AND OLD FORMATS)
             if (!isValidStudentId(studentId)) {
-                showAlert('Please enter a valid Student ID. Examples: EMFHS-2025-A7K-B9, EMFHS-2025-001-A4, 2025-A7K-B9, 2025-001-3N', 'error');
+                showAlert('❌ Invalid Student ID! Must be exactly: EMFHS-YYYY-XXX-XX (17 characters). Example: EMFHS-2025-VWW-UV. Shortcuts are NOT allowed.', 'error');
                 return;
             }
             
-            // Extract year from ID for information only - NO RESTRICTIONS
             const studentIdYear = extractYearFromId(studentId);
             const sessionYear = extractYearFromSession(session);
             
-            // NO YEAR MATCHING WARNINGS - Just search whatever session is selected
-            
-            // Show loading state
             const submitBtn = document.getElementById('checkResultBtn');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> SEARCHING...';
             submitBtn.disabled = true;
             
             try {
-                // Search for PDF files with NO YEAR RESTRICTIONS
                 const response = await fetch('/search/', {
                     method: 'POST',
                     headers: {
@@ -2237,7 +1947,7 @@
                         'X-CSRFToken': getCsrfToken()
                     },
                     body: JSON.stringify({
-                        student_name: '', // Empty name - NOT USED
+                        student_name: '',
                         student_id: studentId,
                         student_class: studentClass,
                         term: term,
@@ -2246,74 +1956,30 @@
                 });
                 
                 const data = await response.json();
-                
-                // Show PDF results
                 showPDFResults(data, studentId, studentClass, term, session, studentIdYear, sessionYear);
                 
             } catch (error) {
                 showAlert('Search failed. Please try again.', 'error');
                 console.error('Search error:', error);
             } finally {
-                // Reset button
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
         });
 
-        // Validate student ID format - UPDATED FOR NEW ID FORMAT
-        function isValidStudentId(studentId) {
-            if (!studentId || studentId.trim() === '') return false;
-            
-            // Common patterns for EMIFORPHS student IDs (BOTH NEW AND OLD FORMATS)
-            const patterns = [
-                // NEW FORMAT: EMFHS-YYYY-XXX-XX (XXX = mixed alphanumeric)
-                /^EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i,  // EMFHS-2025-A7K-B9
-                /^EMFHS-\d{4}-[A-Z0-9]{3}$/i,              // EMFHS-2025-A7K
-                /^\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i,        // 2025-A7K-B9
-                /^\d{4}-[A-Z0-9]{3}$/i,                    // 2025-A7K
-                
-                // OLD FORMAT: EMFHS-YYYY-NNN-XX (NNN = sequential numbers)
-                /^EMFHS-\d{4}-\d{3}-[A-Z0-9]{2}$/i,        // EMFHS-2025-001-A4
-                /^EMFHS-\d{4}-\d{3}$/i,                    // EMFHS-2025-001
-                /^\d{4}-\d{3}-[A-Z0-9]{2}$/i,              // 2025-001-3N
-                /^\d{4}-\d{3}$/i,                          // 2025-001
-                
-                // Backwards compatibility formats
-                /^[A-Z]{2,}-\d{4}-[A-Z0-9]{3}$/i,          // EMIFORPHS-2025-A7K
-                /^[A-Z]{2,}-\d{4}-\d{3}$/i,                // EMIFORPHS-2025-001
-                /^[A-Z]{2,}\/\d{4}\/[A-Z0-9]{3}$/i,        // EMIFORPHS/2025/A7K
-                /^[A-Z]{2,}\/\d{4}\/\d{3}$/i,              // EMIFORPHS/2025/001
-                /^\d{4}\/[A-Z0-9]{3}$/i,                   // 2025/A7K
-                /^\d{4}\/\d{3}$/i,                         // 2025/001
-                /^\d{4}[-/][A-Z0-9]{3}$/i,                 // Year followed by 3 alphanumeric
-                /^\d{4}[-/]\d{3}$/i                        // Year followed by 3 digits
-            ];
-            
-            // Check if any pattern matches
-            const matchesPattern = patterns.some(pattern => pattern.test(studentId));
-            
-            // Also allow if it looks like a reasonable ID (year + code/number)
-            const hasYearAndCode = /\d{4}[-/][A-Z0-9]{2,}/.test(studentId);
-            
-            return matchesPattern || hasYearAndCode;
-        }
-
-        // ==================== SHOW PDF RESULTS - NO YEAR RESTRICTIONS ====================
+        // ==================== SHOW PDF RESULTS ====================
         function showPDFResults(data, studentId, studentClass, term, session, studentIdYear, sessionYear) {
             const welcomePanel = document.getElementById('welcomePanel');
             const pdfResultsContainer = document.getElementById('pdfResultsContainer');
             const pdfResultsContent = document.getElementById('pdfResultsContent');
             
-            // Update search info with text wrapping
-            document.getElementById('searchStudentId').innerHTML = `ID: <span class="result-id-display">${studentId}</span>`;
+            document.getElementById('studentIdValue').innerHTML = `<span class="result-id-display text-blue-900">${studentId}</span>`;
             document.getElementById('searchClassInfo').textContent = studentClass;
             
-            // Show year information (for display only, not for matching)
             if (studentIdYear && sessionYear) {
                 const yearInfo = `ID Year: ${studentIdYear} | Session: ${sessionYear}`;
-                const yearInfoClass = 'text-blue-300';
                 document.getElementById('searchYearMatch').innerHTML = 
-                    `<i class="fas fa-info-circle mr-1"></i> <span class="${yearInfoClass} text-wrap-anywhere">${yearInfo}</span>`;
+                    `<i class="fas fa-info-circle mr-1"></i> <span class="text-blue-300 text-wrap-anywhere">${yearInfo}</span>`;
             } else {
                 document.getElementById('searchYearMatch').textContent = '';
             }
@@ -2325,19 +1991,12 @@
                 let filesHtml = '';
                 
                 data.files.forEach((file, index) => {
-                    // Extract ID from filename for verification display
-                    const extractedId = extractStudentIdFromFilename(file.name);
-                    const extractedYear = extractYearFromId(extractedId);
-                    
-                    // Verification badge
-                    let verificationBadge = '<span class="id-verified-badge"><i class="fas fa-fingerprint mr-1"></i> ID Verified</span>';
-                    
                     filesHtml += `
                         <div class="pdf-result-item pdf-result-compact">
                             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
                                 <div class="flex-1 min-w-0">
                                     <div class="flex flex-wrap items-center gap-2 mb-2 mobile-grid-results">
-                                        ${verificationBadge}
+                                        <span class="id-verified-badge"><i class="fas fa-fingerprint mr-1"></i> ID Verified</span>
                                         <span class="pdf-result-badge">File ${index + 1}</span>
                                         <span class="text-xs text-gray-500 text-wrap-anywhere">
                                             <i class="fas fa-calendar-alt mr-1"></i>
@@ -2352,24 +2011,16 @@
                                             <i class="fas fa-fingerprint mr-1"></i>
                                             ID: ${studentId}
                                         </span>
-                                        ${extractedYear ? `<span class="text-blue-600 font-medium text-wrap-anywhere">
-                                            <i class="fas fa-calendar mr-1"></i>
-                                            Year: ${extractedYear}
-                                        </span>` : ''}
                                     </div>
                                 </div>
                                 <div class="compact-btn-container sm:ml-4 flex-shrink-0 mobile-text-xs mt-3 sm:mt-0">
-                                    <button onclick="previewPDF('${file.id}')" 
-                                            class="pdf-action-btn pdf-view-btn">
+                                    <button onclick="previewPDF('${file.id}')" class="pdf-action-btn pdf-view-btn">
                                         <i class="fas fa-eye"></i>
                                         <span class="hidden sm:inline">View</span>
-                                        <span class="sm:hidden hidden xs:inline">View</span>
                                     </button>
-                                    <button onclick="startFileDownload('${file.id}', '${file.name}')" 
-                                            class="pdf-action-btn pdf-download-btn">
+                                    <button onclick="startFileDownload('${file.id}', '${file.name}')" class="pdf-action-btn pdf-download-btn">
                                         <i class="fas fa-download"></i>
                                         <span class="hidden sm:inline">Download</span>
-                                        <span class="sm:hidden hidden xs:inline">Download</span>
                                     </button>
                                 </div>
                             </div>
@@ -2377,7 +2028,6 @@
                     `;
                 });
                 
-                // Add success message
                 filesHtml = `
                     <div class="success-alert p-4 rounded-lg mb-6">
                         <div class="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -2391,33 +2041,15 @@
                                     <span class="bg-red-100 px-2 py-1 rounded text-sm text-wrap-anywhere">
                                         <i class="fas fa-fingerprint mr-1"></i> ID: ${studentId}
                                     </span>
-                                    ${studentIdYear ? `<span class="bg-purple-100 px-2 py-1 rounded text-sm text-wrap-anywhere">
-                                        <i class="fas fa-calendar mr-1"></i> ID Year: ${studentIdYear}
-                                    </span>` : ''}
                                 </div>
                                 <p class="mt-2 text-sm text-wrap-anywhere">${data.message}</p>
-                                <div class="mt-3 p-2 bg-blue-50 rounded border border-blue-200">
-                                    <p class="text-xs text-blue-800 text-wrap-anywhere">
-                                        <i class="fas fa-lightbulb mr-1"></i>
-                                        <strong>Search Tips:</strong><br>
-                                        1. No year restrictions - Search any session<br>
-                                        2. Student name is NOT required<br>
-                                        3. Try different sessions if current one doesn't work<br>
-                                        4. System supports BOTH ID formats:<br>
-                                           • NEW: EMFHS-2025-A7K-B9 (mixed alphanumeric)<br>
-                                           • OLD: EMFHS-2025-001-A4 (sequential numbers)<br>
-                                        5. If ID has multiple formats, try different variations
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>
                 ` + filesHtml;
                 
                 pdfResultsContent.innerHTML = filesHtml;
-                
             } else {
-                // Error message without year mismatch warnings
                 pdfResultsContent.innerHTML = `
                     <div class="error-alert p-4 rounded-lg">
                         <div class="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -2428,24 +2060,10 @@
                                 <div class="mt-2 text-sm text-wrap-anywhere">
                                     <p><strong>What to check:</strong></p>
                                     <ul class="list-disc pl-5 mt-1 space-y-1">
-                                        <li class="text-wrap-anywhere">Correct Student ID Number (e.g., EMFHS-2025-A7K-B9, EMFHS-2025-001-A4, etc.)</li>
+                                        <li class="text-wrap-anywhere">Correct Student ID Number (format: EMFHS-YYYY-XXX-XX)</li>
                                         <li class="text-wrap-anywhere">Correct class selection</li>
-                                        <li class="text-wrap-anywhere">Correct term and session (try different sessions if needed)</li>
-                                        <li class="text-wrap-anywhere">If ID has multiple formats, try different variations</li>
+                                        <li class="text-wrap-anywhere">Correct term and session</li>
                                     </ul>
-                                    <div class="mt-3 p-2 bg-blue-50 rounded border border-blue-200">
-                                        <p class="text-xs text-blue-800 text-wrap-anywhere">
-                                            <i class="fas fa-lightbulb mr-1"></i>
-                                            <strong>Search Tips:</strong><br>
-                                            1. No year restrictions - Search any session<br>
-                                            2. Student name is NOT required<br>
-                                            3. Try different sessions if current one doesn't work<br>
-                                            4. System supports BOTH ID formats:<br>
-                                               • NEW: EMFHS-2025-A7K-B9 (mixed alphanumeric)<br>
-                                               • OLD: EMFHS-2025-001-A4 (sequential numbers)<br>
-                                            5. If ID has multiple formats, try different variations
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2453,169 +2071,36 @@
                 `;
             }
             
-            // Show results and hide welcome panel
             welcomePanel.classList.add('hidden');
             pdfResultsContainer.classList.remove('hidden');
-            
-            // Scroll to results
             pdfResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            // Apply responsive text wrapping to all result elements
-            applyTextWrapping();
         }
 
-        // Apply text wrapping to all result elements
-        function applyTextWrapping() {
-            // Select all elements that might have long text
-            const longTextElements = document.querySelectorAll('#pdfResultsContent .text-wrap-anywhere, #pdfResultsContent .pdf-file-info span, #pdfResultsContent h4');
-            
-            longTextElements.forEach(el => {
-                el.style.overflowWrap = 'anywhere';
-                el.style.wordBreak = 'break-word';
-                el.style.hyphens = 'auto';
-            });
-        }
-
-        // Extract student ID from filename - UPDATED FOR NEW ID FORMAT
-        function extractStudentIdFromFilename(filename) {
-            // Common patterns for EMIFORPHS student IDs (BOTH FORMATS)
-            const patterns = [
-                // NEW FORMAT: EMFHS-YYYY-XXX-XX
-                /EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}/i,    // EMFHS-2025-A7K-B9
-                /EMFHS-\d{4}-[A-Z0-9]{3}/i,                // EMFHS-2025-A7K
-                /\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}/i,          // 2025-A7K-B9
-                /\d{4}-[A-Z0-9]{3}/i,                      // 2025-A7K
-                
-                // OLD FORMAT: EMFHS-YYYY-NNN-XX
-                /EMFHS-\d{4}-\d{3}-[A-Z0-9]{2}/i,          // EMFHS-2025-001-T8
-                /EMFHS-\d{4}-\d{3}/i,                      // EMFHS-2025-001
-                /\d{4}-\d{3}-[A-Z0-9]{2}/i,                // 2025-001-3N
-                /\d{4}-\d{3}/i,                            // 2025-001
-                
-                // Backwards compatibility
-                /[A-Z]{2,}-\d{4}-[A-Z0-9]{3}/i,            // EMIFORPHS-2025-A7K
-                /[A-Z]{2,}-\d{4}-\d{3}/i,                  // EMIFORPHS-2025-001
-                /[A-Z]{2,}\/\d{4}\/[A-Z0-9]{3}/i,          // EMIFORPHS/2025/A7K
-                /[A-Z]{2,}\/\d{4}\/\d{3}/i,                // EMIFORPHS/2025/001
-                /\d{4}\/[A-Z0-9]{3}/i,                     // 2025/A7K
-                /\d{4}\/\d{3}/i,                           // 2025/001
-                /\d{4}[-/][A-Z0-9]{3}/i,                   // Year + 3 alphanumeric
-                /\d{4}[-/]\d{3}/i                          // Year + 3 digits
-            ];
-            
-            for (const pattern of patterns) {
-                const match = filename.match(pattern);
-                if (match) {
-                    return match[0];
-                }
-            }
-            
-            return 'Unknown';
-        }
-
-        // Hide PDF results
         function hidePDFResults() {
             const welcomePanel = document.getElementById('welcomePanel');
             const pdfResultsContainer = document.getElementById('pdfResultsContainer');
             
             pdfResultsContainer.classList.add('hidden');
             welcomePanel.classList.remove('hidden');
-            
-            // Clear form - but keep selections if user wants to search again
-            // Just reset the ID field
             document.getElementById('studentId').value = '';
-            
-            // Auto-focus on student ID field
             document.getElementById('studentId').focus();
-            
-            // Scroll to form
-            document.getElementById('studentId').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // ==================== UTILITY FUNCTIONS ====================
-        function showAlert(message, type = 'info') {
-            // Create alert element
-            const alert = document.createElement('div');
-            alert.className = `fixed top-20 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm text-wrap-anywhere ${
-                type === 'error' ? 'bg-red-100 border-red-400 text-red-700' :
-                type === 'success' ? 'bg-green-100 border-green-400 text-green-700' :
-                type === 'warning' ? 'bg-yellow-100 border-yellow-400 text-yellow-700' :
-                'bg-blue-100 border-blue-400 text-blue-700'
-            }`;
-            alert.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} mr-3"></i>
-                    <span class="text-wrap-anywhere">${message}</span>
-                </div>
-            `;
-            
-            document.body.appendChild(alert);
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                alert.remove();
-            }, 5000);
+        function startFileDownload(fileId, fileName) {
+            const link = document.createElement('a');
+            link.href = `/download/?file_id=${fileId}`;
+            link.download = fileName;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function previewPDF(fileId) {
+            window.open(`https://drive.google.com/file/d/${fileId}/view`, '_blank');
         }
 
-        function getCsrfToken() {
-            // Try to get CSRF token from meta tag
-            const metaTag = document.querySelector('meta[name="csrf-token"]');
-            if (metaTag) {
-                return metaTag.getAttribute('content');
-            }
-            
-            // Try to get from form input
-            const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
-            if (csrfInput) {
-                return csrfInput.value;
-            }
-            
-            // Try to get from cookies
-            const cookies = document.cookie.split(';');
-            for (let cookie of cookies) {
-                const [name, value] = cookie.trim().split('=');
-                if (name === 'csrftoken') return value;
-            }
-            
-            return '';
-        }
-
-        // ==================== UI ENHANCEMENTS ====================
         function setupRippleEffect() {
-            document.querySelectorAll('.action-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    // Create ripple element
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.cssText = `
-                        position: absolute;
-                        border-radius: 50%;
-                        background: rgba(255, 255, 255, 0.7);
-                        transform: scale(0);
-                        animation: ripple-animation 0.6s linear;
-                        width: ${size}px;
-                        height: ${size}px;
-                        top: ${y}px;
-                        left: ${x}px;
-                        pointer-events: none;
-                    `;
-                    
-                    this.style.position = 'relative';
-                    this.style.overflow = 'hidden';
-                    this.appendChild(ripple);
-                    
-                    // Remove ripple after animation
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-            
-            // Add CSS for ripple animation
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes ripple-animation {
@@ -2627,6 +2112,39 @@
             `;
             document.head.appendChild(style);
         }
+
+        function setupDjangoLogoutButton() {
+            // Logout function placeholder
+        }
+
+        function setupSessionTimeoutWarning() {
+            // Session timeout placeholder
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            setupScrollManagement();
+            loadAvailableSessions();
+            setupRippleEffect();
+            setupDjangoLogoutButton();
+            setupAdminFloatingButton();
+            autoRemoveMessages();
+            
+            setTimeout(() => {
+                const studentIdField = document.getElementById('studentId');
+                if (studentIdField) {
+                    studentIdField.focus();
+                }
+            }, 500);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    e.preventDefault();
+                    const adminBtn = document.getElementById('adminFloatBtn');
+                    if (adminBtn) adminBtn.click();
+                }
+            });
+        });
     </script>
 </body>
 </html>
