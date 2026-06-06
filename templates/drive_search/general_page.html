@@ -1338,9 +1338,14 @@
                                 </div>
                             </div>
 
-                            <!-- BUTTON WITH GOOGLE ANALYTICS CLICK TRACKING -->
+                            <!-- BUTTON WITH DETAILED GOOGLE ANALYTICS TRACKING (Class + Term) -->
                             <button type="submit" id="checkResultBtn" 
-                                onclick="gtag('event', 'verify_check_result', {'event_category': 'engagement', 'event_label': document.getElementById('studentId').value || 'unknown_id'})"
+                                onclick="gtag('event', 'verify_check_result', {
+                                    'event_category': 'engagement', 
+                                    'event_label': document.getElementById('studentId').value || 'unknown_id',
+                                    'student_class': document.getElementById('studentClass').value,
+                                    'term_selected': document.getElementById('term').options[document.getElementById('term').selectedIndex]?.text || 'unknown'
+                                })"
                                 class="w-full school-green text-white font-bold py-3 sm:py-4 rounded-lg hover:opacity-90 transition duration-300 text-base sm:text-lg flex items-center justify-center shadow-lg">
                                 <i class="fas fa-fingerprint mr-2 sm:mr-3"></i> 
                                 VERIFY ID & CHECK RESULT
