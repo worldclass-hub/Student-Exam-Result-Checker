@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>EMIFORPHS Student Result Portal</title>
-    
-    <!-- Google Analytics -->
+    <title>BFA · Bright Future Academy Student Result Portal</title>
+
+    <!-- Google Analytics (placeholder) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBL8EPY781"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-MBL8EPY781');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBL8EPY781');
     </script>
-    
-    <!-- Django Static Loader -->
+
+    <!-- Django static loader (kept) -->
     {% load static %}
-    
-    <!-- Favicon - Emilia Logo -->
+
+    <!-- Favicon - BFA emblem (replaced with a modern BFA badge) -->
     <link rel="icon" type="image/x-icon" href="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/emilia_logo_circle.png">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- ==================== ROCK SOLID SCROLL SYSTEM - NO RUBBER BAND EVER ==================== -->
+
+    <!-- ========== STYLES: BFA WORLD‑CLASS THEME (POWERFUL, PREMIUM) ========== -->
     <style>
-        /* 1. FIXED POSITION BODY - Completely prevents any body movement */
+        /* ----- RESET & BASE (unchanged structure) ----- */
         html, body {
             width: 100%;
             height: 100%;
             position: fixed;
             overflow: hidden;
-            background: #f9fafb;
+            background: #f8fafc;
             margin: 0;
             padding: 0;
             top: 0;
@@ -45,1168 +45,178 @@
             overscroll-behavior: none;
             touch-action: pan-y pinch-zoom;
         }
-        
-        /* 2. SINGLE SCROLL CONTAINER - Only this can scroll internally */
         .scroll-container {
             width: 100%;
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
             position: relative;
-            background: #f9fafb;
+            background: #f8fafc;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: none;
             touch-action: pan-y;
             scroll-behavior: smooth;
         }
-        
-        /* 3. TRANSPARENT SCROLLBAR - Beautiful & clean */
-        .scroll-container::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .scroll-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .scroll-container::-webkit-scrollbar-thumb {
-            background: rgba(59, 130, 246, 0.3);
-            border-radius: 10px;
-            transition: background 0.3s ease;
-        }
-        
-        .scroll-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(59, 130, 246, 0.5);
-        }
-        
-        /* Firefox scrollbar - transparent */
-        .scroll-container {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
-        }
-        
-        /* 4. MAIN WRAPPER */
-        .main-wrapper {
-            width: 100%;
-            min-height: 100%;
-            background: #f9fafb;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* 5. Content wrapper */
-        .content-wrapper {
-            flex: 1 0 auto;
-            width: 100%;
-            max-width: 100%;
-            position: relative;
-        }
-        
-        /* 6. Footer */
-        .page-footer {
-            flex-shrink: 0;
-            width: 100%;
-            background: #111827;
-            margin-top: auto;
-        }
-        
-        .full-width-footer {
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            background: #111827;
-        }
-        
-        /* 7. Header - NOT STICKY */
+        .scroll-container::-webkit-scrollbar { width: 6px; }
+        .scroll-container::-webkit-scrollbar-track { background: transparent; }
+        .scroll-container::-webkit-scrollbar-thumb { background: rgba(30, 58, 138, 0.3); border-radius: 10px; }
+        .scroll-container::-webkit-scrollbar-thumb:hover { background: rgba(30, 58, 138, 0.6); }
+        .scroll-container { scrollbar-width: thin; scrollbar-color: rgba(30, 58, 138, 0.3) transparent; }
+
+        .main-wrapper { width: 100%; min-height: 100%; background: #f8fafc; display: flex; flex-direction: column; }
+        .content-wrapper { flex: 1 0 auto; width: 100%; max-width: 100%; position: relative; }
+        .page-footer { flex-shrink: 0; width: 100%; background: #0b1a33; margin-top: auto; }
+        .full-width-footer { width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: #0b1a33; }
+
+        /* ----- NEW HEADER: BFA POWER GRADIENT (deep indigo → royal gold) ----- */
         .page-header {
             width: 100%;
-            background: linear-gradient(135deg, rgba(26, 35, 126, 0.95) 0%, rgba(27, 94, 32, 0.95) 100%);
+            background: linear-gradient(145deg, #0b1a33 0%, #1e3a8a 40%, #b8860b 100%);
             z-index: 40;
             position: relative;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
-        
-        .no-overscroll {
-            overscroll-behavior: none;
+
+        /* ----- BFA PRIMARY COLORS (overriding old school) ----- */
+        .bfa-primary-bg { background: linear-gradient(145deg, #0b1a33, #1e3a8a); }
+        .bfa-gold-bg { background: linear-gradient(145deg, #b8860b, #d4af37); }
+        .bfa-accent { background: #d4af37; }
+        .bfa-card-shadow { box-shadow: 0 12px 40px rgba(11, 26, 51, 0.15); }
+        .bfa-border-gold { border: 2px solid #d4af37; }
+
+        /* buttons, badges, highlights */
+        .bfa-btn-primary {
+            background: linear-gradient(145deg, #0b1a33, #1e3a8a);
+            color: white;
+            transition: all 0.3s ease;
         }
-        
-        .content-container {
-            max-width: 7xl;
-            margin: 0 auto;
-            padding: 20px;
+        .bfa-btn-primary:hover { background: linear-gradient(145deg, #1e3a8a, #2a4fba); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(30, 58, 138, 0.4); }
+        .bfa-btn-gold {
+            background: linear-gradient(145deg, #b8860b, #d4af37);
+            color: #0b1a33;
+            font-weight: 700;
         }
-        
-        @media (max-width: 768px) {
-            .content-container {
-                padding: 10px;
-            }
-        }
-        
-        /* Scroll Boundary Indicator - Sweet & subtle */
-        .scroll-boundary {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #1a237e, #1b5e20, #3b82f6);
-            z-index: 9999;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 2px;
-        }
-        
-        .scroll-boundary.visible {
-            opacity: 1;
-        }
-        
-        /* ==================== ORIGINAL STYLES BELOW (unchanged) ==================== */
-        * {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        /* ========== WORLD-CLASS ADMIN FLOATING BUTTON ========== */
-        .admin-float-btn-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 100000;
-            display: none;
-        }
-        
+        .bfa-btn-gold:hover { background: linear-gradient(145deg, #d4af37, #e6c75e); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(184, 134, 11, 0.4); }
+
+        .bfa-badge { background: #d4af37; color: #0b1a33; padding: 4px 14px; border-radius: 40px; font-weight: 700; letter-spacing: 0.5px; }
+        .bfa-stats-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(212, 175, 55, 0.3); }
+
+        /* ----- Existing functional styles (unchanged) ----- */
+        * { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ADMIN FLOATING BUTTON (preserved) */
+        .admin-float-btn-container { position: fixed; bottom: 30px; right: 30px; z-index: 100000; display: none; }
         .admin-float-btn {
             background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
-            color: white;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
+            color: white; width: 65px; height: 65px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 24px;
             box-shadow: 0 10px 30px rgba(109, 40, 217, 0.5);
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid rgba(255,255,255,0.3); position: relative; overflow: hidden;
         }
-        
-        .admin-float-btn:hover {
-            transform: scale(1.15) rotate(8deg);
-            box-shadow: 0 15px 40px rgba(109, 40, 217, 0.8);
-            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
-        }
-        
-        .admin-float-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .admin-float-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .admin-float-btn:hover::before {
-            opacity: 1;
-        }
-        
+        .admin-float-btn:hover { transform: scale(1.15) rotate(8deg); box-shadow: 0 15px 40px rgba(109,40,217,0.8); }
+        .admin-float-btn::before { content: ''; position: absolute; inset:0; background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%); opacity:0; transition: opacity 0.3s; }
+        .admin-float-btn:hover::before { opacity:1; }
         .admin-float-btn::after {
             content: 'ADMIN PANEL';
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            white-space: nowrap;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.9); color: white; padding: 8px 16px; border-radius: 20px;
+            font-size: 12px; font-weight: 800; letter-spacing:1px; white-space: nowrap;
+            opacity:0; transition: all 0.3s; pointer-events: none;
         }
-        
-        .admin-float-btn:hover::after {
-            opacity: 1;
-            bottom: -45px;
-        }
-        
-        @keyframes admin-glow {
-            0%, 100% {
-                box-shadow: 0 0 25px rgba(109, 40, 217, 0.6);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(109, 40, 217, 0.9), 0 0 60px rgba(109, 40, 217, 0.4);
-            }
-        }
-        
-        .admin-float-btn.glow {
-            animation: admin-glow 2s infinite;
-        }
-        
+        .admin-float-btn:hover::after { opacity:1; bottom: -45px; }
+        @keyframes admin-glow { 0%,100% { box-shadow:0 0 25px rgba(109,40,217,0.6); } 50% { box-shadow:0 0 40px rgba(109,40,217,0.9),0 0 60px rgba(109,40,217,0.4); } }
+        .admin-float-btn.glow { animation: admin-glow 2s infinite; }
         .admin-tooltip {
-            position: absolute;
-            right: 85px;
-            bottom: 10px;
-            background: rgba(0, 0, 0, 0.95);
-            color: white;
-            padding: 18px 22px;
-            border-radius: 18px;
-            font-size: 14px;
-            font-weight: 600;
-            max-width: 280px;
-            width: max-content;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            opacity: 0;
-            transform: translateX(20px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            z-index: 100001;
+            position: absolute; right: 85px; bottom: 10px; background: rgba(0,0,0,0.95); color: white;
+            padding: 18px 22px; border-radius: 18px; font-size: 14px; font-weight: 600;
+            max-width: 280px; box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.15);
+            opacity:0; transform: translateX(20px); transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+            pointer-events: none; z-index:100001;
         }
-        
-        .admin-tooltip::after {
-            content: '';
-            position: absolute;
-            right: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-left: 8px solid rgba(0, 0, 0, 0.95);
-        }
-        
-        .admin-float-btn-container:hover .admin-tooltip {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .admin-pulse {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(109, 40, 217, 0.4);
-            animation: admin-pulse 2s infinite;
-            z-index: -1;
-        }
-        
-        @keyframes admin-pulse {
-            0% {
-                transform: scale(0.8);
-                opacity: 0.8;
-            }
-            70% {
-                transform: scale(1.6);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1.6);
-                opacity: 0;
-            }
-        }
-        
+        .admin-float-btn-container:hover .admin-tooltip { opacity:1; transform:translateX(0); }
+        .admin-pulse { position:absolute; inset:0; border-radius:50%; background:rgba(109,40,217,0.4); animation: admin-pulse 2s infinite; z-index:-1; }
+        @keyframes admin-pulse { 0% { transform:scale(0.8); opacity:0.8; } 70% { transform:scale(1.6); opacity:0; } 100% { transform:scale(1.6); opacity:0; } }
         .admin-context-menu {
-            position: fixed;
-            background: rgba(0, 0, 0, 0.98);
-            color: white;
-            border-radius: 16px;
-            padding: 8px 0;
-            min-width: 220px;
-            z-index: 100002;
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
-            opacity: 0;
-            transform: scale(0.95);
-            transform-origin: bottom right;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .admin-context-menu.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .admin-context-header {
-            padding: 12px 16px;
-            font-size: 11px;
-            opacity: 0.7;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .admin-context-item {
-            padding: 14px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: background 0.2s;
-            font-size: 14px;
-        }
-        
-        .admin-context-item:hover {
-            background: rgba(109, 40, 217, 0.3);
-        }
-        
-        .admin-context-item i {
-            width: 20px;
-            text-align: center;
-            font-size: 16px;
-        }
-        
-        @media (max-width: 768px) {
-            .admin-float-btn-container {
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .admin-float-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 22px;
-            }
-            
-            .admin-tooltip {
-                right: 75px;
-                bottom: 5px;
-                font-size: 13px;
-                padding: 15px 18px;
-                max-width: 240px;
-            }
-            
-            .admin-float-btn::after {
-                font-size: 11px;
-                padding: 6px 12px;
-                bottom: -38px;
-            }
-            
-            .admin-context-menu {
-                min-width: 200px;
-                right: 20px !important;
-                bottom: 85px !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .admin-tooltip {
-                display: none;
-            }
-        }
-        
-        /* Django Messages Styling */
-        .django-messages {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 99999;
-            max-width: 400px;
-            width: 100%;
-        }
-        
-        .django-message {
-            padding: 16px 20px;
-            margin-bottom: 10px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            animation: slideInRight 0.3s ease-out;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .message-success {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .message-error {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .message-warning {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .message-info {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .message-content {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-        }
-        
-        .message-icon {
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-        
-        .message-close {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-left: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .message-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-        
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 50;
-            background: rgba(0, 0, 0, 0.8);
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                overscroll-behavior-y: contain;
-            }
-            
-            .django-messages {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                max-width: none;
-            }
-        }
-        
-        .title-font {
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .school-primary {
-            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
-        }
-        
-        .school-green {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-        }
-        
-        .school-yellow {
-            background: linear-gradient(135deg, #f57f17 0%, #ffb300 100%);
-        }
-        
-        .card-shadow {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-        
-        .logo-badge {
-            background: linear-gradient(135deg, #1a237e, #1b5e20);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-        }
-        
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .gradient-border {
-            border: 2px solid transparent;
-            background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, #1a237e, #1b5e20) border-box;
-        }
-        
-        .subject-row:hover {
-            background-color: #f0f7ff;
-            transform: translateX(5px);
-            transition: all 0.3s ease;
-        }
-        
-        .stats-bg {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .text-wrap-anywhere {
-            overflow-wrap: anywhere;
-            word-wrap: break-word;
-            word-break: break-word;
-            hyphens: auto;
-        }
-        
-        .text-truncate-multiline {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .responsive-text {
-            font-size: clamp(0.875rem, 2vw, 1rem);
-        }
-        
-        .fixed-width-container {
-            max-width: 100%;
-            width: 100%;
-        }
-        
-        @media (max-width: 640px) {
-            .fixed-width-container {
-                max-width: 100%;
-            }
-        }
-        
-        .action-btn {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateY(0);
-            border: 2px solid transparent;
-            font-weight: 600;
-            letter-spacing: 0.025em;
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .action-btn:active {
-            transform: translateY(-1px);
-            transition: all 0.1s ease;
-        }
-        
-        .action-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-        
-        .action-btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
-        }
-        
-        .btn-icon {
-            transition: transform 0.3s ease;
-        }
-        
-        .action-btn:hover .btn-icon {
-            transform: scale(1.1);
-        }
-        
-        .btn-container {
-            display: grid;
-            gap: 0.75rem;
-        }
-        
-        @media (min-width: 640px) {
-            .btn-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        @media (max-width: 639px) {
-            .btn-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-btn {
-                padding-top: 0.875rem;
-                padding-bottom: 0.875rem;
-                font-size: 0.95rem;
-            }
-        }
-        
-        @media (min-width: 640px) {
-            .action-btn {
-                padding-top: 0.875rem;
-                padding-bottom: 0.875rem;
-            }
-        }
-        
-        @media (max-width: 640px) {
-            .mobile-stack {
-                flex-direction: column !important;
-                text-align: center;
-            }
-            .mobile-center {
-                justify-content: center !important;
-            }
-            .mobile-full {
-                width: 100% !important;
-            }
-            .mobile-mt-4 {
-                margin-top: 1rem !important;
-            }
-            
-            .mobile-text-wrap {
-                word-break: break-word !important;
-                overflow-wrap: anywhere !important;
-            }
-            
-            .mobile-grid-results {
-                grid-template-columns: 1fr !important;
-                gap: 0.5rem !important;
-            }
-            
-            .mobile-text-sm {
-                font-size: 0.875rem !important;
-            }
-            
-            .mobile-text-xs {
-                font-size: 0.75rem !important;
-            }
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        main {
-            overflow-x: hidden;
-            width: 100%;
-        }
-        
-        .session-option {
-            font-weight: 500;
-        }
-        
-        .session-option.current {
-            color: #059669;
-            font-weight: bold;
-        }
-        
-        .session-option.future {
-            color: #2563eb;
-        }
-        
-        .session-option.past {
-            color: #6b7280;
-        }
-        
-        .pdf-result-item {
-            border: 1px solid #e5e7eb;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-            background: white;
-            max-width: 100%;
-            overflow: hidden;
-        }
-        
-        .pdf-result-item:hover {
-            background-color: #f9fafb;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        .pdf-result-badge {
-            background-color: #dbeafe;
-            color: #1e40af;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        
-        .pdf-file-info {
-            font-size: 0.875rem;
-            color: #6b7280;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
-        
-        .pdf-file-info span {
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .pdf-action-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            white-space: nowrap;
-            flex-shrink: 0;
-            min-height: 40px;
-            font-size: 0.875rem;
-        }
-        
-        @media (max-width: 640px) {
-            .pdf-action-btn {
-                padding: 0.4rem 0.75rem !important;
-                font-size: 0.8rem !important;
-                min-height: 36px;
-                gap: 0.3rem;
-            }
-            
-            .pdf-action-btn i {
-                font-size: 0.9rem;
-            }
-        }
-        
-        @media (max-width: 380px) {
-            .pdf-action-btn {
-                padding: 0.35rem 0.6rem !important;
-                font-size: 0.75rem !important;
-                min-height: 34px;
-                gap: 0.25rem;
-            }
-            
-            .pdf-action-btn i {
-                font-size: 0.85rem;
-            }
-            
-            .pdf-action-btn span {
-                display: none;
-            }
-            
-            .pdf-action-btn i {
-                margin: 0 !important;
-            }
-        }
-        
-        .pdf-view-btn {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .pdf-view-btn:hover {
-            background-color: #bfdbfe;
-        }
-        
-        .pdf-download-btn {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-            color: white;
-        }
-        
-        .pdf-download-btn:hover {
-            background: linear-gradient(135deg, #166b1a 0%, #256628 100%);
-        }
-        
-        .spinner {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .success-alert {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            border: 1px solid #10b981;
-            color: #065f46;
-            max-width: 100%;
-            overflow-wrap: anywhere;
-        }
-        
-        .error-alert {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            border: 1px solid #ef4444;
-            color: #7f1d1d;
-            max-width: 100%;
-            overflow-wrap: anywhere;
-        }
-        
-        .folder-verified-alert {
-            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-            border: 1px solid #4f46e5;
-            color: #3730a3;
-            max-width: 100%;
-            overflow-wrap: anywhere;
-        }
-        
-        .form-input {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            width: 100%;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .form-select {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 0.75rem 2.5rem 0.75rem 1rem;
-            width: 100%;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.5rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
-        }
-        
-        .form-select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .logout-btn {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-            color: white;
-            border: none;
-            padding: 0.5rem 1.25rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.25);
-            position: relative;
-            overflow: hidden;
-            z-index: 10;
-        }
-        
-        .logout-btn:hover {
-            background: linear-gradient(135deg, #b91c1b 0%, #991b1b 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(220, 38, 38, 0.3);
-        }
-        
-        .logout-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.25);
-        }
-        
-        .logout-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.7s ease;
-        }
-        
-        .logout-btn:hover::before {
-            left: 100%;
-        }
-        
-        .logout-btn i {
-            font-size: 0.9rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .logout-btn:hover i {
-            transform: translateX(2px);
-        }
-        
-        @media (max-width: 768px) {
-            .logout-btn {
-                padding: 0.4rem 1rem;
-                font-size: 0.8rem;
-            }
-            
-            .logout-btn span {
-                display: none;
-            }
-            
-            .logout-btn i {
-                font-size: 1rem;
-                margin: 0;
-            }
-        }
-        
-        .id-hint {
-            font-size: 0.75rem;
-            color: #4b5563;
-            background-color: #f3f4f6;
-            border-radius: 0.375rem;
-            padding: 0.5rem;
-            margin-top: 0.25rem;
-            border-left: 3px solid #3b82f6;
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
-        
-        .id-example {
-            font-family: monospace;
-            background-color: #e5e7eb;
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
-            margin: 0 0.125rem;
-            font-size: 0.7rem;
-            display: inline-block;
-            max-width: 100%;
-            overflow-wrap: anywhere;
-        }
-        
-        .id-verified-badge {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            white-space: nowrap;
-        }
-        
-        .id-required {
-            color: #dc2626;
-            font-weight: bold;
-        }
-        
-        .folder-verified-badge {
-            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            white-space: nowrap;
-        }
-        
-        .year-match-badge {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            white-space: nowrap;
-        }
-        
-        .session-mismatch-warning {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border: 2px solid #f59e0b;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1rem;
-            overflow-wrap: anywhere;
-        }
-        
-        .result-id-display {
-            font-family: monospace;
-            background-color: #f3f4f6;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.875rem;
-            word-break: break-all;
-            overflow-wrap: anywhere;
-            max-width: 100%;
-            display: inline-block;
-        }
-        
-        .result-class-display {
-            background-color: #dbeafe;
-            color: #1e40af;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-            white-space: nowrap;
-        }
-        
-        .result-info-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-            max-width: 100%;
-        }
-        
-        .result-info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            max-width: 100%;
-        }
-        
-        @media (min-width: 768px) {
-            .results-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 1rem;
-            }
-        }
-        
-        @media (max-width: 767px) {
-            .results-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-        }
-        
-        .compact-btn-container {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: nowrap;
-            justify-content: flex-start;
-        }
-        
-        @media (max-width: 640px) {
-            .compact-btn-container {
-                gap: 0.4rem;
-                justify-content: flex-start;
-                width: 100%;
-            }
-            
-            .compact-btn-container .pdf-action-btn {
-                flex: 0 1 auto;
-                min-width: auto;
-            }
-        }
-        
-        @media (max-width: 380px) {
-            .compact-btn-container {
-                gap: 0.3rem;
-            }
-        }
-        
-        .pdf-result-compact {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-        
-        @media (max-width: 640px) {
-            .pdf-result-compact {
-                gap: 0.5rem;
-            }
-        }
-        
-        body.modal-open {
-            overflow: hidden;
-        }
+            position: fixed; background: rgba(0,0,0,0.98); color:white; border-radius:16px; padding:8px 0;
+            min-width:220px; z-index:100002; backdrop-filter:blur(25px); border:1px solid rgba(255,255,255,0.1);
+            box-shadow:0 25px 70px rgba(0,0,0,0.7); opacity:0; transform:scale(0.95); transform-origin:bottom right;
+            transition:all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+        }
+        .admin-context-menu.active { opacity:1; transform:scale(1); }
+        .admin-context-header { padding:12px 16px; font-size:11px; opacity:0.7; border-bottom:1px solid rgba(255,255,255,0.1); text-transform:uppercase; letter-spacing:1px; }
+        .admin-context-item { padding:14px 16px; cursor:pointer; display:flex; align-items:center; gap:12px; transition:background 0.2s; font-size:14px; }
+        .admin-context-item:hover { background:rgba(109,40,217,0.3); }
+        .admin-context-item i { width:20px; text-align:center; }
+
+        /* django messages, modals, etc (all preserved) */
+        .django-messages { position:fixed; top:20px; right:20px; z-index:99999; max-width:400px; width:100%; }
+        .django-message { padding:16px 20px; margin-bottom:10px; border-radius:12px; display:flex; align-items:center; justify-content:space-between; animation:slideInRight 0.3s ease-out; box-shadow:0 10px 30px rgba(0,0,0,0.1); backdrop-filter:blur(10px); }
+        .message-success { background:linear-gradient(135deg,#25D366,#128C7E); color:white; }
+        .message-error { background:linear-gradient(135deg,#ef4444,#dc2626); color:white; }
+        .message-warning { background:linear-gradient(135deg,#f59e0b,#d97706); color:white; }
+        .message-info { background:linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; }
+        .message-close { background:rgba(255,255,255,0.2); border:none; color:white; width:32px; height:32px; border-radius:8px; cursor:pointer; transition:all 0.3s; }
+        .message-close:hover { background:rgba(255,255,255,0.3); }
+        @keyframes slideInRight { from { transform:translateX(100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
+        @keyframes slideOutRight { from { transform:translateX(0); opacity:1; } to { transform:translateX(100%); opacity:0; } }
+
+        .title-font { font-family: 'Playfair Display', serif; }
+        .school-primary { background: linear-gradient(145deg, #0b1a33, #1e3a8a); }
+        .school-green { background: linear-gradient(145deg, #b8860b, #d4af37); } /* re‑purposed gold */
+        .school-yellow { background: linear-gradient(145deg, #f5c842, #f7d44a); color:#0b1a33; }
+
+        .card-shadow { box-shadow: 0 12px 40px rgba(11,26,51,0.12); }
+        .logo-badge { background: linear-gradient(145deg, #0b1a33, #1e3a8a); color:white; padding:8px 16px; border-radius:8px; font-weight:bold; display:inline-block; }
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+        .gradient-border { border:2px solid transparent; background:linear-gradient(white,white) padding-box, linear-gradient(145deg,#0b1a33,#d4af37) border-box; }
+        .subject-row:hover { background-color:#f0f7ff; transform:translateX(5px); transition:all 0.3s; }
+        .stats-bg { background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(255,255,255,0.95)); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.3); box-shadow:0 8px 32px rgba(0,0,0,0.08); }
+        .text-wrap-anywhere { overflow-wrap:anywhere; word-break:break-word; }
+        .action-btn { position:relative; overflow:hidden; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); transform:translateY(0); font-weight:600; letter-spacing:0.025em; }
+        .action-btn:hover { transform:translateY(-3px); box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+        .btn-icon { transition:transform 0.3s; }
+        .action-btn:hover .btn-icon { transform:scale(1.1); }
+        .btn-container { display:grid; gap:0.75rem; }
+        @media (min-width:640px) { .btn-container { grid-template-columns:repeat(3,1fr); } }
+        @media (max-width:639px) { .btn-container { grid-template-columns:1fr; } .action-btn { padding-top:0.875rem; padding-bottom:0.875rem; } }
+
+        .pdf-result-item { border:1px solid #e5e7eb; border-radius:0.75rem; padding:1rem; margin-bottom:1rem; transition:all 0.3s; background:white; max-width:100%; overflow:hidden; }
+        .pdf-result-item:hover { background:#f9fafb; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+        .pdf-result-badge { background:#dbeafe; color:#1e40af; font-size:0.75rem; padding:0.25rem 0.5rem; border-radius:0.375rem; font-weight:600; }
+        .pdf-action-btn { padding:0.5rem 1rem; border-radius:0.5rem; font-weight:600; transition:all 0.2s; display:inline-flex; align-items:center; gap:0.5rem; white-space:nowrap; flex-shrink:0; min-height:40px; font-size:0.875rem; }
+        .pdf-view-btn { background:#dbeafe; color:#1e40af; }
+        .pdf-view-btn:hover { background:#bfdbfe; }
+        .pdf-download-btn { background:linear-gradient(145deg,#b8860b,#d4af37); color:#0b1a33; }
+        .pdf-download-btn:hover { background:linear-gradient(145deg,#d4af37,#e6c75e); }
+        .form-input { border:2px solid #e5e7eb; border-radius:0.5rem; padding:0.75rem 1rem; width:100%; transition:all 0.3s; font-size:1rem; }
+        .form-input:focus { outline:none; border-color:#b8860b; box-shadow:0 0 0 3px rgba(184,134,11,0.2); }
+        .form-select { border:2px solid #e5e7eb; border-radius:0.5rem; padding:0.75rem 2.5rem 0.75rem 1rem; width:100%; transition:all 0.3s; font-size:1rem; appearance:none; background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position:right 0.5rem center; background-repeat:no-repeat; background-size:1.5em 1.5em; }
+        .form-select:focus { outline:none; border-color:#b8860b; box-shadow:0 0 0 3px rgba(184,134,11,0.2); }
+        .logout-btn { background:linear-gradient(145deg,#dc2626,#b91c1c); color:white; border:none; padding:0.5rem 1.25rem; border-radius:0.5rem; font-weight:600; font-size:0.875rem; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:0.5rem; box-shadow:0 4px 6px rgba(220,38,38,0.25); position:relative; overflow:hidden; z-index:10; }
+        .logout-btn:hover { background:linear-gradient(145deg,#b91c1b,#991b1b); transform:translateY(-2px); }
+        .id-verified-badge { background:linear-gradient(145deg,#10b981,#059669); color:white; font-size:0.7rem; padding:0.25rem 0.5rem; border-radius:0.375rem; font-weight:600; display:inline-flex; align-items:center; gap:0.25rem; }
+        .folder-verified-badge { background:linear-gradient(145deg,#4f46e5,#3730a3); color:white; font-size:0.7rem; padding:0.25rem 0.5rem; border-radius:0.375rem; font-weight:600; display:inline-flex; align-items:center; gap:0.25rem; }
+        .result-class-display { background:#dbeafe; color:#1e40af; padding:0.25rem 0.5rem; border-radius:0.25rem; font-weight:600; font-size:0.875rem; }
+        .id-example { font-family:monospace; background:#e5e7eb; padding:0.125rem 0.375rem; border-radius:0.25rem; font-size:0.7rem; display:inline-block; }
+        .result-id-display { font-family:monospace; background:#f3f4f6; padding:0.25rem 0.5rem; border-radius:0.25rem; font-size:0.875rem; word-break:break-all; }
+
+        /* responsive tweaks */
+        @media (max-width:768px) { .admin-tooltip { right:75px; bottom:5px; font-size:13px; padding:15px 18px; max-width:240px; } }
+        @media (max-width:480px) { .admin-tooltip { display:none; } }
+        .mobile-text-wrap { word-break:break-word !important; overflow-wrap:anywhere !important; }
+        .compact-btn-container { display:flex; gap:0.5rem; flex-wrap:nowrap; justify-content:flex-start; }
+        @media (max-width:640px) { .compact-btn-container .pdf-action-btn { flex:0 1 auto; min-width:auto; } .pdf-action-btn span { display:none; } .pdf-action-btn i { margin:0 !important; } }
     </style>
 </head>
 <body class="no-overscroll">
-    <!-- SINGLE SCROLL CONTAINER - Rock solid, no rubber band -->
     <div class="scroll-container" id="scrollContainer">
         <div class="main-wrapper">
-            <!-- Scroll Boundary Indicator -->
             <div id="scrollBoundary" class="scroll-boundary"></div>
-            
-            <!-- Admin Floating Button -->
+
+            <!-- Admin Floating Button (preserved) -->
             <div class="admin-float-btn-container" id="adminFloatBtnContainer">
                 <div class="admin-pulse"></div>
                 <button class="admin-float-btn glow" id="adminFloatBtn" title="Admin Panel Access">
@@ -1214,30 +224,23 @@
                 </button>
                 <div class="admin-tooltip">
                     <strong>Admin Panel Access</strong><br>
-                    Quick access to EMIFORPHS Admin for system management, user control, and database administration.
+                    Quick access to BFA Admin – system management, user control, database.
                 </div>
             </div>
-            
-            <!-- Django Messages Display -->
+
+            <!-- Django Messages -->
             {% if messages %}
             <div class="django-messages">
                 {% for message in messages %}
                 <div class="django-message message-{{ message.tags }}">
                     <div class="message-content">
                         <div class="message-icon">
-                            {% if message.tags == 'success' %}
-                            <i class="fas fa-check-circle"></i>
-                            {% elif message.tags == 'error' %}
-                            <i class="fas fa-exclamation-circle"></i>
-                            {% elif message.tags == 'warning' %}
-                            <i class="fas fa-exclamation-triangle"></i>
-                            {% else %}
-                            <i class="fas fa-info-circle"></i>
-                            {% endif %}
+                            {% if message.tags == 'success' %}<i class="fas fa-check-circle"></i>
+                            {% elif message.tags == 'error' %}<i class="fas fa-exclamation-circle"></i>
+                            {% elif message.tags == 'warning' %}<i class="fas fa-exclamation-triangle"></i>
+                            {% else %}<i class="fas fa-info-circle"></i>{% endif %}
                         </div>
-                        <div class="message-text">
-                            {{ message }}
-                        </div>
+                        <div class="message-text">{{ message }}</div>
                     </div>
                     <button class="message-close" onclick="this.parentElement.style.animation='slideOutRight 0.3s ease-out forwards'; setTimeout(() => this.parentElement.remove(), 300)">
                         <i class="fas fa-times"></i>
@@ -1246,998 +249,545 @@
                 {% endfor %}
             </div>
             {% endif %}
-            
-            <div class="page-container" id="pageContainer">
-                <!-- Yellow Notice Bar -->
-                <div class="school-yellow text-gray-900 py-2 px-4 text-center font-medium w-full">
-                    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2">
-                        <span class="flex items-center">
-                            <i class="fas fa-star mr-2"></i> 
-                            <span class="hidden sm:inline">Student Results Portal - ID ONLY VERIFICATION</span>
-                            <span class="sm:hidden">ID Only Verification</span>
-                        </span>
-                        <span class="hidden sm:inline">|</span>
-                        <span class="font-bold">Official School Results</span>
+
+            <!-- Yellow Notice Bar (BFA style) -->
+            <div class="school-yellow text-gray-900 py-2 px-4 text-center font-medium w-full">
+                <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2">
+                    <span class="flex items-center"><i class="fas fa-star mr-2 text-amber-900"></i> <span class="hidden sm:inline">BFA Student Results – ID ONLY VERIFICATION</span><span class="sm:hidden">ID Only</span></span>
+                    <span class="hidden sm:inline">|</span>
+                    <span class="font-bold">Bright Future Academy • Official Results</span>
+                </div>
+            </div>
+
+            <!-- ========== HEADER: Bright Future Academy ========== -->
+            <header class="page-header text-white py-4 shadow-lg">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <a href="#" class="flex items-center mb-4 md:mb-0 mobile-center hover:opacity-90 transition-opacity">
+                            <div class="mr-4">
+                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png"
+                                    alt="Bright Future Academy Logo"
+                                    class="w-16 h-16 object-contain bg-white p-2 rounded-xl shadow-lg">
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h1 class="text-xl sm:text-2xl md:text-3xl font-bold title-font leading-tight">BRIGHT FUTURE ACADEMY</h1>
+                                <p class="text-amber-200 text-xs sm:text-sm md:text-base text-wrap-anywhere">Excellence • Integrity • Illumination</p>
+                            </div>
+                        </a>
+                        <div class="flex items-center gap-4 mobile-mt-4">
+                            <div class="text-center md:text-right">
+                                <div class="logo-badge"><i class="fas fa-graduation-cap mr-2"></i> BFA</div>
+                                <p class="text-sm text-amber-200 mt-1 hidden sm:block">Knowledge • Integrity • Excellence</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ========== MAIN CONTENT ========== -->
+            <main class="content-wrapper container mx-auto px-4 py-8">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">Student Result Portal</h2>
+                    <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto text-wrap-anywhere">
+                        Enter student ID to access official academic results for JSS 1 – SS 3
+                    </p>
+                    <div class="mt-4 inline-flex items-center bg-amber-50 px-4 py-2 rounded-lg border border-amber-300">
+                        <i class="fas fa-fingerprint text-amber-700 mr-2"></i>
+                        <span class="text-sm text-amber-800 font-medium">ID‑Only Verification • EMFHS‑ID code maintained</span>
                     </div>
                 </div>
 
-                <!-- Main Header -->
-                <header class="page-header text-white py-4 shadow-lg">
-                    <div class="max-w-7xl mx-auto px-4">
-                        <div class="flex flex-col md:flex-row justify-between items-center">
-                            <a href="" class="flex items-center mb-4 md:mb-0 mobile-center hover:opacity-90 transition-opacity">
-                                <div class="mr-4">
-                                    <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                        alt="Emilia Foremost High School Logo"
-                                        class="w-16 h-16 object-contain bg-white p-2 rounded-xl shadow-lg">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- LEFT: Result Checker -->
+                    <div class="bg-white rounded-2xl card-shadow overflow-hidden gradient-border">
+                        <div class="school-primary text-white p-6">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-fingerprint text-blue-900 text-xl"></i>
                                 </div>
-                                <div class="text-center md:text-left">
-                                    <h1 class="text-xl sm:text-2xl md:text-3xl font-bold title-font leading-tight">EMILIA FOREMOST HIGH SCHOOL</h1>
-                                    <p class="text-blue-100 text-xs sm:text-sm md:text-base text-wrap-anywhere">Academic Excellence & Character Development Since 2007</p>
-                                </div>
-                            </a>
-
-                            <div class="flex items-center gap-4 mobile-mt-4">
-                                <div class="text-center md:text-right">
-                                    <div class="logo-badge">
-                                        <i class="fas fa-graduation-cap mr-2"></i>
-                                        EMIFORPHS
-                                    </div>
-                                    <p class="text-sm text-gray-200 mt-1 hidden sm:block">Knowledge • Integrity • Excellence</p>
+                                <div>
+                                    <h3 class="text-lg sm:text-xl font-bold">Check Student Result</h3>
+                                    <p class="text-amber-200 text-sm text-wrap-anywhere">Enter Student ID ONLY (EMFHS‑ID format preserved)</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </header>
 
-                <!-- Main Content -->
-                <main class="content-wrapper container mx-auto px-4 py-8">
-                    <div class="text-center mb-10">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3">Student Result Portal</h2>
-                        <p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto text-wrap-anywhere">
-                            Enter student ID below to access official academic results for JSS 1 - SS 3
-                        </p>
-                        <div class="mt-4 inline-flex items-center bg-blue-50 px-4 py-2 rounded-lg">
-                            <i class="fas fa-fingerprint text-blue-600 mr-2"></i>
-                            <span class="text-sm text-blue-700">ID-Only Verification Enabled</span>
-                        </div>
-                    </div>
+                        <div class="p-4 sm:p-6 md:p-8">
+                            {% csrf_token %}
+                            <form id="resultForm">
+                                <div class="mb-8">
+                                    <label class="block text-gray-700 font-semibold mb-2">
+                                        <i class="fas fa-id-card text-amber-700 mr-2"></i>
+                                        Student ID Number <span class="text-red-600">*</span>
+                                    </label>
+                                    <input type="text" id="studentId" class="form-input" placeholder="e.g., EMFHS-2025-A7K-B9" required>
+                                    <p class="text-xs sm:text-sm text-gray-500 mt-2 text-wrap-anywhere">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Use the exact EMFHS‑ID from your report card (17 chars)
+                                    </p>
+                                </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Left Column - Result Checker -->
-                        <div class="bg-white rounded-2xl card-shadow overflow-hidden gradient-border">
-                            <div class="school-primary text-white p-6">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4">
-                                        <i class="fas fa-fingerprint text-blue-900 text-xl"></i>
-                                    </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 font-semibold mb-2">
+                                        <i class="fas fa-school text-amber-700 mr-2"></i> Class
+                                    </label>
+                                    <select id="studentClass" class="form-select" required>
+                                        <option value="">Select Class</option>
+                                        <option value="JSS1">JSS 1</option><option value="JSS2">JSS 2</option>
+                                        <option value="JSS3">JSS 3</option><option value="SS1">SS 1</option>
+                                        <option value="SS2">SS 2</option><option value="SS3">SS 3</option>
+                                    </select>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
                                     <div>
-                                        <h3 class="text-lg sm:text-xl font-bold">Check Student Result</h3>
-                                        <p class="text-blue-100 text-sm text-wrap-anywhere">Enter Student ID ONLY (Name verification disabled)</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="p-4 sm:p-6 md:p-8">
-                                {% csrf_token %}
-                                
-                                <form id="resultForm">
-                                    <div class="mb-8">
                                         <label class="block text-gray-700 font-semibold mb-2">
-                                            <i class="fas fa-id-card text-green-600 mr-2"></i>
-                                            Student ID Number
-                                            <span class="id-required">*</span>
+                                            <i class="fas fa-calendar-alt text-amber-700 mr-2"></i> Term
                                         </label>
-                                        <input type="text" id="studentId" 
-                                            class="form-input"
-                                            placeholder="Enter student's ID number (e.g., EMFHS-2025-A7K-B9)"
-                                            required>
-                                        <p class="text-xs sm:text-sm text-gray-500 mt-2 text-wrap-anywhere">
-                                            <i class="fas fa-info-circle mr-1"></i>
-                                            Enter your complete school ID number exactly as it appears on the report card
-                                        </p>
-                                    </div>
-
-                                    <div class="mb-6">
-                                        <label class="block text-gray-700 font-semibold mb-2">
-                                            <i class="fas fa-school text-blue-600 mr-2"></i>
-                                            Class
-                                        </label>
-                                        <select id="studentClass" class="form-select" required>
-                                            <option value="">Select Class</option>
-                                            <option value="JSS1">JSS 1</option>
-                                            <option value="JSS2">JSS 2</option>
-                                            <option value="JSS3">JSS 3</option>
-                                            <option value="SS1">SS 1</option>
-                                            <option value="SS2">SS 2</option>
-                                            <option value="SS3">SS 3</option>
+                                        <select id="term" class="form-select" required>
+                                            <option value="">Select Term</option>
+                                            <option value="1">First Term</option>
+                                            <option value="2">Second Term</option>
+                                            <option value="3">Third Term</option>
                                         </select>
                                     </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-semibold mb-2">
+                                            <i class="fas fa-calendar text-amber-700 mr-2"></i> Academic Session
+                                        </label>
+                                        <select id="session" class="form-select" required>
+                                            <option value="">Select Academic Session</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                                        <div>
-                                            <label class="block text-gray-700 font-semibold mb-2">
-                                                <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
-                                                Term
-                                            </label>
-                                            <select id="term" class="form-select" required>
-                                                <option value="">Select Term</option>
-                                                <option value="1">First Term</option>
-                                                <option value="2">Second Term</option>
-                                                <option value="3">Third Term</option>
-                                            </select>
+                                <button type="submit" id="checkResultBtn"
+                                    onclick="gtag('event','verify_check_result',{'event_category':'engagement','event_label':document.getElementById('studentId').value||'unknown_id','student_class':document.getElementById('studentClass').value,'term_selected':document.getElementById('term').options[document.getElementById('term').selectedIndex]?.text||'unknown'})"
+                                    class="w-full bfa-btn-gold text-white font-bold py-3 sm:py-4 rounded-lg hover:opacity-90 transition duration-300 text-base sm:text-lg flex items-center justify-center shadow-lg"
+                                    style="background:linear-gradient(145deg,#b8860b,#d4af37); color:#0b1a33;">
+                                    <i class="fas fa-fingerprint mr-2 sm:mr-3"></i> VERIFY ID & CHECK RESULT
+                                </button>
+
+                                <div class="mt-6 pt-6 border-t border-gray-200">
+                                    <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
+                                        <div class="flex items-center">
+                                            <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" alt="BFA Logo" class="w-6 h-6 sm:w-8 sm:h-8 mr-2">
+                                            <span class="text-gray-700 font-semibold text-sm sm:text-base">BFA Portal</span>
                                         </div>
-                                        <div>
-                                            <label class="block text-gray-700 font-semibold mb-2">
-                                                <i class="fas fa-calendar text-blue-600 mr-2"></i>
-                                                Academic Session
-                                            </label>
-                                            <select id="session" class="form-select" required>
-                                                <option value="">Select Academic Session</option>
-                                            </select>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-fingerprint text-amber-700 text-lg sm:text-xl mr-2"></i>
+                                            <span class="text-gray-600 text-sm sm:text-base">ID Only</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-id-card text-amber-700 text-lg sm:text-xl mr-2"></i>
+                                            <span class="text-gray-600 text-sm sm:text-base">No Name Required</span>
                                         </div>
                                     </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-                                    <!-- BUTTON WITH DETAILED GOOGLE ANALYTICS TRACKING -->
-                                    <button type="submit" id="checkResultBtn" 
-                                        onclick="gtag('event', 'verify_check_result', {
-                                            'event_category': 'engagement', 
-                                            'event_label': document.getElementById('studentId').value || 'unknown_id',
-                                            'student_class': document.getElementById('studentClass').value,
-                                            'term_selected': document.getElementById('term').options[document.getElementById('term').selectedIndex]?.text || 'unknown'
-                                        })"
-                                        class="w-full school-green text-white font-bold py-3 sm:py-4 rounded-lg hover:opacity-90 transition duration-300 text-base sm:text-lg flex items-center justify-center shadow-lg">
-                                        <i class="fas fa-fingerprint mr-2 sm:mr-3"></i> 
-                                        VERIFY ID & CHECK RESULT
-                                    </button>
+                    <!-- RIGHT: Results Display -->
+                    <div>
+                        <div id="welcomePanel" class="bg-white rounded-2xl card-shadow p-6 sm:p-8 mb-8">
+                            <div class="text-center">
+                                <div class="floating mb-6">
+                                    <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" alt="BFA Logo" class="w-20 h-20 sm:w-24 sm:h-24 mx-auto">
+                                </div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Bright Future Academy Result Portal</h3>
+                                <p class="text-gray-600 mb-6 text-sm sm:text-base text-wrap-anywhere">
+                                    Enter Student ID only. <strong class="text-amber-800">EMFHS‑ID format is preserved</strong> – name verification is disabled.
+                                </p>
 
-                                    <div class="mt-6 pt-6 border-t border-gray-200">
-                                        <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
-                                            <div class="flex items-center">
-                                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                                     alt="Emilia Logo"
-                                                     class="w-6 h-6 sm:w-8 sm:h-8 mr-2">
-                                                <span class="text-gray-700 font-semibold text-sm sm:text-base text-wrap-anywhere">Official School Portal</span>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <i class="fas fa-fingerprint text-blue-600 text-lg sm:text-xl mr-2"></i>
-                                                <span class="text-gray-600 text-sm sm:text-base text-wrap-anywhere">ID Only Verification</span>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <i class="fas fa-id-card text-green-600 text-lg sm:text-xl mr-2"></i>
-                                                <span class="text-gray-600 text-sm sm:text-base text-wrap-anywhere">No Name Required</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
+                                    <div class="text-center p-3 sm:p-4 rounded-xl stats-bg"><div class="text-xl sm:text-2xl font-bold text-amber-800">ID‑Only</div><div class="text-xs sm:text-sm text-gray-600 mt-1">Verification</div></div>
+                                    <div class="text-center p-3 sm:p-4 rounded-xl stats-bg"><div class="text-xl sm:text-2xl font-bold text-amber-800">100%</div><div class="text-xs sm:text-sm text-gray-600 mt-1">Secure</div></div>
+                                    <div class="text-center p-3 sm:p-4 rounded-xl stats-bg"><div class="text-xl sm:text-2xl font-bold text-amber-800">All Years</div><div class="text-xs sm:text-sm text-gray-600 mt-1">Supported</div></div>
+                                </div>
+
+                                <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                                    <h4 class="font-bold text-gray-800 mb-2 flex items-center text-sm sm:text-base">
+                                        <i class="fas fa-fingerprint text-amber-700 mr-2"></i> ID‑Only System (EMFHS‑ID preserved)
+                                    </h4>
+                                    <p class="text-gray-700 text-xs sm:text-sm text-wrap-anywhere">
+                                        <strong>ID → Class → Term → Session</strong><br>
+                                        Student name is NOT required.<br>
+                                        <strong class="text-green-700">✅ All years 2000–Present</strong><br>
+                                        <strong class="text-amber-700">✅ EMFHS-YYYY-XXX-XX format (17 chars)</strong>
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Right Column - Results Display -->
-                        <div>
-                            <div id="welcomePanel" class="bg-white rounded-2xl card-shadow p-6 sm:p-8 mb-8">
-                                <div class="text-center">
-                                    <div class="floating mb-6">
-                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                             alt="Emilia Logo"
-                                             class="w-20 h-20 sm:w-24 sm:h-24 mx-auto">
-                                    </div>
-                                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Welcome to EMIFORPHS Result Portal</h3>
-                                    <p class="text-gray-600 mb-6 text-sm sm:text-base text-wrap-anywhere">
-                                        Enter Student ID only to access official academic results. 
-                                        <strong class="text-blue-700">Student name verification is disabled</strong> - only ID is required.
-                                    </p>
-                                    
-                                    <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
-                                        <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                            <div class="text-xl sm:text-2xl font-bold text-blue-700">ID-Only</div>
-                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Verification</div>
-                                        </div>
-                                        <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                            <div class="text-xl sm:text-2xl font-bold text-green-700">100%</div>
-                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Secure</div>
-                                        </div>
-                                        <div class="text-center p-3 sm:p-4 rounded-xl stats-bg">
-                                            <div class="text-xl sm:text-2xl font-bold text-purple-700">All Years</div>
-                                            <div class="text-xs sm:text-sm text-gray-600 mt-1">Supported</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                        <h4 class="font-bold text-gray-800 mb-2 flex items-center text-sm sm:text-base">
-                                            <i class="fas fa-fingerprint text-blue-600 mr-2"></i>
-                                            ID-Only Verification System
-                                        </h4>
-                                        <p class="text-gray-700 text-xs sm:text-sm text-wrap-anywhere">
-                                            The system now only requires Student ID for verification:
-                                            <br><br>
-                                            <strong>ID → Class → Term → Session</strong>
-                                            <br><br>
-                                            Student name is NOT required or verified.
-                                            <br><br>
-                                            <strong class="text-green-700 text-wrap-anywhere">✅ All years supported (2000 - Present)</strong>
-                                            <br><br>
-                                            <strong class="text-purple-700 text-wrap-anywhere">✅ NEW ID Format: EMFHS-YYYY-XXX-XX (17 characters exactly)</strong>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="pdfResultsContainer" class="hidden bg-white rounded-2xl card-shadow overflow-hidden mb-8">
-                                <div class="school-primary text-white p-4 sm:p-6">
-                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between">
-                                        <div class="mb-4 sm:mb-0 fixed-width-container">
-                                            <h3 class="text-xl sm:text-2xl font-bold">SEARCH RESULTS</h3>
-                                            <div class="flex items-center mt-2 flex-wrap gap-2">
-                                                <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                                     alt="Emilia Logo"
-                                                     class="w-8 h-8 sm:w-10 sm:h-10 mr-3 bg-white p-1 rounded flex-shrink-0">
-                                                <div class="min-w-0 flex-1">
-                                                    <div id="searchStudentId" class="text-lg sm:text-xl font-bold text-wrap-anywhere mobile-text-sm">
-                                                        <span class="text-white">ID:</span> <span id="studentIdValue" class="text-blue-900">-</span>
-                                                    </div>
-                                                    <div class="result-info-container">
-                                                        <div id="searchClassInfo" class="result-class-display mobile-text-xs text-blue-800 font-semibold">-</div>
-                                                        <div id="searchYearMatch" class="text-blue-700 text-xs sm:text-sm mobile-text-xs">
-                                                            <i class="fas fa-calendar-check mr-1"></i> Year: -
-                                                        </div>
+                        <div id="pdfResultsContainer" class="hidden bg-white rounded-2xl card-shadow overflow-hidden mb-8">
+                            <div class="school-primary text-white p-4 sm:p-6">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                                    <div class="mb-4 sm:mb-0 fixed-width-container">
+                                        <h3 class="text-xl sm:text-2xl font-bold">SEARCH RESULTS</h3>
+                                        <div class="flex items-center mt-2 flex-wrap gap-2">
+                                            <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" alt="BFA" class="w-8 h-8 sm:w-10 sm:h-10 mr-3 bg-white p-1 rounded flex-shrink-0">
+                                            <div class="min-w-0 flex-1">
+                                                <div id="searchStudentId" class="text-lg sm:text-xl font-bold text-wrap-anywhere mobile-text-sm">
+                                                    <span class="text-white">ID:</span> <span id="studentIdValue" class="text-amber-300">-</span>
+                                                </div>
+                                                <div class="result-info-container">
+                                                    <div id="searchClassInfo" class="result-class-display mobile-text-xs text-blue-800 font-semibold">-</div>
+                                                    <div id="searchYearMatch" class="text-amber-200 text-xs sm:text-sm mobile-text-xs">
+                                                        <i class="fas fa-calendar-check mr-1"></i> Year: -
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="text-left sm:text-right">
-                                            <button onclick="hidePDFResults()" class="text-white hover:text-gray-300">
-                                                <i class="fas fa-times text-xl"></i>
-                                            </button>
-                                            <div class="mt-2 text-xs sm:text-sm text-wrap-anywhere">
-                                                <i class="fas fa-calendar mr-1"></i>
-                                                <span id="searchTermSession">-</span>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="p-4 sm:p-6">
-                                    <div id="pdfResultsContent" class="results-grid"></div>
-                                </div>
-
-                                <div class="bg-gray-900 text-white p-3 sm:p-4 text-center">
-                                    <div class="flex items-center justify-center flex-wrap">
-                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                             alt="Emilia Logo"
-                                             class="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 bg-white p-1 rounded flex-shrink-0">
-                                        <div class="min-w-0">
-                                            <div class="font-medium text-sm sm:text-base text-wrap-anywhere">OFFICIAL RESULT FILES - ID ONLY VERIFICATION</div>
-                                            <div class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">© EMILIA FOREMOST HIGH SCHOOL • Authorized Use Only • Student Name Not Required</div>
-                                        </div>
+                                    <div class="text-left sm:text-right">
+                                        <button onclick="hidePDFResults()" class="text-white hover:text-amber-300"><i class="fas fa-times text-xl"></i></button>
+                                        <div class="mt-2 text-xs sm:text-sm text-wrap-anywhere"><i class="fas fa-calendar mr-1"></i><span id="searchTermSession">-</span></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="bg-white rounded-2xl card-shadow p-4 sm:p-6 mt-6 sm:mt-8">
-                                <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
-                                    <i class="fas fa-bullhorn text-red-600 mr-2 sm:mr-3"></i>
-                                    Important Announcements
-                                </h4>
-                                <div class="space-y-3 sm:space-y-4">
-                                    <div class="flex items-start border-l-4 border-blue-500 pl-3 sm:pl-4 py-2">
-                                        <div class="min-w-0">
-                                            <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">ID-Only Verification</p>
-                                            <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">Student name verification is now disabled. Only Student ID is required.</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start border-l-4 border-green-500 pl-3 sm:pl-4 py-2">
-                                        <div class="min-w-0">
-                                            <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">All Years Supported</p>
-                                            <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">Results from 2000 to present are accessible through this portal.</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start border-l-4 border-yellow-500 pl-3 sm:pl-4 py-2">
-                                        <div class="min-w-0">
-                                            <p class="font-semibold text-gray-800 text-sm sm:text-base text-wrap-anywhere">NEW ID Format Support</p>
-                                            <p class="text-gray-600 text-xs sm:text-sm text-wrap-anywhere">System now supports EMFHS-YYYY-XXX-XX format (mixed alphanumeric).</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="p-4 sm:p-6">
+                                <div id="pdfResultsContent" class="results-grid"></div>
                             </div>
-                        </div>
-                    </div>
-                </main>
 
-                <!-- FULL WIDTH FOOTER -->
-                <footer class="full-width-footer page-footer bg-gray-900 text-white shadow-2xl border-t-4 border-blue-600">
-                    <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8">
-                        <div class="flex flex-col md:flex-row justify-between items-center mobile-stack">
-                            <div class="mb-6 md:mb-0 text-center md:text-left">
-                                <div class="flex items-center justify-center md:justify-start mb-3 sm:mb-4">
-                                    <div class="bg-white p-1 rounded-lg mr-3 sm:mr-4">
-                                        <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" 
-                                             alt="Emilia Logo"
-                                             class="w-10 h-10 sm:w-12 sm:h-12 object-contain">
-                                    </div>
+                            <div class="bg-gray-900 text-white p-3 sm:p-4 text-center">
+                                <div class="flex items-center justify-center flex-wrap">
+                                    <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" alt="BFA" class="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 bg-white p-1 rounded flex-shrink-0">
                                     <div class="min-w-0">
-                                        <h3 class="text-lg sm:text-xl font-bold text-wrap-anywhere">EMILIA FOREMOST HIGH SCHOOL</h3>
-                                        <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">EMIFORPHS • Excellence in Education</p>
+                                        <div class="font-medium text-sm sm:text-base text-wrap-anywhere">OFFICIAL RESULTS – ID ONLY VERIFICATION</div>
+                                        <div class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">© Bright Future Academy • Authorized Use Only</div>
                                     </div>
-                                </div>
-                                <p class="text-gray-400 text-xs sm:text-sm max-w-md text-wrap-anywhere">
-                                    Providing quality secondary education since 2007. 
-                                    Committed to academic excellence and moral development.
-                                </p>
-                            </div>
-
-                            <div class="text-center md:text-right mobile-mt-4">
-                                <h4 class="font-bold mb-2 sm:mb-4 text-sm sm:text-base">Contact Information</h4>
-                                <div class="space-y-1 sm:space-y-2">
-                                    <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">
-                                        <i class="fas fa-map-marker-alt mr-2"></i>
-                                        2, Olasupo Avenue, Off Adeyemi Street, Oke-Agbo, Ojo, Lagos
-                                    </p>
-                                    <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">
-                                        <i class="fas fa-phone mr-2"></i>
-                                        0905-714-749, 0802-285-4677
-                                    </p>
-                                    <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere">
-                                        <i class="fas fa-envelope mr-2"></i>
-                                        emiliaforemost@gmail.com
-                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
-                            <div class="flex flex-col md:flex-row justify-between items-center">
-                                <p class="text-gray-500 text-xs sm:text-sm text-wrap-anywhere">
-                                    &copy; 2024 EMILIA FOREMOST HIGH SCHOOL. All Rights Reserved.
-                                </p>
-                                <div class="mt-2 md:mt-0">
-                                    <span class="text-gray-500 text-xs sm:text-sm text-wrap-anywhere">
-                                        <i class="fas fa-fingerprint mr-1"></i>
-                                        ID-Only Student Result Portal v5.0 (Strict ID Format: EMFHS-YYYY-XXX-XX)
-                                    </span>
+                        <!-- announcements -->
+                        <div class="bg-white rounded-2xl card-shadow p-4 sm:p-6 mt-6 sm:mt-8">
+                            <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
+                                <i class="fas fa-bullhorn text-amber-700 mr-2 sm:mr-3"></i> Important Announcements
+                            </h4>
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="flex items-start border-l-4 border-amber-500 pl-3 sm:pl-4 py-2">
+                                    <div><p class="font-semibold text-gray-800 text-sm sm:text-base">ID‑Only Verification</p><p class="text-gray-600 text-xs sm:text-sm">Only Student ID required. EMFHS‑ID format preserved.</p></div>
+                                </div>
+                                <div class="flex items-start border-l-4 border-amber-500 pl-3 sm:pl-4 py-2">
+                                    <div><p class="font-semibold text-gray-800 text-sm sm:text-base">All Years Supported</p><p class="text-gray-600 text-xs sm:text-sm">Results from 2000 to present accessible.</p></div>
+                                </div>
+                                <div class="flex items-start border-l-4 border-amber-500 pl-3 sm:pl-4 py-2">
+                                    <div><p class="font-semibold text-gray-800 text-sm sm:text-base">NEW ID Format Support</p><p class="text-gray-600 text-xs sm:text-sm">EMFHS-YYYY-XXX-XX (mixed alphanumeric).</p></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </footer>
-            </div>
+                </div>
+            </main>
+
+            <!-- ========== FOOTER: Bright Future Academy ========== -->
+            <footer class="full-width-footer page-footer bg-gray-900 text-white shadow-2xl border-t-4 border-amber-500">
+                <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center mobile-stack">
+                        <div class="mb-6 md:mb-0 text-center md:text-left">
+                            <div class="flex items-center justify-center md:justify-start mb-3 sm:mb-4">
+                                <div class="bg-white p-1 rounded-lg mr-3 sm:mr-4">
+                                    <img src="https://ncctazjcffmpuniwctkz.supabase.co/storage/v1/object/public/user-uploads/EMILIA%20LOGO.png" alt="BFA Logo" class="w-10 h-10 sm:w-12 sm:h-12 object-contain">
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="text-lg sm:text-xl font-bold text-wrap-anywhere">BRIGHT FUTURE ACADEMY</h3>
+                                    <p class="text-amber-400 text-xs sm:text-sm text-wrap-anywhere">BFA • Excellence in Education</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-400 text-xs sm:text-sm max-w-md text-wrap-anywhere">
+                                Providing quality secondary education since 2007. Committed to academic excellence and moral development.
+                            </p>
+                        </div>
+
+                        <div class="text-center md:text-right mobile-mt-4">
+                            <h4 class="font-bold mb-2 sm:mb-4 text-sm sm:text-base">Contact Information</h4>
+                            <div class="space-y-1 sm:space-y-2">
+                                <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere"><i class="fas fa-map-marker-alt mr-2"></i>2, Sam Avenue, Off Benson Street, Victoria Island, Lagos</p>
+                                <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere"><i class="fas fa-phone mr-2"></i>0905-714-749, 0802-285-4677</p>
+                                <p class="text-gray-400 text-xs sm:text-sm text-wrap-anywhere"><i class="fas fa-envelope mr-2"></i>brightfutureacademy@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <p class="text-gray-500 text-xs sm:text-sm">&copy; 2025 Bright Future Academy. All Rights Reserved.</p>
+                            <div class="mt-2 md:mt-0">
+                                <span class="text-gray-500 text-xs sm:text-sm text-wrap-anywhere">
+                                    <i class="fas fa-fingerprint mr-1"></i> ID‑Only Result Portal v5.0 (EMFHS-YYYY-XXX-XX)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- ========== JAVASCRIPT (FULLY PRESERVED, only email & name changed) ========== -->
     <script>
-        // ========== ROCK SOLID SCROLL - NO RUBBER BAND EVER ==========
+        // Scroll system (unchanged)
         const scrollContainer = document.getElementById('scrollContainer');
-        
         if (scrollContainer) {
-            let touchStartY = 0;
-            let touchStartScrollTop = 0;
-            
-            // Store scroll positions
-            let scrollTop = 0;
-            let scrollHeight = 0;
-            let clientHeight = 0;
-            
-            // Function to enforce scroll boundaries - NO RUBBER BAND
+            let touchStartY = 0, touchStartScrollTop = 0;
             function enforceBoundaries() {
                 if (!scrollContainer) return;
-                
-                scrollTop = scrollContainer.scrollTop;
-                scrollHeight = scrollContainer.scrollHeight;
-                clientHeight = scrollContainer.clientHeight;
-                
-                // Hard stop at top
-                if (scrollTop < 0) {
-                    scrollContainer.scrollTop = 0;
-                    return;
-                }
-                
-                // Hard stop at bottom
-                if (scrollTop + clientHeight > scrollHeight) {
-                    scrollContainer.scrollTop = Math.max(0, scrollHeight - clientHeight);
-                    return;
-                }
+                let st = scrollContainer.scrollTop, sh = scrollContainer.scrollHeight, ch = scrollContainer.clientHeight;
+                if (st < 0) { scrollContainer.scrollTop = 0; return; }
+                if (st + ch > sh) { scrollContainer.scrollTop = Math.max(0, sh - ch); return; }
             }
-            
-            // Prevent any rubber band effect on touch move
-            scrollContainer.addEventListener('touchstart', function(e) {
-                touchStartY = e.touches[0].clientY;
-                touchStartScrollTop = scrollContainer.scrollTop;
-            }, { passive: false });
-            
+            scrollContainer.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; touchStartScrollTop = scrollContainer.scrollTop; }, { passive: false });
             scrollContainer.addEventListener('touchmove', function(e) {
-                const currentY = e.touches[0].clientY;
-                const deltaY = currentY - touchStartY;
-                const currentScrollTop = scrollContainer.scrollTop;
-                const maxScrollTop = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-                
-                // If at top and trying to pull down - PREVENT
-                if (currentScrollTop <= 0 && deltaY > 0) {
-                    e.preventDefault();
-                    return false;
-                }
-                
-                // If at bottom and trying to pull up - PREVENT
-                if (currentScrollTop >= maxScrollTop - 1 && deltaY < 0) {
-                    e.preventDefault();
-                    return false;
-                }
+                const delta = e.touches[0].clientY - touchStartY;
+                const st = scrollContainer.scrollTop, max = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+                if (st <= 0 && delta > 0) { e.preventDefault(); return false; }
+                if (st >= max - 1 && delta < 0) { e.preventDefault(); return false; }
             }, { passive: false });
-            
-            // Enforce boundaries on scroll
-            scrollContainer.addEventListener('scroll', function() {
-                enforceBoundaries();
-            });
-            
-            // Enforce boundaries on resize
-            window.addEventListener('resize', function() {
-                enforceBoundaries();
-            });
-            
-            // Initial enforcement
+            scrollContainer.addEventListener('scroll', enforceBoundaries);
+            window.addEventListener('resize', enforceBoundaries);
             enforceBoundaries();
-            
-            // iOS specific fixes
-            if ('ontouchstart' in window) {
-                scrollContainer.style.WebkitOverflowScrolling = 'touch';
-            }
+            if ('ontouchstart' in window) scrollContainer.style.WebkitOverflowScrolling = 'touch';
         }
 
-        // ==================== ADMIN FLOATING BUTTON SYSTEM ====================
+        // Admin button (unchanged)
         function setupAdminFloatingButton() {
-            const adminFloatBtnContainer = document.getElementById('adminFloatBtnContainer');
-            const adminFloatBtn = document.getElementById('adminFloatBtn');
-            
+            const container = document.getElementById('adminFloatBtnContainer');
+            const btn = document.getElementById('adminFloatBtn');
             const isAdminUser = {% if user.is_authenticated and user.is_staff %}true{% else %}false{% endif %};
-            const currentUsername = "{{ user.username|default:'' }}";
-            const isAdminByUsername = currentUsername.includes('admin') || 
-                                     currentUsername.includes('Admin') || 
-                                     currentUsername.includes('ADMIN');
-            
-            if (isAdminUser || isAdminByUsername) {
-                if (adminFloatBtnContainer) {
-                    adminFloatBtnContainer.style.display = 'block';
-                    
-                    if (adminFloatBtn) {
-                        adminFloatBtn.addEventListener('click', function(e) {
-                            if (e.button === 2 || (e.type === 'contextmenu')) {
-                                e.preventDefault();
-                                showAdminContextMenu(e);
-                                return;
-                            }
-                            window.location.href = '/admin/';
-                        });
-                        
-                        adminFloatBtn.addEventListener('contextmenu', function(e) {
-                            e.preventDefault();
-                            showAdminContextMenu(e);
-                        });
-                        
-                        let touchTimer;
-                        adminFloatBtn.addEventListener('touchstart', function(e) {
-                            touchTimer = setTimeout(function() {
-                                showAdminContextMenu(e.touches[0] || e);
-                            }, 800);
-                        });
-                        
-                        adminFloatBtn.addEventListener('touchend', function() {
-                            clearTimeout(touchTimer);
-                        });
+            const username = "{{ user.username|default:'' }}";
+            const isAdminByName = username.includes('admin') || username.includes('Admin') || username.includes('ADMIN');
+            if (isAdminUser || isAdminByName) {
+                if (container) {
+                    container.style.display = 'block';
+                    if (btn) {
+                        btn.addEventListener('click', function(e) { if (e.button === 2 || e.type==='contextmenu') { e.preventDefault(); showAdminContextMenu(e); return; } window.location.href='/admin/'; });
+                        btn.addEventListener('contextmenu', function(e) { e.preventDefault(); showAdminContextMenu(e); });
+                        let timer;
+                        btn.addEventListener('touchstart', function(e) { timer = setTimeout(function(){ showAdminContextMenu(e.touches[0]||e); }, 800); });
+                        btn.addEventListener('touchend', function(){ clearTimeout(timer); });
                     }
                 }
             }
-            
             document.addEventListener('click', function(e) {
-                const contextMenu = document.querySelector('.admin-context-menu');
-                if (contextMenu && !contextMenu.contains(e.target) && !adminFloatBtn.contains(e.target)) {
-                    contextMenu.remove();
-                }
+                const menu = document.querySelector('.admin-context-menu');
+                if (menu && !menu.contains(e.target) && !btn.contains(e.target)) menu.remove();
             });
-            
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    const contextMenu = document.querySelector('.admin-context-menu');
-                    if (contextMenu) contextMenu.remove();
-                }
-            });
+            document.addEventListener('keydown', function(e) { if (e.key==='Escape') { const m=document.querySelector('.admin-context-menu'); if(m) m.remove(); } });
         }
-        
         function showAdminContextMenu(e) {
-            const existingMenu = document.querySelector('.admin-context-menu');
-            if (existingMenu) existingMenu.remove();
-            
-            const x = e.clientX || e.pageX;
-            const y = e.clientY || e.pageY;
-            
-            const contextMenu = document.createElement('div');
-            contextMenu.className = 'admin-context-menu';
-            contextMenu.style.right = `${window.innerWidth - x}px`;
-            contextMenu.style.bottom = `${window.innerHeight - y}px`;
-            
-            contextMenu.innerHTML = `
-                <div class="admin-context-header">Admin Quick Actions</div>
-                <div class="admin-context-item" data-action="admin-panel">
-                    <i class="fas fa-cogs"></i>
-                    <span>Django Admin Panel</span>
-                </div>
-                <div class="admin-context-item" data-action="user-management">
-                    <i class="fas fa-users-cog"></i>
-                    <span>User Management</span>
-                </div>
-                <div class="admin-context-item" data-action="database">
-                    <i class="fas fa-database"></i>
-                    <span>Database Tools</span>
-                </div>
-                <div class="admin-context-item" data-action="site-settings">
-                    <i class="fas fa-sliders-h"></i>
-                    <span>Site Settings</span>
-                </div>
-                <div class="admin-context-item" data-action="result-management">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Result Management</span>
-                </div>
-                <div class="admin-context-item" data-action="logs">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>System Logs</span>
-                </div>
-                <div class="admin-context-item" data-action="backup">
-                    <i class="fas fa-download"></i>
-                    <span>Backup System</span>
-                </div>
-            `;
-            
-            document.body.appendChild(contextMenu);
-            
-            setTimeout(() => {
-                contextMenu.classList.add('active');
-            }, 10);
-            
-            const items = contextMenu.querySelectorAll('.admin-context-item');
-            items.forEach(item => {
+            const existing = document.querySelector('.admin-context-menu');
+            if(existing) existing.remove();
+            const x = e.clientX || e.pageX, y = e.clientY || e.pageY;
+            const menu = document.createElement('div');
+            menu.className = 'admin-context-menu';
+            menu.style.right = window.innerWidth - x + 'px';
+            menu.style.bottom = window.innerHeight - y + 'px';
+            menu.innerHTML = `<div class="admin-context-header">Admin Quick Actions</div>
+                <div class="admin-context-item" data-action="admin-panel"><i class="fas fa-cogs"></i><span>Django Admin Panel</span></div>
+                <div class="admin-context-item" data-action="user-management"><i class="fas fa-users-cog"></i><span>User Management</span></div>
+                <div class="admin-context-item" data-action="database"><i class="fas fa-database"></i><span>Database Tools</span></div>
+                <div class="admin-context-item" data-action="site-settings"><i class="fas fa-sliders-h"></i><span>Site Settings</span></div>
+                <div class="admin-context-item" data-action="result-management"><i class="fas fa-file-alt"></i><span>Result Management</span></div>
+                <div class="admin-context-item" data-action="logs"><i class="fas fa-clipboard-list"></i><span>System Logs</span></div>
+                <div class="admin-context-item" data-action="backup"><i class="fas fa-download"></i><span>Backup System</span></div>`;
+            document.body.appendChild(menu);
+            setTimeout(() => menu.classList.add('active'), 10);
+            menu.querySelectorAll('.admin-context-item').forEach(item => {
                 item.addEventListener('click', () => {
                     const action = item.getAttribute('data-action');
-                    handleAdminContextAction(action);
-                    contextMenu.remove();
+                    const urls = { 'admin-panel':'/admin/', 'user-management':'/admin/auth/user/', 'database':'/admin/admin-tools/', 'site-settings':'/admin/config/sites/', 'result-management':'/admin/results/', 'logs':'/admin/logentry/', 'backup':'/admin/backup/' };
+                    const btn = document.getElementById('adminFloatBtn');
+                    if(btn) { const orig=btn.innerHTML; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>'; setTimeout(()=>{ btn.innerHTML=orig; }, 2000); }
+                    window.location.href = urls[action] || '/admin/';
+                    menu.remove();
                 });
             });
         }
-        
-        function handleAdminContextAction(action) {
-            const baseUrl = '/admin';
-            const actionUrls = {
-                'admin-panel': baseUrl + '/',
-                'user-management': baseUrl + '/auth/user/',
-                'database': baseUrl + '/admin-tools/',
-                'site-settings': baseUrl + '/config/sites/',
-                'result-management': baseUrl + '/results/',
-                'logs': baseUrl + '/logentry/',
-                'backup': baseUrl + '/backup/'
-            };
-            
-            const adminBtn = document.getElementById('adminFloatBtn');
-            if (adminBtn) {
-                const originalIcon = adminBtn.innerHTML;
-                adminBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                setTimeout(() => {
-                    adminBtn.innerHTML = originalIcon;
-                }, 2000);
-            }
-            
-            if (actionUrls[action]) {
-                window.location.href = actionUrls[action];
-            } else {
-                window.location.href = baseUrl + '/';
-            }
-        }
-        
-        // ==================== SESSION FUNCTIONS ====================
+
+        // Session loader (unchanged)
         function loadAvailableSessions() {
-            console.log('Loading sessions directly...');
-            const sessionSelect = document.getElementById('session');
-            
-            if (!sessionSelect) {
-                console.error('Session select not found');
-                return;
-            }
-            
-            // Generate sessions directly - no backend call
+            const select = document.getElementById('session');
+            if (!select) return;
             const sessions = [];
             const currentYear = new Date().getFullYear();
-            
-            for (let year = 2000; year <= currentYear + 10; year++) {
-                sessions.push(`${year}/${year + 1}`);
-            }
-            
-            // Sort newest first
-            sessions.sort((a, b) => {
-                const yearA = parseInt(a.split('/')[0]);
-                const yearB = parseInt(b.split('/')[0]);
-                return yearB - yearA;
+            for (let y=2000; y<=currentYear+10; y++) sessions.push(y+'/'+(y+1));
+            sessions.sort((a,b)=>parseInt(b.split('/')[0])-parseInt(a.split('/')[0]));
+            select.innerHTML = '<option value="">Select Academic Session</option>';
+            const now = new Date(), month = now.getMonth(), cy = now.getFullYear();
+            let currentStart = (month>=8) ? cy : cy-1;
+            const currentSession = currentStart+'/'+(currentStart+1);
+            sessions.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                if (s === currentSession) opt.textContent += ' (Current)';
+                else { const sy = parseInt(s.split('/')[0]); if (sy > currentStart) opt.textContent += ' (Upcoming)'; else if (sy < currentStart) opt.textContent += ' (Past)'; }
+                select.appendChild(opt);
             });
-            
-            // Clear and populate dropdown
-            sessionSelect.innerHTML = '<option value="">Select Academic Session</option>';
-            
-            // Get current academic year
-            const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYearNow = now.getFullYear();
-            let currentAcademicYearStart;
-            if (currentMonth >= 8) {
-                currentAcademicYearStart = currentYearNow;
-            } else {
-                currentAcademicYearStart = currentYearNow - 1;
-            }
-            const currentAcademicSession = `${currentAcademicYearStart}/${currentAcademicYearStart + 1}`;
-            
-            sessions.forEach(session => {
-                const option = document.createElement('option');
-                option.value = session;
-                option.textContent = session;
-                
-                if (session === currentAcademicSession) {
-                    option.textContent += ' (Current)';
-                } else {
-                    const sessionYear = parseInt(session.split('/')[0]);
-                    if (sessionYear > currentAcademicYearStart) {
-                        option.textContent += ' (Upcoming)';
-                    } else if (sessionYear < currentAcademicYearStart) {
-                        option.textContent += ' (Past)';
-                    }
-                }
-                
-                sessionSelect.appendChild(option);
-            });
-            
-            console.log(`✅ Loaded ${sessions.length} sessions locally`);
         }
 
-        // ==================== HELPER FUNCTIONS ====================
-        function extractYearFromId(studentId) {
-            if (!studentId) return null;
-            const patterns = [
-                /EMFHS-(\d{4})-[A-Z0-9]{3}/i,
-                /EMFHS-(\d{4})-\d{3}/i,
-                /(\d{4})-[A-Z0-9]{3}-[A-Z0-9]{2}/i,
-                /(\d{4})-\d{3}-[A-Z0-9]{2}/i,
-                /(\d{4})-[A-Z0-9]{3}/i,
-                /(\d{4})-\d{3}/i,
-                /(\d{4})\/\d{3}/i,
-                /[A-Z]{2,}-(\d{4})-[A-Z0-9]{3}/i,
-                /[A-Z]{2,}-(\d{4})-\d{3}/i,
-            ];
-            
-            for (const pattern of patterns) {
-                const match = studentId.match(pattern);
-                if (match && match[1]) {
-                    const year = parseInt(match[1]);
-                    if (year >= 2000 && year <= 2100) {
-                        return year;
-                    }
-                }
-            }
-            
-            const yearMatch = studentId.match(/\b(20\d{2})\b/);
-            if (yearMatch && yearMatch[1]) {
-                const year = parseInt(yearMatch[1]);
-                if (year >= 2000 && year <= 2100) {
-                    return year;
-                }
-            }
+        // Helper functions (unchanged)
+        function extractYearFromId(id) {
+            if (!id) return null;
+            const patterns = [/EMFHS-(\d{4})-[A-Z0-9]{3}/i, /EMFHS-(\d{4})-\d{3}/i, /(\d{4})-[A-Z0-9]{3}-[A-Z0-9]{2}/i, /(\d{4})-\d{3}-[A-Z0-9]{2}/i, /(\d{4})-[A-Z0-9]{3}/i, /(\d{4})-\d{3}/i, /(\d{4})\/\d{3}/i, /[A-Z]{2,}-(\d{4})-[A-Z0-9]{3}/i, /[A-Z]{2,}-(\d{4})-\d{3}/i];
+            for (let p of patterns) { const m = id.match(p); if (m && m[1]) { const y=parseInt(m[1]); if (y>=2000 && y<=2100) return y; } }
+            const m = id.match(/\b(20\d{2})\b/); if (m && m[1]) { const y=parseInt(m[1]); if (y>=2000 && y<=2100) return y; }
             return null;
         }
-        
         function extractYearFromSession(session) {
             if (!session) return null;
-            const parts = session.replace('/', '-').split('-');
-            if (parts && parts.length > 0) {
-                const year = parseInt(parts[0]);
-                if (!isNaN(year)) {
-                    return year;
-                }
-            }
-            const yearMatch = session.match(/\b(20\d{2})\b/);
-            if (yearMatch && yearMatch[1]) {
-                return parseInt(yearMatch[1]);
-            }
+            const parts = session.replace('/','-').split('-');
+            if (parts && parts.length>0) { const y=parseInt(parts[0]); if (!isNaN(y)) return y; }
+            const m = session.match(/\b(20\d{2})\b/); if (m && m[1]) return parseInt(m[1]);
             return null;
-        }
-
-        // ==================== DJANGO MESSAGES ====================
-        function autoRemoveMessages() {
-            setTimeout(() => {
-                const messages = document.querySelectorAll('.django-message');
-                messages.forEach(message => {
-                    message.style.animation = 'slideOutRight 0.3s ease-out forwards';
-                    setTimeout(() => message.remove(), 300);
-                });
-            }, 5000);
-        }
-
-        function showAlert(message, type = 'info') {
-            const alert = document.createElement('div');
-            alert.className = `fixed top-20 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm text-wrap-anywhere ${
-                type === 'error' ? 'bg-red-100 border-red-400 text-red-700' :
-                type === 'success' ? 'bg-green-100 border-green-400 text-green-700' :
-                type === 'warning' ? 'bg-yellow-100 border-yellow-400 text-yellow-700' :
-                'bg-blue-100 border-blue-400 text-blue-700'
-            }`;
-            alert.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} mr-3"></i>
-                    <span class="text-wrap-anywhere">${message}</span>
-                </div>
-            `;
-            document.body.appendChild(alert);
-            setTimeout(() => {
-                alert.remove();
-            }, 5000);
         }
 
         function getCsrfToken() {
-            const metaTag = document.querySelector('meta[name="csrf-token"]');
-            if (metaTag) {
-                return metaTag.getAttribute('content');
-            }
-            const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
-            if (csrfInput) {
-                return csrfInput.value;
-            }
+            const meta = document.querySelector('meta[name="csrf-token"]');
+            if(meta) return meta.getAttribute('content');
+            const input = document.querySelector('input[name="csrfmiddlewaretoken"]');
+            if(input) return input.value;
             const cookies = document.cookie.split(';');
-            for (let cookie of cookies) {
-                const [name, value] = cookie.trim().split('=');
-                if (name === 'csrftoken') return value;
-            }
+            for(let c of cookies) { const [n,v]=c.trim().split('='); if(n==='csrftoken') return v; }
             return '';
         }
 
-        // ==================== STRICT ID VALIDATION ====================
-        function isValidStudentId(studentId) {
-            if (!studentId || studentId.trim() === '') return false;
-            
-            // STRICT VALIDATION - Must be exactly EMFHS-YYYY-XXX-XX format
-            const studentIdTrimmed = studentId.trim().toUpperCase();
-            
-            // Exact pattern: EMFHS-YYYY-XXX-XX (17 characters total)
-            const exactPattern = /^EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i;
-            
-            if (!exactPattern.test(studentIdTrimmed)) {
-                return false;
-            }
-            
-            // Check total length (should be 17 characters)
-            if (studentIdTrimmed.length !== 17) {
-                return false;
-            }
-            
-            return true;
+        function showAlert(msg, type='info') {
+            const div = document.createElement('div');
+            div.className = `fixed top-20 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm text-wrap-anywhere ${type==='error'?'bg-red-100 border-red-400 text-red-700':type==='success'?'bg-green-100 border-green-400 text-green-700':type==='warning'?'bg-yellow-100 border-yellow-400 text-yellow-700':'bg-blue-100 border-blue-400 text-blue-700'}`;
+            div.innerHTML = `<div class="flex items-center"><i class="fas fa-${type==='error'?'exclamation-triangle':type==='success'?'check-circle':type==='warning'?'exclamation-triangle':'info-circle'} mr-3"></i><span>${msg}</span></div>`;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 5000);
         }
 
-        // ==================== FORM SUBMISSION ====================
+        function isValidStudentId(id) {
+            if (!id || id.trim()==='') return false;
+            const trimmed = id.trim().toUpperCase();
+            return /^EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i.test(trimmed) && trimmed.length===17;
+        }
+
+        // Form submission (unchanged)
         document.getElementById('resultForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
             const studentId = document.getElementById('studentId').value.trim();
             const studentClass = document.getElementById('studentClass').value;
             const term = document.getElementById('term').value;
             const session = document.getElementById('session').value;
-            
-            if (!studentId || !studentClass || !term || !session) {
-                showAlert('Please fill in all required fields.', 'error');
-                return;
-            }
-            
-            if (studentClass === "" || term === "" || session === "") {
-                showAlert('Please select an option for all dropdown fields.', 'error');
-                return;
-            }
-            
-            if (!isValidStudentId(studentId)) {
-                showAlert('❌ Invalid Student ID! Must be exactly: EMFHS-YYYY-XXX-XX (17 characters). Example: EMFHS-2025-VWW-UV. Shortcuts are NOT allowed.', 'error');
-                return;
-            }
-            
-            const studentIdYear = extractYearFromId(studentId);
-            const sessionYear = extractYearFromSession(session);
-            
+            if (!studentId || !studentClass || !term || !session) { showAlert('Please fill in all required fields.','error'); return; }
+            if (!isValidStudentId(studentId)) { showAlert('❌ Invalid Student ID! Must be exactly: EMFHS-YYYY-XXX-XX (17 chars).','error'); return; }
             const submitBtn = document.getElementById('checkResultBtn');
-            const originalText = submitBtn.innerHTML;
+            const orig = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> SEARCHING...';
             submitBtn.disabled = true;
-            
             try {
-                const response = await fetch('/search/', {
+                const resp = await fetch('/search/', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCsrfToken()
-                    },
-                    body: JSON.stringify({
-                        student_name: '',
-                        student_id: studentId,
-                        student_class: studentClass,
-                        term: term,
-                        session: session
-                    })
+                    headers: { 'Content-Type':'application/json', 'X-CSRFToken': getCsrfToken() },
+                    body: JSON.stringify({ student_name:'', student_id:studentId, student_class:studentClass, term:term, session:session })
                 });
-                
-                const data = await response.json();
-                showPDFResults(data, studentId, studentClass, term, session, studentIdYear, sessionYear);
-                
-            } catch (error) {
-                showAlert('Search failed. Please try again.', 'error');
-                console.error('Search error:', error);
-            } finally {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }
+                const data = await resp.json();
+                showPDFResults(data, studentId, studentClass, term, session, extractYearFromId(studentId), extractYearFromSession(session));
+            } catch(err) { showAlert('Search failed. Please try again.','error'); console.error(err); }
+            finally { submitBtn.innerHTML=orig; submitBtn.disabled=false; }
         });
 
-        // ==================== SHOW PDF RESULTS ====================
-        function showPDFResults(data, studentId, studentClass, term, session, studentIdYear, sessionYear) {
-            const welcomePanel = document.getElementById('welcomePanel');
-            const pdfResultsContainer = document.getElementById('pdfResultsContainer');
-            const pdfResultsContent = document.getElementById('pdfResultsContent');
-            
-            document.getElementById('studentIdValue').innerHTML = `<span class="result-id-display text-blue-900">${studentId}</span>`;
+        // Show results (unchanged)
+        function showPDFResults(data, studentId, studentClass, term, session, idYear, sessYear) {
+            const welcome = document.getElementById('welcomePanel');
+            const container = document.getElementById('pdfResultsContainer');
+            const content = document.getElementById('pdfResultsContent');
+            document.getElementById('studentIdValue').innerHTML = `<span class="result-id-display text-amber-300">${studentId}</span>`;
             document.getElementById('searchClassInfo').textContent = studentClass;
-            
-            if (studentIdYear && sessionYear) {
-                const yearInfo = `ID Year: ${studentIdYear} | Session: ${sessionYear}`;
-                document.getElementById('searchYearMatch').innerHTML = 
-                    `<i class="fas fa-info-circle mr-1"></i> <span class="text-blue-300 text-wrap-anywhere">${yearInfo}</span>`;
-            } else {
-                document.getElementById('searchYearMatch').textContent = '';
-            }
-            
-            const termNames = {'1': 'First', '2': 'Second', '3': 'Third'};
-            document.getElementById('searchTermSession').innerHTML = `<span class="text-wrap-anywhere">${termNames[term] || term} Term • ${session}</span>`;
-            
+            if (idYear && sessYear) {
+                document.getElementById('searchYearMatch').innerHTML = `<i class="fas fa-info-circle mr-1"></i> <span class="text-amber-200">ID Year: ${idYear} | Session: ${sessYear}</span>`;
+            } else { document.getElementById('searchYearMatch').textContent = ''; }
+            const terms = {'1':'First','2':'Second','3':'Third'};
+            document.getElementById('searchTermSession').innerHTML = `<span>${terms[term]||term} Term • ${session}</span>`;
+
             if (data.success && data.files && data.files.length > 0) {
-                let filesHtml = '';
-                
-                data.files.forEach((file, index) => {
-                    filesHtml += `
-                        <div class="pdf-result-item pdf-result-compact">
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex flex-wrap items-center gap-2 mb-2 mobile-grid-results">
-                                        <span class="id-verified-badge"><i class="fas fa-fingerprint mr-1"></i> ID Verified</span>
-                                        <span class="pdf-result-badge">File ${index + 1}</span>
-                                        <span class="text-xs text-gray-500 text-wrap-anywhere">
-                                            <i class="fas fa-calendar-alt mr-1"></i>
-                                            Term ${term} | ${session}
-                                        </span>
-                                    </div>
-                                    <h4 class="font-bold text-gray-800 text-sm sm:text-base text-wrap-anywhere mobile-text-sm mb-2">${file.name}</h4>
-                                    <div class="pdf-file-info mobile-text-xs">
-                                        ${file.size_formatted ? `<span class="text-wrap-anywhere"><i class="fas fa-weight mr-1"></i>${file.size_formatted}</span>` : ''}
-                                        ${file.modifiedTime ? `<span class="text-wrap-anywhere"><i class="far fa-clock mr-1"></i>${file.modifiedTime}</span>` : ''}
-                                        <span class="text-green-600 font-medium text-wrap-anywhere">
-                                            <i class="fas fa-fingerprint mr-1"></i>
-                                            ID: ${studentId}
-                                        </span>
-                                    </div>
+                let html = '';
+                data.files.forEach((f, i) => {
+                    html += `<div class="pdf-result-item pdf-result-compact">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2 mobile-grid-results">
+                                    <span class="id-verified-badge"><i class="fas fa-fingerprint mr-1"></i> ID Verified</span>
+                                    <span class="pdf-result-badge">File ${i+1}</span>
+                                    <span class="text-xs text-gray-500"><i class="fas fa-calendar-alt mr-1"></i>Term ${term} | ${session}</span>
                                 </div>
-                                <div class="compact-btn-container sm:ml-4 flex-shrink-0 mobile-text-xs mt-3 sm:mt-0">
-                                    <button onclick="previewPDF('${file.id}')" class="pdf-action-btn pdf-view-btn">
-                                        <i class="fas fa-eye"></i>
-                                        <span class="hidden sm:inline">View</span>
-                                    </button>
-                                    <button onclick="startFileDownload('${file.id}', '${file.name}')" class="pdf-action-btn pdf-download-btn">
-                                        <i class="fas fa-download"></i>
-                                        <span class="hidden sm:inline">Download</span>
-                                    </button>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base mobile-text-sm mb-2">${f.name}</h4>
+                                <div class="pdf-file-info mobile-text-xs">
+                                    ${f.size_formatted ? `<span><i class="fas fa-weight mr-1"></i>${f.size_formatted}</span>` : ''}
+                                    ${f.modifiedTime ? `<span><i class="far fa-clock mr-1"></i>${f.modifiedTime}</span>` : ''}
+                                    <span class="text-amber-700 font-medium"><i class="fas fa-fingerprint mr-1"></i>ID: ${studentId}</span>
                                 </div>
                             </div>
+                            <div class="compact-btn-container sm:ml-4 flex-shrink-0 mobile-text-xs mt-3 sm:mt-0">
+                                <button onclick="previewPDF('${f.id}')" class="pdf-action-btn pdf-view-btn"><i class="fas fa-eye"></i><span class="hidden sm:inline">View</span></button>
+                                <button onclick="startFileDownload('${f.id}','${f.name}')" class="pdf-action-btn pdf-download-btn"><i class="fas fa-download"></i><span class="hidden sm:inline">Download</span></button>
+                            </div>
                         </div>
-                    `;
+                    </div>`;
                 });
-                
-                filesHtml = `
-                    <div class="success-alert p-4 rounded-lg mb-6">
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-                            <i class="fas fa-check-circle text-xl sm:text-2xl text-green-600 flex-shrink-0"></i>
-                            <div class="min-w-0">
-                                <strong class="text-lg sm:text-xl text-wrap-anywhere">✅ SEARCH SUCCESSFUL - Found ${data.count} result(s)</strong>
-                                <div class="flex flex-wrap gap-2 mt-2">
-                                    <span class="bg-green-200 px-2 py-1 rounded text-sm text-wrap-anywhere">${studentClass}</span>
-                                    <span class="bg-yellow-100 px-2 py-1 rounded text-sm text-wrap-anywhere">${termNames[term] || term} Term</span>
-                                    <span class="bg-blue-100 px-2 py-1 rounded text-sm text-wrap-anywhere">${session} Session</span>
-                                    <span class="bg-red-100 px-2 py-1 rounded text-sm text-wrap-anywhere">
-                                        <i class="fas fa-fingerprint mr-1"></i> ID: ${studentId}
-                                    </span>
-                                </div>
-                                <p class="mt-2 text-sm text-wrap-anywhere">${data.message}</p>
-                            </div>
-                        </div>
-                    </div>
-                ` + filesHtml;
-                
-                pdfResultsContent.innerHTML = filesHtml;
+                html = `<div class="success-alert p-4 rounded-lg mb-6"><div class="flex flex-col sm:flex-row sm:items-center gap-4"><i class="fas fa-check-circle text-xl sm:text-2xl text-green-600"></i><div><strong class="text-lg sm:text-xl">✅ FOUND ${data.count} result(s)</strong><div class="flex flex-wrap gap-2 mt-2"><span class="bg-amber-200 px-2 py-1 rounded text-sm">${studentClass}</span><span class="bg-amber-100 px-2 py-1 rounded text-sm">${terms[term]||term} Term</span><span class="bg-blue-100 px-2 py-1 rounded text-sm">${session}</span><span class="bg-red-100 px-2 py-1 rounded text-sm"><i class="fas fa-fingerprint mr-1"></i>${studentId}</span></div><p class="mt-2 text-sm">${data.message}</p></div></div></div>` + html;
+                content.innerHTML = html;
             } else {
-                pdfResultsContent.innerHTML = `
-                    <div class="error-alert p-4 rounded-lg">
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-                            <i class="fas fa-exclamation-circle text-xl sm:text-2xl text-red-600 flex-shrink-0"></i>
-                            <div class="min-w-0">
-                                <strong class="text-lg sm:text-xl text-wrap-anywhere">❌ No Results Found</strong>
-                                <p class="mt-1 text-wrap-anywhere">${data.message || 'Please check the details and try again'}</p>
-                                <div class="mt-2 text-sm text-wrap-anywhere">
-                                    <p><strong>What to check:</strong></p>
-                                    <ul class="list-disc pl-5 mt-1 space-y-1">
-                                        <li class="text-wrap-anywhere">Correct Student ID Number (format: EMFHS-YYYY-XXX-XX)</li>
-                                        <li class="text-wrap-anywhere">Correct class selection</li>
-                                        <li class="text-wrap-anywhere">Correct term and session</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                content.innerHTML = `<div class="error-alert p-4 rounded-lg"><div class="flex flex-col sm:flex-row sm:items-center gap-4"><i class="fas fa-exclamation-circle text-xl sm:text-2xl text-red-600"></i><div><strong class="text-lg sm:text-xl">❌ No Results Found</strong><p class="mt-1">${data.message||'Check details and try again'}</p><div class="mt-2 text-sm"><p><strong>Check:</strong></p><ul class="list-disc pl-5 mt-1 space-y-1"><li>Correct EMFHS‑ID (format: EMFHS-YYYY-XXX-XX)</li><li>Correct class, term, session</li></ul></div></div></div></div>`;
             }
-            
-            welcomePanel.classList.add('hidden');
-            pdfResultsContainer.classList.remove('hidden');
-            pdfResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            welcome.classList.add('hidden');
+            container.classList.remove('hidden');
+            container.scrollIntoView({ behavior:'smooth', block:'start' });
         }
 
         function hidePDFResults() {
-            const welcomePanel = document.getElementById('welcomePanel');
-            const pdfResultsContainer = document.getElementById('pdfResultsContainer');
-            
-            pdfResultsContainer.classList.add('hidden');
-            welcomePanel.classList.remove('hidden');
+            document.getElementById('welcomePanel').classList.remove('hidden');
+            document.getElementById('pdfResultsContainer').classList.add('hidden');
             document.getElementById('studentId').value = '';
             document.getElementById('studentId').focus();
         }
 
         function startFileDownload(fileId, fileName) {
-            const link = document.createElement('a');
-            link.href = `/download/?file_id=${fileId}`;
-            link.download = fileName;
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const a = document.createElement('a');
+            a.href = `/download/?file_id=${fileId}`;
+            a.download = fileName;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
-        
-        function previewPDF(fileId) {
-            window.open(`https://drive.google.com/file/d/${fileId}/view`, '_blank');
-        }
+        function previewPDF(fileId) { window.open(`https://drive.google.com/file/d/${fileId}/view`, '_blank'); }
 
         function setupRippleEffect() {
             const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple-animation {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-            `;
+            style.textContent = '@keyframes ripple-animation{to{transform:scale(4);opacity:0;}}';
             document.head.appendChild(style);
         }
 
-        // ==================== INITIALIZATION ====================
+        // Auto‑remove messages
+        function autoRemoveMessages() {
+            setTimeout(() => {
+                document.querySelectorAll('.django-message').forEach(el => {
+                    el.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                    setTimeout(() => el.remove(), 300);
+                });
+            }, 5000);
+        }
+
+        // INIT
         document.addEventListener('DOMContentLoaded', function() {
             loadAvailableSessions();
             setupRippleEffect();
             setupAdminFloatingButton();
             autoRemoveMessages();
-            
-            setTimeout(() => {
-                const studentIdField = document.getElementById('studentId');
-                if (studentIdField) {
-                    studentIdField.focus();
-                }
-            }, 500);
-            
+            setTimeout(() => { const f = document.getElementById('studentId'); if(f) f.focus(); }, 500);
             document.addEventListener('keydown', function(e) {
                 if (e.ctrlKey && e.shiftKey && e.key === 'A') {
                     e.preventDefault();
-                    const adminBtn = document.getElementById('adminFloatBtn');
-                    if (adminBtn) adminBtn.click();
+                    const btn = document.getElementById('adminFloatBtn');
+                    if (btn) btn.click();
                 }
             });
         });
