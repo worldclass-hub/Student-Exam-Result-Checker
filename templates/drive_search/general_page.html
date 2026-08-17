@@ -1197,10 +1197,50 @@
         body.modal-open {
             overflow: hidden;
         }
+
+        /* ---- Eye toggle styles ---- */
+        .password-toggle-wrapper {
+            position: relative;
+        }
+        .password-toggle-wrapper .form-input {
+            padding-right: 3rem;
+        }
+        .toggle-eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            font-size: 1.25rem;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        .toggle-eye:hover {
+            color: #1a237e;
+            background: rgba(26, 35, 126, 0.08);
+        }
+        .toggle-eye:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+        .toggle-eye i {
+            pointer-events: none;
+        }
+        .toggle-eye.showing i {
+            color: #1a237e;
+        }
     </style>
 </head>
 <body class="no-overscroll">
-    <!-- SINGLE SCROLL CONTAINER - Rock solid, no rubber band -->
+    <!-- SINGLE SCROLL CONTAINER -->
     <div class="scroll-container" id="scrollContainer">
         <div class="main-wrapper">
             <!-- Scroll Boundary Indicator -->
@@ -1328,10 +1368,18 @@
                                             Student ID Number
                                             <span class="id-required">*</span>
                                         </label>
-                                        <input type="text" id="studentId" 
-                                            class="form-input"
-                                            placeholder="Enter student's ID number (e.g., EMFHS-2025-A7K-B9)"
-                                            required>
+                                        <!-- ********** EMPTY ID INPUT WITH EYE TOGGLE ********** -->
+                                        <div class="password-toggle-wrapper">
+                                            <input type="password" id="studentId" 
+                                                class="form-input"
+                                                placeholder=""
+                                                required
+                                                autocomplete="off">
+                                            <button type="button" class="toggle-eye" id="toggleStudentIdEye" aria-label="Toggle ID visibility">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <!-- ********** END EYE TOGGLE ********** -->
                                         <p class="text-xs sm:text-sm text-gray-500 mt-2 text-wrap-anywhere">
                                             <i class="fas fa-info-circle mr-1"></i>
                                             Enter your complete school ID number exactly as it appears on the report card
@@ -1830,21 +1878,30 @@
             }
         }
         
-        // ==================== SESSION FUNCTIONS ====================
+        // ==================== SESSION FUNCTIONS (SEPTEMBER-AUGUST LOGIC) ====================
         function loadAvailableSessions() {
-            console.log('Loading sessions directly...');
             const sessionSelect = document.getElementById('session');
+            if (!sessionSelect) return;
             
-            if (!sessionSelect) {
-                console.error('Session select not found');
-                return;
+            // Generate sessions from 2000 to current year + 10
+            const sessions = [];
+            const now = new Date();
+            const currentMonth = now.getMonth(); // 0=Jan, 8=Sep
+            const currentYear = now.getFullYear();
+            
+            // Determine the start year of the current academic session (Sep-Aug)
+            let currentSessionStart;
+            if (currentMonth >= 8) { // Sep-Dec
+                currentSessionStart = currentYear;
+            } else { // Jan-Aug
+                currentSessionStart = currentYear - 1;
             }
             
-            // Generate sessions directly - no backend call
-            const sessions = [];
-            const currentYear = new Date().getFullYear();
+            // Build list from 2000 to currentSessionStart + 10 (future sessions)
+            const startYear = 2000;
+            const endYear = currentSessionStart + 10;
             
-            for (let year = 2000; year <= currentYear + 10; year++) {
+            for (let year = startYear; year <= endYear; year++) {
                 sessions.push(`${year}/${year + 1}`);
             }
             
@@ -1855,41 +1912,26 @@
                 return yearB - yearA;
             });
             
-            // Clear and populate dropdown
+            // Clear dropdown
             sessionSelect.innerHTML = '<option value="">Select Academic Session</option>';
             
-            // Get current academic year
-            const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYearNow = now.getFullYear();
-            let currentAcademicYearStart;
-            if (currentMonth >= 8) {
-                currentAcademicYearStart = currentYearNow;
-            } else {
-                currentAcademicYearStart = currentYearNow - 1;
-            }
-            const currentAcademicSession = `${currentAcademicYearStart}/${currentAcademicYearStart + 1}`;
-            
+            // Populate with labels
             sessions.forEach(session => {
                 const option = document.createElement('option');
                 option.value = session;
-                option.textContent = session;
+                const sessionYear = parseInt(session.split('/')[0]);
+                let label = session;
                 
-                if (session === currentAcademicSession) {
-                    option.textContent += ' (Current)';
+                if (sessionYear === currentSessionStart) {
+                    label += ' (Current)';
+                } else if (sessionYear > currentSessionStart) {
+                    label += ' (Upcoming)';
                 } else {
-                    const sessionYear = parseInt(session.split('/')[0]);
-                    if (sessionYear > currentAcademicYearStart) {
-                        option.textContent += ' (Upcoming)';
-                    } else if (sessionYear < currentAcademicYearStart) {
-                        option.textContent += ' (Past)';
-                    }
+                    label += ' (Past)';
                 }
-                
+                option.textContent = label;
                 sessionSelect.appendChild(option);
             });
-            
-            console.log(`✅ Loaded ${sessions.length} sessions locally`);
         }
 
         // ==================== HELPER FUNCTIONS ====================
@@ -1995,17 +2037,13 @@
         function isValidStudentId(studentId) {
             if (!studentId || studentId.trim() === '') return false;
             
-            // STRICT VALIDATION - Must be exactly EMFHS-YYYY-XXX-XX format
             const studentIdTrimmed = studentId.trim().toUpperCase();
-            
-            // Exact pattern: EMFHS-YYYY-XXX-XX (17 characters total)
             const exactPattern = /^EMFHS-\d{4}-[A-Z0-9]{3}-[A-Z0-9]{2}$/i;
             
             if (!exactPattern.test(studentIdTrimmed)) {
                 return false;
             }
             
-            // Check total length (should be 17 characters)
             if (studentIdTrimmed.length !== 17) {
                 return false;
             }
@@ -2219,12 +2257,41 @@
             document.head.appendChild(style);
         }
 
+        // ==================== EYE TOGGLE FUNCTIONALITY ====================
+        function setupEyeToggle() {
+            const toggleBtn = document.getElementById('toggleStudentIdEye');
+            const idInput = document.getElementById('studentId');
+            const eyeIcon = toggleBtn.querySelector('i');
+
+            if (toggleBtn && idInput && eyeIcon) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (idInput.type === 'password') {
+                        idInput.type = 'text';
+                        eyeIcon.className = 'fas fa-eye-slash';
+                        toggleBtn.classList.add('showing');
+                    } else {
+                        idInput.type = 'password';
+                        eyeIcon.className = 'fas fa-eye';
+                        toggleBtn.classList.remove('showing');
+                    }
+                });
+
+                toggleBtn.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                });
+            }
+        }
+
         // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', function() {
             loadAvailableSessions();
             setupRippleEffect();
             setupAdminFloatingButton();
             autoRemoveMessages();
+            setupEyeToggle();
             
             setTimeout(() => {
                 const studentIdField = document.getElementById('studentId');
