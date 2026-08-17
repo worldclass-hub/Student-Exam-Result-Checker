@@ -2257,7 +2257,7 @@
             document.head.appendChild(style);
         }
 
-        // ==================== EYE TOGGLE FUNCTIONALITY ====================
+        // ==================== EYE TOGGLE FUNCTIONALITY (FIXED - CURSOR POSITION PRESERVED) ====================
         function setupEyeToggle() {
             const toggleBtn = document.getElementById('toggleStudentIdEye');
             const idInput = document.getElementById('studentId');
@@ -2268,6 +2268,11 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
+                    // Save current cursor position and value
+                    const start = idInput.selectionStart;
+                    const end = idInput.selectionEnd;
+                    const value = idInput.value;
+                    
                     if (idInput.type === 'password') {
                         idInput.type = 'text';
                         eyeIcon.className = 'fas fa-eye-slash';
@@ -2277,10 +2282,16 @@
                         eyeIcon.className = 'fas fa-eye';
                         toggleBtn.classList.remove('showing');
                     }
+                    
+                    // Restore cursor position AFTER type change
+                    // Use requestAnimationFrame to ensure the DOM has updated
+                    requestAnimationFrame(() => {
+                        idInput.setSelectionRange(start, end);
+                    });
                 });
 
                 toggleBtn.addEventListener('mousedown', function(e) {
-                    e.preventDefault();
+                    e.preventDefault(); // prevent input losing focus
                 });
             }
         }
