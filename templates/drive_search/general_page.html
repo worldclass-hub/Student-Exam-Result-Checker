@@ -1237,6 +1237,16 @@
         .toggle-eye.showing i {
             color: #1a237e;
         }
+
+        /* ====== FIX: Use text-security for masking instead of password type ====== */
+        .id-mask {
+            -webkit-text-security: disc;
+            text-security: disc;
+        }
+        .id-mask.show {
+            -webkit-text-security: none;
+            text-security: none;
+        }
     </style>
 </head>
 <body class="no-overscroll">
@@ -1368,13 +1378,14 @@
                                             Student ID Number
                                             <span class="id-required">*</span>
                                         </label>
-                                        <!-- ********** EMPTY ID INPUT WITH EYE TOGGLE ********** -->
+                                        <!-- ********** ID INPUT WITH EYE TOGGLE - Using text-security (NOT password type) ********** -->
                                         <div class="password-toggle-wrapper">
-                                            <input type="password" id="studentId" 
-                                                class="form-input"
+                                            <input type="text" id="studentId" 
+                                                class="form-input id-mask"
                                                 placeholder=""
                                                 required
-                                                autocomplete="off">
+                                                autocomplete="off"
+                                                spellcheck="false">
                                             <button type="button" class="toggle-eye" id="toggleStudentIdEye" aria-label="Toggle ID visibility">
                                                 <i class="fas fa-eye"></i>
                                             </button>
@@ -2257,7 +2268,7 @@
             document.head.appendChild(style);
         }
 
-        // ==================== EYE TOGGLE FUNCTIONALITY (FIXED - CURSOR POSITION PRESERVED) ====================
+        // ==================== EYE TOGGLE FUNCTIONALITY (FIXED - Using text-security, NOT password type) ====================
         function setupEyeToggle() {
             const toggleBtn = document.getElementById('toggleStudentIdEye');
             const idInput = document.getElementById('studentId');
@@ -2268,23 +2279,24 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Save current cursor position and value
+                    // Save current cursor position
                     const start = idInput.selectionStart;
                     const end = idInput.selectionEnd;
-                    const value = idInput.value;
                     
-                    if (idInput.type === 'password') {
-                        idInput.type = 'text';
+                    // Toggle the mask class instead of changing input type
+                    if (idInput.classList.contains('id-mask')) {
+                        idInput.classList.remove('id-mask');
+                        idInput.classList.add('show');
                         eyeIcon.className = 'fas fa-eye-slash';
                         toggleBtn.classList.add('showing');
                     } else {
-                        idInput.type = 'password';
+                        idInput.classList.add('id-mask');
+                        idInput.classList.remove('show');
                         eyeIcon.className = 'fas fa-eye';
                         toggleBtn.classList.remove('showing');
                     }
                     
-                    // Restore cursor position AFTER type change
-                    // Use requestAnimationFrame to ensure the DOM has updated
+                    // Restore cursor position
                     requestAnimationFrame(() => {
                         idInput.setSelectionRange(start, end);
                     });
