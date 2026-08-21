@@ -2809,7 +2809,7 @@
             }
         }
 
-        // ==================== WHATSAPP FLOATING BUTTON & MODAL (FIXED - CORRECT NUMBER FORMAT) ====================
+        // ==================== WHATSAPP FLOATING BUTTON & MODAL (FIXED - NO "THANK YOU" IN MESSAGE) ====================
         function setupWhatsApp() {
             const waFloatBtn = document.getElementById('waFloatBtn');
             const waModal = document.getElementById('waModal');
@@ -2817,10 +2817,7 @@
             const waOptions = document.querySelectorAll('.wa-option');
             
             // Correct WhatsApp number format - International format without leading zero
-            // 08022854677 -> 2348022854677 (Nigeria country code 234)
             const phoneNumber = '2348022854677';
-            // Alternative using username (wa.me username link)
-            const waUsername = 'samuelemenike.tech';
 
             // Open modal
             waFloatBtn.addEventListener('click', function(e) {
@@ -2837,17 +2834,17 @@
                 document.body.classList.remove('modal-open');
             });
 
-            // Handle option clicks - redirect to WhatsApp with pre-filled message
+            // Handle option clicks - redirect to WhatsApp with clean message (NO "Thank you" text)
             waOptions.forEach(option => {
                 option.addEventListener('click', function(e) {
                     const optionText = this.getAttribute('data-option');
                     const detailText = this.getAttribute('data-detail') || '';
                     
-                    // Build the message
+                    // Clean message - NO "Thank you for reaching out" text
                     const title = 'From Emilia Foremost School Result Portal';
-                    let message = `${title}%0A%0A*Option Selected:* ${optionText}%0A%0A*Details:* ${detailText}%0A%0A--%0AThank you for reaching out. We'll get back to you shortly.`;
+                    let message = `${title}%0A%0A*Option Selected:* ${optionText}%0A%0A*Details:* ${detailText}`;
                     
-                    // Try number first, fallback to username
+                    // WhatsApp URL
                     let waUrl = `https://wa.me/${phoneNumber}?text=${message}`;
                     
                     // Close modal
