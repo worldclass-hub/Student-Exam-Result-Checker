@@ -1247,6 +1247,453 @@
             -webkit-text-security: none;
             text-security: none;
         }
+
+        /* ====== WORLD-CLASS FLOATING WHATSAPP BUTTON ====== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-float .wa-btn {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            color: white;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: wa-pulse 2.5s infinite;
+        }
+        .whatsapp-float .wa-btn:hover {
+            transform: scale(1.12) rotate(-4deg);
+            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.7);
+        }
+        .whatsapp-float .wa-btn:active {
+            transform: scale(0.94);
+        }
+        .whatsapp-float .wa-label {
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 7px 18px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .whatsapp-float .wa-label i {
+            font-size: 14px;
+            color: #25D366;
+        }
+        /* Desktop: label only shows on hover */
+        @media (min-width: 769px) {
+            .whatsapp-float .wa-label {
+                opacity: 0;
+                transform: translateY(8px) scale(0.96);
+                pointer-events: none;
+            }
+            .whatsapp-float:hover .wa-label {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        /* Mobile & Tablet: label always visible */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 95px;
+                right: 16px;
+                gap: 6px;
+            }
+            .whatsapp-float .wa-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+            }
+            .whatsapp-float .wa-label {
+                opacity: 1 !important;
+                transform: none !important;
+                font-size: 12px;
+                padding: 6px 14px;
+                background: rgba(0,0,0,0.9);
+                border: 1px solid rgba(255,255,255,0.12);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+                pointer-events: none;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .whatsapp-float .wa-label i {
+                font-size: 13px;
+            }
+        }
+        @media (max-width: 480px) {
+            .whatsapp-float {
+                bottom: 85px;
+                right: 12px;
+                gap: 5px;
+            }
+            .whatsapp-float .wa-btn {
+                width: 54px;
+                height: 54px;
+                font-size: 27px;
+            }
+            .whatsapp-float .wa-label {
+                font-size: 10px;
+                padding: 5px 11px;
+                border-radius: 20px;
+            }
+            .whatsapp-float .wa-label i {
+                font-size: 11px;
+            }
+        }
+        @keyframes wa-pulse {
+            0%, 100% { box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5); }
+            50% { box-shadow: 0 8px 50px rgba(37, 211, 102, 0.85), 0 0 80px rgba(37, 211, 102, 0.2); }
+        }
+        .wa-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ff3b30;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: wa-badge-pulse 1.8s infinite;
+        }
+        @keyframes wa-badge-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* ====== WHATSAPP MODAL - WORLD CLASS & RESPONSIVE ====== */
+        .wa-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: wa-modal-fade 0.35s ease;
+            padding: 20px;
+        }
+        .wa-modal-overlay.active {
+            display: flex;
+        }
+        @keyframes wa-modal-fade {
+            from { opacity: 0; transform: scale(0.94); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .wa-modal {
+            background: white;
+            border-radius: 32px;
+            max-width: 560px;
+            width: 100%;
+            padding: 40px 36px 32px;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+            animation: wa-modal-slide 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 95vh;
+            overflow-y: auto;
+            margin: 0 auto;
+        }
+        @keyframes wa-modal-slide {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .wa-modal-close {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 20px;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+        .wa-modal-close:hover {
+            background: #e2e8f0;
+            transform: rotate(90deg);
+        }
+        .wa-modal-close:active {
+            transform: rotate(90deg) scale(0.92);
+        }
+        .wa-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 28px;
+            padding-bottom: 22px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        .wa-modal-header .wa-icon-big {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+        }
+        .wa-modal-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .wa-modal-header p {
+            font-size: 15px;
+            color: #64748b;
+            margin: 4px 0 0;
+        }
+        .wa-options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 6px;
+        }
+        .wa-option {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 20px 22px;
+            border-radius: 18px;
+            background: #f8fafc;
+            border: 2px solid #e9edf2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+        }
+        .wa-option:hover {
+            background: #f0f7ff;
+            border-color: #25D366;
+            transform: translateX(6px);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.12);
+        }
+        .wa-option:active {
+            transform: scale(0.97);
+        }
+        .wa-option .wa-opt-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #25D366;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #e9edf2;
+        }
+        .wa-option .wa-opt-text {
+            flex: 1;
+            min-width: 0;
+        }
+        .wa-option .wa-opt-text h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f172a;
+            margin: 0 0 3px;
+            line-height: 1.3;
+        }
+        .wa-option .wa-opt-text p {
+            font-size: 14px;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .wa-option .wa-opt-arrow {
+            color: #94a3b8;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .wa-option:hover .wa-opt-arrow {
+            color: #25D366;
+            transform: translateX(4px);
+        }
+        .wa-modal-footer {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 2px solid #f1f5f9;
+            text-align: center;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .wa-modal-footer strong {
+            color: #1e293b;
+        }
+
+        /* ====== RESPONSIVE WHATSAPP MODAL ====== */
+        @media (max-width: 640px) {
+            .wa-modal {
+                padding: 28px 20px 24px;
+                border-radius: 24px;
+                max-width: 100%;
+                margin: 10px;
+            }
+            .wa-modal-header {
+                gap: 14px;
+                margin-bottom: 22px;
+                padding-bottom: 18px;
+                flex-wrap: wrap;
+            }
+            .wa-modal-header .wa-icon-big {
+                width: 50px;
+                height: 50px;
+                font-size: 26px;
+                border-radius: 14px;
+            }
+            .wa-modal-header h2 {
+                font-size: 20px;
+            }
+            .wa-modal-header p {
+                font-size: 13px;
+            }
+            .wa-option {
+                padding: 16px 18px;
+                gap: 14px;
+                border-radius: 14px;
+            }
+            .wa-option .wa-opt-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+                border-radius: 12px;
+            }
+            .wa-option .wa-opt-text h4 {
+                font-size: 14px;
+            }
+            .wa-option .wa-opt-text p {
+                font-size: 12px;
+            }
+            .wa-option .wa-opt-arrow {
+                font-size: 16px;
+            }
+            .wa-modal-close {
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+                top: 14px;
+                right: 14px;
+            }
+            .wa-modal-footer {
+                font-size: 12px;
+                margin-top: 20px;
+                padding-top: 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .wa-modal {
+                padding: 20px 14px 18px;
+                border-radius: 20px;
+                margin: 6px;
+            }
+            .wa-modal-header {
+                gap: 10px;
+                margin-bottom: 16px;
+                padding-bottom: 14px;
+            }
+            .wa-modal-header .wa-icon-big {
+                width: 42px;
+                height: 42px;
+                font-size: 22px;
+                border-radius: 12px;
+            }
+            .wa-modal-header h2 {
+                font-size: 17px;
+            }
+            .wa-modal-header p {
+                font-size: 12px;
+            }
+            .wa-option {
+                padding: 12px 14px;
+                gap: 10px;
+                border-radius: 12px;
+            }
+            .wa-option .wa-opt-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+                border-radius: 10px;
+            }
+            .wa-option .wa-opt-text h4 {
+                font-size: 13px;
+            }
+            .wa-option .wa-opt-text p {
+                font-size: 11px;
+            }
+            .wa-option .wa-opt-arrow {
+                font-size: 14px;
+            }
+            .wa-modal-close {
+                width: 34px;
+                height: 34px;
+                font-size: 14px;
+                top: 10px;
+                right: 10px;
+            }
+            .wa-modal-footer {
+                font-size: 11px;
+                margin-top: 16px;
+                padding-top: 12px;
+            }
+        }
+
+        /* Prevent body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden !important;
+        }
     </style>
 </head>
 <body class="no-overscroll">
@@ -1265,6 +1712,63 @@
                 <div class="admin-tooltip">
                     <strong>Admin Panel Access</strong><br>
                     Quick access to EMIFORPHS Admin for system management, user control, and database administration.
+                </div>
+            </div>
+
+            <!-- ====== FLOATING WHATSAPP BUTTON ====== -->
+            <div class="whatsapp-float" id="whatsappFloat">
+                <button class="wa-btn" id="waFloatBtn" aria-label="Contact us on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="wa-badge">!</span>
+                </button>
+                <span class="wa-label"><i class="fas fa-headset"></i> Need Help?</span>
+            </div>
+
+            <!-- ====== WHATSAPP MODAL - CLOSE ONLY VIA BUTTON ====== -->
+            <div class="wa-modal-overlay" id="waModal">
+                <div class="wa-modal">
+                    <button class="wa-modal-close" id="waModalClose" aria-label="Close modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="wa-modal-header">
+                        <div class="wa-icon-big">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <h2>How may we be of help?</h2>
+                            <p>Select an option to chat with us on WhatsApp</p>
+                        </div>
+                    </div>
+                    <div class="wa-options">
+                        <div class="wa-option" data-option="Misplaced/Forgot Student ID" data-detail="I need help recovering my student ID or I forgot my ID number.">
+                            <div class="wa-opt-icon"><i class="fas fa-id-card"></i></div>
+                            <div class="wa-opt-text">
+                                <h4>Misplaced or Forgot Student ID</h4>
+                                <p>I can't find my ID or I don't remember it</p>
+                            </div>
+                            <div class="wa-opt-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="wa-option" data-option="Don't have / Haven't gotten Student ID" data-detail="I don't have a student ID yet or I haven't received mine.">
+                            <div class="wa-opt-icon"><i class="fas fa-user-plus"></i></div>
+                            <div class="wa-opt-text">
+                                <h4>Don't have a Student ID</h4>
+                                <p>I'm a new student or haven't gotten my ID yet</p>
+                            </div>
+                            <div class="wa-opt-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="wa-option" data-option="Other requests / Complaints" data-detail="I have a different question, request, or complaint regarding the portal or school.">
+                            <div class="wa-opt-icon"><i class="fas fa-comment-dots"></i></div>
+                            <div class="wa-opt-text">
+                                <h4>Other requests or complaints</h4>
+                                <p>General inquiries, feedback, or concerns</p>
+                            </div>
+                            <div class="wa-opt-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="wa-modal-footer">
+                        <i class="fas fa-shield-alt mr-1" style="color:#25D366;"></i> 
+                        <strong>EMILIA FOREMOST HIGH SCHOOL</strong> — we're here to help
+                    </div>
                 </div>
             </div>
             
@@ -1652,7 +2156,7 @@
                                 <div class="mt-2 md:mt-0">
                                     <span class="text-gray-500 text-xs sm:text-sm text-wrap-anywhere">
                                         <i class="fas fa-fingerprint mr-1"></i>
-                                        ID-Only Student Result Portal v5.0 (Strict ID Format: EMFHS-YYYY-XXX-XX)
+                                        ID-Only Student Result Portal v7.0 (Strict ID Format: EMFHS-YYYY-XXX-XX)
                                     </span>
                                 </div>
                             </div>
@@ -2268,7 +2772,7 @@
             document.head.appendChild(style);
         }
 
-        // ==================== EYE TOGGLE FUNCTIONALITY (FIXED - Using text-security, NOT password type) ====================
+        // ==================== EYE TOGGLE FUNCTIONALITY (Using text-security) ====================
         function setupEyeToggle() {
             const toggleBtn = document.getElementById('toggleStudentIdEye');
             const idInput = document.getElementById('studentId');
@@ -2279,11 +2783,9 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Save current cursor position
                     const start = idInput.selectionStart;
                     const end = idInput.selectionEnd;
                     
-                    // Toggle the mask class instead of changing input type
                     if (idInput.classList.contains('id-mask')) {
                         idInput.classList.remove('id-mask');
                         idInput.classList.add('show');
@@ -2296,16 +2798,69 @@
                         toggleBtn.classList.remove('showing');
                     }
                     
-                    // Restore cursor position
                     requestAnimationFrame(() => {
                         idInput.setSelectionRange(start, end);
                     });
                 });
 
                 toggleBtn.addEventListener('mousedown', function(e) {
-                    e.preventDefault(); // prevent input losing focus
+                    e.preventDefault();
                 });
             }
+        }
+
+        // ==================== WHATSAPP FLOATING BUTTON & MODAL (CLOSE ONLY VIA BUTTON) ====================
+        function setupWhatsApp() {
+            const waFloatBtn = document.getElementById('waFloatBtn');
+            const waModal = document.getElementById('waModal');
+            const waModalClose = document.getElementById('waModalClose');
+            const waOptions = document.querySelectorAll('.wa-option');
+            const phoneNumber = '08022854677';
+
+            // Open modal
+            waFloatBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                waModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            });
+
+            // Close modal - ONLY via close button
+            waModalClose.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                waModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            });
+
+            // Handle option clicks - redirect to WhatsApp with pre-filled message
+            waOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    const optionText = this.getAttribute('data-option');
+                    const detailText = this.getAttribute('data-detail') || '';
+                    
+                    // Build the message
+                    const title = 'From Emilia Foremost School Result Portal';
+                    let message = `${title}%0A%0A*Option Selected:* ${optionText}%0A%0A*Details:* ${detailText}%0A%0A--%0AThank you for reaching out. We'll get back to you shortly.`;
+                    
+                    // WhatsApp URL
+                    const waUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                    
+                    // Close modal
+                    waModal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                    
+                    // Open WhatsApp in new tab
+                    window.open(waUrl, '_blank');
+                });
+            });
+
+            // Close modal with Escape key - only via keyboard, not overlay
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && waModal.classList.contains('active')) {
+                    waModal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                }
+            });
         }
 
         // ==================== INITIALIZATION ====================
@@ -2315,6 +2870,7 @@
             setupAdminFloatingButton();
             autoRemoveMessages();
             setupEyeToggle();
+            setupWhatsApp();
             
             setTimeout(() => {
                 const studentIdField = document.getElementById('studentId');
